@@ -1,0 +1,12 @@
+Name,Fueltype,Technology,Set,Country,Capacity,Efficiency,DateIn,DateRetrofit,DateOut,lat,lon
+INRE SMR Grohnde,Nuclear,nuclear-smr,PP,DE,0,0.33,2045,2045,2105,51.906,9.401
+INRE SMR Brokdorf,Nuclear,nuclear-smr,PP,DE,0,0.33,2045,2045,2105,53.851,9.345
+INRE SMR Isar,Nuclear,nuclear-smr,PP,DE,0,0.33,2045,2045,2105,48.617,12.293
+INRE SMR Emsland,Nuclear,nuclear-smr,PP,DE,0,0.33,2045,2045,2105,52.471,7.321
+INRE SMR Neckarwestheim,Nuclear,nuclear-smr,PP,DE,0,0.33,2045,2045,2105,49.040,9.175
+INRE MSR Grohnde,Nuclear,nuclear-msr,PP,DE,0,0.35,2045,2045,2100,51.906,9.401
+INRE MSR Brokdorf,Nuclear,nuclear-msr,PP,DE,0,0.35,2045,2045,2100,53.851,9.345
+INRE MSR Isar,Nuclear,nuclear-msr,PP,DE,0,0.35,2045,2045,2100,48.617,12.293
+INRE LFR Grohnde,Nuclear,nuclear-lfr,PP,DE,0,0.34,2045,2045,2100,51.906,9.401
+INRE LFR Brokdorf,Nuclear,nuclear-lfr,PP,DE,0,0.34,2045,2045,2100,53.851,9.345
+INRE LFR Emsland,Nuclear,nuclear-lfr,PP,DE,0,0.34,2045,2045,2100,52.471,7.321

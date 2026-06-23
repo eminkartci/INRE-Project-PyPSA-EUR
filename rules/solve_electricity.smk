@@ -5,7 +5,7 @@
 
 rule solve_network:
     input:
-        network=resources("networks/base_s_{clusters}_elec_{opts}.nc"),
+        network=_input_solve_network,
     output:
         network=RESULTS + "networks/base_s_{clusters}_elec_{opts}.nc",
         config=RESULTS + "configs/config.base_s_{clusters}_elec_{opts}.yaml",

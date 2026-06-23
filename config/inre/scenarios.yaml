@@ -1,0 +1,98 @@
+# INRE scenario overrides (merged into config/inre/config.base.yaml).
+# Enable via config/inre/config.scenarios.yaml
+
+base:
+  run:
+    name: inre-de-base
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: false
+    nuclear:
+      extendable_carriers: []
+
+dunkelflaute:
+  run:
+    name: inre-de-dunkelflaute
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      config: data/inre/dunkelflaute.yaml
+    nuclear:
+      extendable_carriers: []
+
+dunkelflaute-smr:
+  run:
+    name: inre-de-df-smr
+  costs:
+    custom_cost_fn: data/inre/custom_costs_nuclear.csv
+  pypsa_eur:
+    Generator:
+    - onwind
+    - offwind-ac
+    - offwind-dc
+    - offwind-float
+    - solar-hsat
+    - solar
+    - ror
+    - nuclear
+    - nuclear-smr
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      config: data/inre/dunkelflaute.yaml
+    nuclear:
+      extendable_carriers: [nuclear-smr]
+      sites_file: data/inre/custom_powerplants_nuclear_DE.csv
+
+dunkelflaute-msr:
+  run:
+    name: inre-de-df-msr
+  costs:
+    custom_cost_fn: data/inre/custom_costs_nuclear.csv
+  pypsa_eur:
+    Generator:
+    - onwind
+    - offwind-ac
+    - offwind-dc
+    - offwind-float
+    - solar-hsat
+    - solar
+    - ror
+    - nuclear
+    - nuclear-msr
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      config: data/inre/dunkelflaute.yaml
+    nuclear:
+      extendable_carriers: [nuclear-msr]
+      sites_file: data/inre/custom_powerplants_nuclear_DE.csv
+
+dunkelflaute-lfr:
+  run:
+    name: inre-de-df-lfr
+  costs:
+    custom_cost_fn: data/inre/custom_costs_nuclear.csv
+  pypsa_eur:
+    Generator:
+    - onwind
+    - offwind-ac
+    - offwind-dc
+    - offwind-float
+    - solar-hsat
+    - solar
+    - ror
+    - nuclear
+    - nuclear-lfr
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      config: data/inre/dunkelflaute.yaml
+    nuclear:
+      extendable_carriers: [nuclear-lfr]
+      sites_file: data/inre/custom_powerplants_nuclear_DE.csv

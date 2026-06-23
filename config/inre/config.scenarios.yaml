@@ -1,0 +1,102 @@
+# yaml-language-server: $schema=../schema.default.json
+# SPDX-FileCopyrightText: INRE Project
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# Multi-scenario INRE Germany runs. Use together with config.base.yaml:
+#   snakemake -call solve_elec_networks \
+#     --configfile config/inre/config.base.yaml \
+#     --configfile config/inre/config.scenarios.yaml
+
+tutorial: false
+
+run:
+  name: all
+  disable_progressbar: true
+  shared_resources:
+    policy: true
+  scenarios:
+    enable: true
+    file: config/inre/scenarios.yaml
+
+scenario:
+  clusters:
+  - 10
+  opts:
+  - ""
+
+countries:
+- DE
+
+snapshots:
+  start: "2021-01-25"
+  end: "2021-02-08"
+
+costs:
+  year: 2050
+  custom_cost_fn: data/inre/custom_costs_nuclear.csv
+
+electricity:
+  co2limit_enable: true
+  co2limit: 500.e+6
+
+  extendable_carriers:
+    Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc, offwind-float, OCGT, CCGT]
+    StorageUnit: [battery]
+    Store: [H2]
+    Link: [H2 pipeline]
+
+  renewable_carriers: [solar, solar-hsat, onwind, offwind-ac, offwind-dc, offwind-float]
+  estimate_renewable_capacities:
+    enable: true
+    from_powerplantmatching: true
+    year: 2024
+    expansion_limit: false
+    technology_mapping:
+      Offshore: offwind-ac
+      Onshore: onwind
+      PV: solar
+
+  powerplants_filter: "(DateOut > 2025 or DateOut != DateOut) and (DateIn < 2026 or DateIn != DateIn)"
+
+atlite:
+  default_cutout: europe-2021-sarah3-era5
+  cutouts:
+    europe-2021-sarah3-era5:
+      time: ["2021-01-25", "2021-02-08"]
+
+renewable:
+  offwind-ac:
+    max_depth: false
+  offwind-dc:
+    max_depth: false
+  offwind-float:
+    max_depth: false
+    min_depth: false
+
+clustering:
+  exclude_carriers: [OCGT, offwind-ac, coal]
+  temporal:
+    resolution_elec: 3h
+
+lines:
+  dynamic_line_rating:
+    activate: false
+    max_line_rating: 1.3
+
+solving:
+  solver:
+    name: highs
+    options: highs-default
+  check_objective:
+    enable: false
+
+inre:
+  enabled: true
+  dunkelflaute:
+    enabled: false
+    config: data/inre/dunkelflaute.yaml
+  nuclear:
+    extendable_carriers: []
+    sites_file: data/inre/custom_powerplants_nuclear_DE.csv
+    p_nom_max_per_site: 1500

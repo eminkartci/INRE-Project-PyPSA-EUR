@@ -1,0 +1,11 @@
+# Phase 1 Dunkelflaute parameters (March 2013 dev window).
+enabled: true
+carriers:
+  wind: [onwind, offwind-ac, offwind-dc, offwind-float]
+  solar: [solar, solar-hsat]
+time_start: "2013-03-02"
+time_end: "2013-03-06"
+auto_worst_days: null
+wind_factor: 0.15
+solar_factor: 0.10
+ramp_hours: 6

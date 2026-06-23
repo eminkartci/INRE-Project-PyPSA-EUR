@@ -562,12 +562,9 @@ rule build_ambient_air_temperature_yearly_average:
             "temp_ambient_air_base_s_{clusters}_temporal_aggregate.nc"
         ),
     log:
-        RESULTS + "logs/build_ambient_air_temperature_yearly_average/base_s_{clusters}",
+        logs("build_ambient_air_temperature_yearly_average/base_s_{clusters}"),
     benchmark:
-        (
-            RESULTS
-            + "benchmarks/build_ambient_air_temperature_yearly_average/base_s_{clusters}"
-        )
+        benchmarks("build_ambient_air_temperature_yearly_average/base_s_{clusters}"),
     threads: 1
     resources:
         mem_mb=5000,

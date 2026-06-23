@@ -1,0 +1,18 @@
+# INRE Dunkelflaute stress parameters (Phase 2: Jan 2021 winter window).
+# Applied by scripts/inre/apply_dunkelflaute.py before solve.
+
+enabled: true
+carriers:
+  wind: [onwind, offwind-ac, offwind-dc, offwind-float]
+  solar: [solar, solar-hsat]
+
+# Used only when auto_worst_days is null
+time_start: "2021-01-28"
+time_end: "2021-02-03"
+
+# Pick the N lowest national VRE days inside the simulation window (recommended for Phase 2)
+auto_worst_days: 5
+
+wind_factor: 0.15
+solar_factor: 0.10
+ramp_hours: 6
