@@ -1,0 +1,12 @@
+site_id,tech,bus_id,lat,lon,p_nom_max_MW,p_min_pu,p_max_pu,ramp_pu_per_h
+Grohnde,nuclear-smr,DE2,51.906,9.401,1500,0.3,0.9,0.5
+Brokdorf,nuclear-smr,DE0,53.851,9.345,1500,0.3,0.9,0.5
+Isar,nuclear-smr,DE8,48.617,12.293,1500,0.3,0.9,0.5
+Emsland,nuclear-smr,DE2,52.471,7.321,1500,0.3,0.9,0.5
+Neckarwestheim,nuclear-smr,DE7,49.04,9.175,1500,0.3,0.9,0.5
+Grohnde,nuclear-msr,DE2,51.906,9.401,1500,0.3,0.9,0.5
+Brokdorf,nuclear-msr,DE0,53.851,9.345,1500,0.3,0.9,0.5
+Isar,nuclear-msr,DE8,48.617,12.293,1500,0.3,0.9,0.5
+Grohnde,nuclear-lfr,DE2,51.906,9.401,1500,0.3,0.9,0.5
+Brokdorf,nuclear-lfr,DE0,53.851,9.345,1500,0.3,0.9,0.5
+Emsland,nuclear-lfr,DE2,52.471,7.321,1500,0.3,0.9,0.5

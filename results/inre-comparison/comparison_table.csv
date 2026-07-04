@@ -1,0 +1,6 @@
+scenario,period_hours,load_twh,total_supply_twh,opex_meur,capex_meur,objective_meur,co2_kt,nuclear_build_mw,delta_opex_meur_vs_base,delta_co2_kt_vs_base,total_capacity_gw
+base,336.0,21.15,21.21,269.7,1658.9,269.7,3283.0,0.0,0.0,0.0,410.77785653
+dunkelflaute,336.0,21.15,21.21,327.0,1658.9,327.0,3780.0,0.0,57.3,497.0,410.77723828999996
+dunkelflaute-smr,336.0,21.15,21.21,327.0,1658.9,327.0,3780.0,2.24,57.3,497.0,410.77599975000004
+dunkelflaute-msr,336.0,21.15,21.21,327.0,1658.9,327.0,3780.0,2.1,57.3,497.0,410.78236366000004
+dunkelflaute-lfr,336.0,21.15,21.21,327.0,1658.9,327.0,3780.0,1.75,57.3,497.0,410.77910326000006

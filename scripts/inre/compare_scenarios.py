@@ -2,14 +2,14 @@
 #
 # SPDX-License-Identifier: MIT
 """
-Compare solved INRE scenario networks and export KPI tables and charts.
+Compare solved INRE scenario networks and export report-ready KPI tables and charts.
+
+Energy values are integrated over the simulation window (not annualised).
+Outputs in ``results/inre-comparison/`` are suitable for direct use in reports.
 
 Usage (from repository root)::
 
-    python scripts/inre/compare_scenarios.py \\
-        --scenarios base:inre-de-base dunkelflaute:inre-de-dunkelflaute \\
-        --clusters 10 --opts "" \\
-        --output-dir results/inre-comparison
+    python scripts/inre/compare_scenarios.py --output-dir results/inre-comparison
 """
 
 from __future__ import annotations
@@ -26,6 +26,24 @@ logger = logging.getLogger(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
+NUCLEAR_CARRIERS = {"nuclear-smr", "nuclear-msr", "nuclear-lfr", "nuclear", "SMR", "MSR", "LFR"}
+NON_GENERATION_CARRIERS = {
+    "AC",
+    "DC",
+    "Battery Storage",
+    "Hydrogen Storage",
+    "H2 Electrolysis",
+    "H2 Fuel Cell",
+}
+
+
+def _is_wind(carrier: str) -> bool:
+    return "wind" in carrier.lower()
+
+
+def _is_solar(carrier: str) -> bool:
+    return "solar" in carrier.lower()
+
 
 def _network_path(run_name: str, clusters: str, opts: str) -> Path:
     opts_token = opts if opts else ""
@@ -38,10 +56,14 @@ def _network_path(run_name: str, clusters: str, opts: str) -> Path:
     )
 
 
-def _snapshot_weight(n: pypsa.Network) -> float:
-    if len(n.snapshots) == 0:
-        return 1.0
-    return n.snapshot_weightings.objective.sum() / len(n.snapshots)
+def _period_hours(n: pypsa.Network) -> float:
+    weight = n.snapshot_weightings.objective.reindex(n.snapshots).fillna(1.0)
+    return float(weight.sum())
+
+
+def _load_twh(n: pypsa.Network) -> float:
+    weight = n.snapshot_weightings.objective.reindex(n.snapshots).fillna(1.0)
+    return float(n.loads_t.p_set.mul(weight, axis=0).sum().sum()) / 1e6
 
 
 def _co2_emissions_t(n: pypsa.Network) -> float:
@@ -57,71 +79,166 @@ def _co2_emissions_t(n: pypsa.Network) -> float:
     return float(total)
 
 
-def extract_kpis(n: pypsa.Network, label: str) -> dict:
-    supply = n.statistics.supply().dropna()
-    if isinstance(supply.index, pd.MultiIndex):
-        supply_by_carrier = supply.groupby(level="carrier").sum()
+def _co2_by_carrier_kt(n: pypsa.Network) -> pd.Series:
+    weight = n.snapshot_weightings.objective.reindex(n.snapshots).fillna(1.0)
+    emissions = n.generators.carrier.map(n.carriers.co2_emissions).fillna(0.0)
+    gen_p = n.generators_t.p.fillna(0.0)
+    by_carrier: dict[str, float] = {}
+    for gen in gen_p.columns:
+        carrier = n.generators.at[gen, "carrier"]
+        co2 = emissions.get(gen, emissions.get(carrier, 0.0))
+        by_carrier[carrier] = by_carrier.get(carrier, 0.0) + float(
+            (gen_p[gen] * weight * co2).sum()
+        )
+    return pd.Series(by_carrier) / 1e3
+
+
+def _group_by_carrier(series: pd.Series) -> pd.Series:
+    if isinstance(series.index, pd.MultiIndex):
+        grouped = series.groupby(level="carrier").sum()
     else:
-        supply_by_carrier = supply.groupby(supply.index).sum()
+        grouped = series.groupby(series.index).sum()
+    return grouped
+
+
+def extract_kpis(n: pypsa.Network, label: str) -> dict:
+    supply = n.statistics.supply(comps=["Generator"]).dropna()
+    supply_by_carrier = _group_by_carrier(supply)
+    supply_by_carrier = supply_by_carrier.drop(
+        labels=[c for c in NON_GENERATION_CARRIERS if c in supply_by_carrier.index],
+        errors="ignore",
+    )
+    supply_twh = supply_by_carrier / 1e6
 
     cap = n.statistics.optimal_capacity().dropna()
-    if isinstance(cap.index, pd.MultiIndex):
-        cap_by_carrier = cap.groupby(level="carrier").sum()
-    else:
-        cap_by_carrier = cap.groupby(cap.index).sum()
+    cap_by_carrier = _group_by_carrier(cap)
+    cap_gw = cap_by_carrier / 1e3
 
     capex = float(n.statistics.capex().sum())
     opex = float(n.statistics.opex().sum())
-    weight = _snapshot_weight(n)
-    hours_per_year = 8760.0
 
-    supply_twh = supply_by_carrier.sum() * weight * hours_per_year / 1e6
-    cap_gw = cap_by_carrier.sum() / 1e3
+    nuclear_mw = cap_by_carrier.reindex(NUCLEAR_CARRIERS).fillna(0.0).sum() * 1e3
 
     return {
         "scenario": label,
+        "period_hours": _period_hours(n),
+        "load_twh": _load_twh(n),
         "objective_eur": float(n.objective),
         "capex_eur": capex,
         "opex_eur": opex,
-        "total_cost_eur": capex + opex,
         "co2_t": _co2_emissions_t(n),
+        "co2_by_carrier_kt": _co2_by_carrier_kt(n),
         "supply_by_carrier_twh": supply_twh,
         "capacity_by_carrier_gw": cap_gw,
+        "nuclear_build_mw": float(nuclear_mw),
     }
 
 
-def build_summary_table(kpis: list[dict]) -> pd.DataFrame:
+def build_report_summary(kpis: list[dict]) -> pd.DataFrame:
     rows = []
+    base_opex = kpis[0]["opex_eur"] if kpis else 0.0
+    base_co2 = kpis[0]["co2_t"] if kpis else 0.0
+
     for k in kpis:
         rows.append(
             {
                 "scenario": k["scenario"],
-                "objective_eur": k["objective_eur"],
-                "capex_eur": k["capex_eur"],
-                "opex_eur": k["opex_eur"],
-                "total_cost_eur": k["total_cost_eur"],
-                "co2_kt": k["co2_t"] / 1e3,
-                "total_supply_twh": k["supply_by_carrier_twh"].sum(),
-                "total_capacity_gw": k["capacity_by_carrier_gw"].sum(),
+                "period_hours": k["period_hours"],
+                "load_twh": round(k["load_twh"], 2),
+                "generation_twh": round(k["supply_by_carrier_twh"].sum(), 2),
+                "opex_meur": round(k["opex_eur"] / 1e6, 1),
+                "capex_annuitised_meur": round(k["capex_eur"] / 1e6, 1),
+                "objective_meur": round(k["objective_eur"] / 1e6, 1),
+                "co2_kt": round(k["co2_t"] / 1e3, 0),
+                "nuclear_build_mw": round(k["nuclear_build_mw"], 4),
+                "delta_opex_meur_vs_base": round((k["opex_eur"] - base_opex) / 1e6, 1),
+                "delta_co2_kt_vs_base": round((k["co2_t"] - base_co2) / 1e3, 0),
             }
         )
     return pd.DataFrame(rows).set_index("scenario")
 
 
+def build_generation_mix(kpis: list[dict]) -> pd.DataFrame:
+    return pd.DataFrame({k["scenario"]: k["supply_by_carrier_twh"] for k in kpis}).fillna(0.0)
+
+
+def build_capacity_table(kpis: list[dict]) -> pd.DataFrame:
+    return pd.DataFrame({k["scenario"]: k["capacity_by_carrier_gw"] for k in kpis}).fillna(0.0)
+
+
+def build_co2_table(kpis: list[dict]) -> pd.DataFrame:
+    return pd.DataFrame({k["scenario"]: k["co2_by_carrier_kt"] for k in kpis}).fillna(0.0)
+
+
+def build_generation_groups(mix: pd.DataFrame) -> pd.DataFrame:
+    """Aggregate carriers into report-friendly groups."""
+    groups: dict[str, pd.Series] = {}
+    wind = mix.loc[[c for c in mix.index if _is_wind(c)]].sum()
+    solar = mix.loc[[c for c in mix.index if _is_solar(c)]].sum()
+    groups["Wind (all)"] = wind
+    groups["Solar (all)"] = solar
+    for carrier in mix.index:
+        if _is_wind(carrier) or _is_solar(carrier):
+            continue
+        if carrier in NUCLEAR_CARRIERS and mix.loc[carrier].max() < 1e-6:
+            continue
+        groups[carrier] = mix.loc[carrier]
+    return pd.DataFrame(groups).T
+
+
+def write_report_txt(summary: pd.DataFrame, groups: pd.DataFrame, path: Path) -> None:
+    lines = [
+        "INRE Germany — Scenario comparison (simulation period)",
+        "=" * 60,
+        "",
+        "Window: Jan 2021 winter (112 snapshots, 3-hour resolution).",
+        "Energy and OPEX are integrated over the simulation period.",
+        "CAPEX is annuitised cost of the installed fleet (EUR/year).",
+        "",
+        "System summary",
+        "-" * 40,
+    ]
+    for scenario, row in summary.iterrows():
+        lines.append(
+            f"{scenario}: load {row['load_twh']:.2f} TWh, "
+            f"OPEX {row['opex_meur']:.1f} M EUR, "
+            f"CO2 {row['co2_kt']:.0f} kt"
+        )
+    lines.extend(["", "Generation mix by group (TWh, simulation period)", "-" * 40])
+    for group, row in groups.iterrows():
+        vals = ", ".join(f"{col}={row[col]:.2f}" for col in groups.columns)
+        lines.append(f"{group}: {vals}")
+
+    if "base" in groups.columns and "dunkelflaute" in groups.columns:
+        lines.extend(["", "Key shift base → dunkelflaute", "-" * 40])
+        for group in groups.index:
+            delta = groups.loc[group, "dunkelflaute"] - groups.loc[group, "base"]
+            if abs(delta) > 0.001:
+                pct = (
+                    100 * delta / groups.loc[group, "base"]
+                    if groups.loc[group, "base"] > 0.001
+                    else float("nan")
+                )
+                pct_str = f" ({pct:+.0f}%)" if pct == pct else ""
+                lines.append(f"  {group}: {delta:+.2f} TWh{pct_str}")
+
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 def _plot_stacked_bar(
-    kpis: list[dict],
-    key: str,
+    data: pd.DataFrame,
     ylabel: str,
     path: Path,
-    scale: float = 1.0,
+    title: str | None = None,
 ) -> None:
-    data = pd.DataFrame({k["scenario"]: k[key] for k in kpis}).fillna(0.0)
-    data = data * scale
     if data.empty:
         return
-    ax = data.T.plot(kind="bar", stacked=True, figsize=(10, 6), colormap="tab20")
+    plot_data = data.T
+    ax = plot_data.plot(kind="bar", stacked=True, figsize=(10, 6), colormap="tab20")
     ax.set_ylabel(ylabel)
     ax.set_xlabel("Scenario")
+    if title:
+        ax.set_title(title)
     ax.legend(bbox_to_anchor=(1.02, 1), loc="upper left", fontsize=8)
     plt.tight_layout()
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -135,15 +252,16 @@ def _plot_costs(kpis: list[dict], path: Path) -> None:
         [
             {
                 "scenario": k["scenario"],
-                "CAPEX": k["capex_eur"] / 1e9,
-                "OPEX": k["opex_eur"] / 1e9,
+                "CAPEX (bn EUR/yr)": k["capex_eur"] / 1e9,
+                "OPEX (M EUR, period)": k["opex_eur"] / 1e6,
             }
             for k in kpis
         ]
     ).set_index("scenario")
     ax = df.plot(kind="bar", figsize=(8, 5), colormap="Set2")
-    ax.set_ylabel("Cost (bn EUR)")
+    ax.set_ylabel("Cost")
     ax.set_xlabel("Scenario")
+    ax.set_title("System cost by scenario")
     plt.tight_layout()
     path.parent.mkdir(parents=True, exist_ok=True)
     fig = ax.get_figure()
@@ -152,10 +270,11 @@ def _plot_costs(kpis: list[dict], path: Path) -> None:
 
 
 def _plot_co2(kpis: list[dict], path: Path) -> None:
-    df = pd.Series({k["scenario"]: k["co2_t"] / 1e6 for k in kpis})
+    df = pd.Series({k["scenario"]: k["co2_t"] / 1e3 for k in kpis})
     ax = df.plot(kind="bar", figsize=(8, 4), color="slategray")
-    ax.set_ylabel("CO2 emissions (Mt)")
+    ax.set_ylabel("CO2 emissions (kt, simulation period)")
     ax.set_xlabel("Scenario")
+    ax.set_title("CO2 emissions by scenario")
     plt.tight_layout()
     path.parent.mkdir(parents=True, exist_ok=True)
     fig = ax.get_figure()
@@ -172,6 +291,60 @@ def parse_scenarios(specs: list[str]) -> list[tuple[str, str]]:
             label = run_name = spec
         out.append((label, run_name))
     return out
+
+
+def export_report(kpis: list[dict], output_dir: Path) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    summary = build_report_summary(kpis)
+    mix = build_generation_mix(kpis)
+    capacity = build_capacity_table(kpis)
+    co2 = build_co2_table(kpis)
+    groups = build_generation_groups(mix)
+
+    summary.to_csv(output_dir / "report_summary.csv")
+    groups.to_csv(output_dir / "generation_mix_groups_twh.csv")
+    mix.to_csv(output_dir / "generation_mix_twh.csv")
+    capacity.to_csv(output_dir / "capacity_gw.csv")
+    co2.to_csv(output_dir / "co2_by_carrier_kt.csv")
+
+    legacy = summary.rename(
+        columns={
+            "generation_twh": "total_supply_twh",
+            "capex_annuitised_meur": "capex_meur",
+        }
+    )
+    legacy["total_capacity_gw"] = [
+        k["capacity_by_carrier_gw"].sum() for k in kpis
+    ]
+    legacy.to_csv(output_dir / "comparison_table.csv")
+
+    write_report_txt(summary, groups, output_dir / "report_summary.txt")
+
+    try:
+        with pd.ExcelWriter(output_dir / "report_tables.xlsx") as writer:
+            summary.to_excel(writer, sheet_name="summary")
+            groups.to_excel(writer, sheet_name="generation_groups")
+            mix.to_excel(writer, sheet_name="generation_detail")
+            capacity.to_excel(writer, sheet_name="capacity")
+            co2.to_excel(writer, sheet_name="co2")
+    except ImportError:
+        logger.warning("openpyxl not installed; skipping report_tables.xlsx")
+
+    _plot_stacked_bar(
+        groups,
+        "Generation (TWh, simulation period)",
+        output_dir / "production_mix.png",
+        title="Generation mix by scenario",
+    )
+    _plot_stacked_bar(
+        capacity,
+        "Optimal capacity (GW)",
+        output_dir / "capacity.png",
+        title="Installed capacity by scenario",
+    )
+    _plot_costs(kpis, output_dir / "costs_breakdown.png")
+    _plot_co2(kpis, output_dir / "co2_emissions.png")
 
 
 def main() -> None:
@@ -193,7 +366,7 @@ def main() -> None:
     parser.add_argument(
         "--output-dir",
         default="results/inre-comparison",
-        help="Directory for CSV/XLSX and PNG outputs",
+        help="Directory for report CSV/XLSX/TXT and PNG outputs",
     )
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO)
@@ -215,30 +388,8 @@ def main() -> None:
     if not kpis:
         raise SystemExit("No solved networks found. Run scenarios first.")
 
-    summary = build_summary_table(kpis)
-    output_dir.mkdir(parents=True, exist_ok=True)
-    summary.to_csv(output_dir / "comparison_table.csv")
-    try:
-        summary.to_excel(output_dir / "comparison_table.xlsx")
-    except ImportError:
-        logger.warning("openpyxl not installed; skipping XLSX export")
-
-    _plot_stacked_bar(
-        kpis,
-        "supply_by_carrier_twh",
-        "Annualised supply (TWh)",
-        output_dir / "production_mix.png",
-    )
-    _plot_stacked_bar(
-        kpis,
-        "capacity_by_carrier_gw",
-        "Optimal capacity (GW)",
-        output_dir / "capacity.png",
-    )
-    _plot_costs(kpis, output_dir / "costs_breakdown.png")
-    _plot_co2(kpis, output_dir / "co2_emissions.png")
-
-    logger.info("Wrote comparison outputs to %s", output_dir)
+    export_report(kpis, output_dir)
+    logger.info("Wrote report outputs to %s", output_dir)
 
 
 if __name__ == "__main__":

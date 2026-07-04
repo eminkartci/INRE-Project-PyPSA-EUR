@@ -13,6 +13,12 @@ time_end: "2021-02-03"
 # Pick the N lowest national VRE days inside the simulation window (recommended for Phase 2)
 auto_worst_days: 5
 
-wind_factor: 0.15
-solar_factor: 0.10
+# Scalar derating (fallback when profile is disabled)
+# wind_factor: 0.15
+# solar_factor: 0.10
+
+# Per-snapshot derating profiles (CSV: columns timestamp, factor in [0, 1])
+wind_factor_profile: profiles/dunkelflaute_wind_factors.csv
+solar_factor_profile: profiles/dunkelflaute_solar_factors.csv
+
 ramp_hours: 6

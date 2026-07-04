@@ -1,0 +1,12 @@
+name: dunkelflaute-msr
+dunkelflaute:
+  enabled: true
+  wind_carriers: [onwind, offwind]
+  solar_carriers: [solar]
+  wind_profile: profiles/dunkelflaute_wind_factors.csv
+  solar_profile: profiles/dunkelflaute_solar_factors.csv
+  ramp_hours: 6
+nuclear:
+  enabled: true
+  tech: nuclear-msr
+  filter_sites: [Grohnde, Brokdorf, Isar]

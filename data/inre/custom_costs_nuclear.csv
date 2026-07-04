@@ -11,23 +11,23 @@ all,battery inverter,marginal_cost,0,EUR/MWh,Default value to prevent mathematic
 all,home battery storage,marginal_cost,0,EUR/MWh,Default value to prevent mathematical degeneracy in optimisation,
 all,water tank charger,marginal_cost,0.03,EUR/MWh,Default value to prevent mathematical degeneracy in optimisation,
 all,central water pit charger,marginal_cost,0.025,EUR/MWh,Default value to prevent mathematical degeneracy in optimisation,
-2050,nuclear-smr,investment,4500,EUR/kW,INRE assumption,Replace with literature value
-2050,nuclear-smr,FOM,3.5,%/year,INRE assumption,
-2050,nuclear-smr,VOM,3,EUR/MWh,INRE assumption,
+2050,nuclear-smr,investment,5750,EUR/kW,"OECD/NEA, IEA",CAPEX 5000 EUR/kW + 15% decommissioning
+2050,nuclear-smr,FOM,0.8,%/year,"OECD/NEA, IEA",40 EUR/kW-year fixed O&M
+2050,nuclear-smr,VOM,3.0,EUR/MWh,"OECD/NEA, IEA",
 2050,nuclear-smr,fuel,3,EUR/MWh,INRE uranium estimate,
 2050,nuclear-smr,efficiency,0.33,per unit,INRE assumption,
 2050,nuclear-smr,lifetime,60,years,INRE assumption,
 2050,nuclear-smr,CO2 intensity,0,t/MWh,INRE assumption,
-2050,nuclear-msr,investment,5200,EUR/kW,INRE assumption,Replace with literature value
-2050,nuclear-msr,FOM,4.0,%/year,INRE assumption,
-2050,nuclear-msr,VOM,3.5,EUR/MWh,INRE assumption,
+2050,nuclear-msr,investment,6670,EUR/kW,"OECD/NEA, IEA",CAPEX 5800 EUR/kW + 15% decommissioning
+2050,nuclear-msr,FOM,0.776,%/year,"OECD/NEA, IEA",45 EUR/kW-year fixed O&M
+2050,nuclear-msr,VOM,3.5,EUR/MWh,"OECD/NEA, IEA",
 2050,nuclear-msr,fuel,2.5,EUR/MWh,INRE uranium estimate,
 2050,nuclear-msr,efficiency,0.35,per unit,INRE assumption,
 2050,nuclear-msr,lifetime,50,years,INRE assumption,
 2050,nuclear-msr,CO2 intensity,0,t/MWh,INRE assumption,
-2050,nuclear-lfr,investment,4800,EUR/kW,INRE assumption,Replace with literature value
-2050,nuclear-lfr,FOM,3.8,%/year,INRE assumption,
-2050,nuclear-lfr,VOM,3.2,EUR/MWh,INRE assumption,
+2050,nuclear-lfr,investment,6210,EUR/kW,"OECD/NEA, IEA",CAPEX 5400 EUR/kW + 15% decommissioning
+2050,nuclear-lfr,FOM,0.778,%/year,"OECD/NEA, IEA",42 EUR/kW-year fixed O&M
+2050,nuclear-lfr,VOM,3.2,EUR/MWh,"OECD/NEA, IEA",
 2050,nuclear-lfr,fuel,2.8,EUR/MWh,INRE uranium estimate,
 2050,nuclear-lfr,efficiency,0.34,per unit,INRE assumption,
 2050,nuclear-lfr,lifetime,55,years,INRE assumption,

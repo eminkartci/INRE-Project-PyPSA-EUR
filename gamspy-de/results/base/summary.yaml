@@ -1,0 +1,10 @@
+scenario: base
+status: '      Solver Status   Model Status     Objective  ...  Model Type  Solver
+  Solver Time
+
+  0  NormalCompletion  OptimalGlobal  1.963039e+09  ...          LP   HIGHS       0.231
+
+
+  [1 rows x 8 columns]'
+objective: 1963038604.6813686
+total_dispatch_MWh: 20832000.18

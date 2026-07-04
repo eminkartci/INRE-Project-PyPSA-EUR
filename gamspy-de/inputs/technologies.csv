@@ -1,0 +1,9 @@
+tech,capital_cost_EUR_per_MWyr,marginal_cost_EUR_per_MWh,co2_t_per_MWh,extendable,p_min_pu,p_max_pu_default,ramp_pu_per_h,co2_relevant
+onwind,120000.0,0.015,0.0,True,0.0,1.0,1.0,False
+offwind,180000.0,0.015,0.0,True,0.0,1.0,1.0,False
+solar,80000.0,0.01,0.0,True,0.0,1.0,1.0,False
+ocgt,50000.0,85.0,0.45,True,0.0,1.0,1.0,True
+ccgt,95000.0,52.0,0.25,True,0.3,1.0,0.5,True
+nuclear-smr,409568.04662511183,12.09090909090909,0.0,True,0.3,0.9,0.5,False
+nuclear-msr,483307.1964291832,10.642857142857142,0.0,True,0.3,0.9,0.5,False
+nuclear-lfr,445482.58672960947,11.435294117647057,0.0,True,0.3,0.9,0.5,False

@@ -19,7 +19,11 @@ gurobi.log
 /bak
 /resources
 /resources*
-/results
+/results/**
+!/results/**/
+!/results/**/*.csv
+!/results/**/*.txt
+!/results/**/*.pdf
 /networks
 /benchmarks
 /logs
@@ -68,6 +72,7 @@ d1gam3xoknrgr2.cloudfront.net/
 *.pyc
 
 *.xlsx
+!/results/**/*.xlsx
 
 *.xls
 

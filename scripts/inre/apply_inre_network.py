@@ -50,9 +50,10 @@ if __name__ == "__main__":
 
         dunkel_cfg = inre.get("dunkelflaute", {})
         if dunkel_cfg.get("enabled"):
-            params = load_params(dunkel_cfg.get("config"))
+            dunkel_config_path = dunkel_cfg.get("config")
+            params = load_params(dunkel_config_path)
             params["enabled"] = True
-            apply_dunkelflaute(n, params=params)
+            apply_dunkelflaute(n, params=params, config_path=dunkel_config_path)
 
         nuclear_cfg = inre.get("nuclear", {})
         carriers = nuclear_cfg.get("extendable_carriers") or []

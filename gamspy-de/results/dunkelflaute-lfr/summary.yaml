@@ -1,0 +1,10 @@
+scenario: dunkelflaute-lfr
+status: '      Solver Status   Model Status     Objective  ...  Model Type  Solver
+  Solver Time
+
+  0  NormalCompletion  OptimalGlobal  2.863758e+09  ...          LP   HIGHS       0.373
+
+
+  [1 rows x 8 columns]'
+objective: 2863758406.1964536
+total_dispatch_MWh: 20832000.18

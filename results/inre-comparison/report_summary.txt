@@ -1,0 +1,36 @@
+INRE Germany — Scenario comparison (simulation period)
+============================================================
+
+Window: Jan 2021 winter (112 snapshots, 3-hour resolution).
+Energy and OPEX are integrated over the simulation period.
+CAPEX is annuitised cost of the installed fleet (EUR/year).
+
+System summary
+----------------------------------------
+base: load 21.15 TWh, OPEX 269.7 M EUR, CO2 3283 kt
+dunkelflaute: load 21.15 TWh, OPEX 327.0 M EUR, CO2 3780 kt
+dunkelflaute-smr: load 21.15 TWh, OPEX 327.0 M EUR, CO2 3780 kt
+dunkelflaute-msr: load 21.15 TWh, OPEX 327.0 M EUR, CO2 3780 kt
+dunkelflaute-lfr: load 21.15 TWh, OPEX 327.0 M EUR, CO2 3780 kt
+
+Generation mix by group (TWh, simulation period)
+----------------------------------------
+Wind (all): base=8.86, dunkelflaute=7.44, dunkelflaute-smr=7.44, dunkelflaute-msr=7.44, dunkelflaute-lfr=7.44
+Solar (all): base=0.70, dunkelflaute=0.50, dunkelflaute-smr=0.50, dunkelflaute-msr=0.50, dunkelflaute-lfr=0.50
+Combined-Cycle Gas: base=0.34, dunkelflaute=0.98, dunkelflaute-smr=0.98, dunkelflaute-msr=0.98, dunkelflaute-lfr=0.98
+Open-Cycle Gas: base=0.00, dunkelflaute=0.00, dunkelflaute-smr=0.00, dunkelflaute-msr=0.00, dunkelflaute-lfr=0.00
+biomass: base=2.34, dunkelflaute=2.34, dunkelflaute-smr=2.34, dunkelflaute-msr=2.34, dunkelflaute-lfr=2.34
+coal: base=5.61, dunkelflaute=5.68, dunkelflaute-smr=5.68, dunkelflaute-msr=5.68, dunkelflaute-lfr=5.68
+geothermal: base=0.01, dunkelflaute=0.01, dunkelflaute-smr=0.01, dunkelflaute-msr=0.01, dunkelflaute-lfr=0.01
+lignite: base=3.13, dunkelflaute=3.87, dunkelflaute-smr=3.87, dunkelflaute-msr=3.87, dunkelflaute-lfr=3.87
+oil: base=0.00, dunkelflaute=0.00, dunkelflaute-smr=0.00, dunkelflaute-msr=0.00, dunkelflaute-lfr=0.00
+waste: base=0.21, dunkelflaute=0.39, dunkelflaute-smr=0.39, dunkelflaute-msr=0.39, dunkelflaute-lfr=0.39
+
+Key shift base → dunkelflaute
+----------------------------------------
+  Wind (all): -1.43 TWh (-16%)
+  Solar (all): -0.20 TWh (-29%)
+  Combined-Cycle Gas: +0.64 TWh (+189%)
+  coal: +0.07 TWh (+1%)
+  lignite: +0.74 TWh (+24%)
+  waste: +0.17 TWh (+82%)

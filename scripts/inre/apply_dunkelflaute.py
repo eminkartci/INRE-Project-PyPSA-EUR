@@ -91,6 +91,59 @@ def build_time_mask(snapshots: pd.DatetimeIndex, params: dict, n: pypsa.Network)
     return mask
 
 
+def _resolve_profile_path(config_path: str | Path | None, profile_path: str) -> Path:
+    path = Path(profile_path)
+    if path.is_absolute():
+        return path
+    if config_path:
+        relative_to_config = Path(config_path).parent / path
+        if relative_to_config.exists():
+            return relative_to_config
+    return path
+
+
+def _load_factor_profile(
+    profile_path: str | Path | None,
+    snapshots: pd.DatetimeIndex,
+    config_path: str | Path | None = None,
+) -> pd.Series | None:
+    """Load a per-snapshot derating profile (0–1) aligned to network snapshots."""
+    if not profile_path:
+        return None
+
+    path = _resolve_profile_path(config_path, str(profile_path))
+    if not path.exists():
+        raise FileNotFoundError(f"Dunkelflaute factor profile not found: {path}")
+
+    df = pd.read_csv(path, parse_dates=True)
+    if "timestamp" in df.columns:
+        df = df.set_index("timestamp")
+    else:
+        df = df.set_index(df.columns[0])
+
+    if "factor" not in df.columns:
+        raise ValueError(f"Profile {path} must contain a 'factor' column")
+
+    series = df["factor"].astype(float)
+    series.index = pd.DatetimeIndex(series.index).tz_localize(None)
+
+    snapshots_naive = snapshots.tz_localize(None) if snapshots.tz is not None else snapshots
+    aligned = series.reindex(snapshots_naive, method="nearest")
+    missing = aligned.isna()
+    if missing.any():
+        first_missing = snapshots_naive[missing][0]
+        raise ValueError(
+            f"Profile {path} has no values near {int(missing.sum())} snapshot(s); "
+            f"first unmatched snapshot: {first_missing}"
+        )
+
+    if ((aligned < 0) | (aligned > 1)).any():
+        logger.warning("Profile %s contains factors outside [0, 1]", path)
+
+    logger.info("Loaded factor profile from %s (%d snapshots)", path, len(aligned))
+    return pd.Series(aligned.values, index=snapshots)
+
+
 def _ramp_weights(mask: pd.Series | np.ndarray, ramp_hours: int) -> pd.Series:
     if not ramp_hours or ramp_hours <= 0:
         if isinstance(mask, pd.Series):
@@ -126,8 +179,9 @@ def _apply_factor(
     factor: float,
     mask: pd.Series,
     ramp_hours: int,
+    factor_profile: pd.Series | None = None,
 ) -> None:
-    if factor >= 1.0:
+    if factor_profile is None and factor >= 1.0:
         return
 
     cols = n.generators.query("carrier in @carriers").index
@@ -138,13 +192,23 @@ def _apply_factor(
 
     ramp = _ramp_weights(mask, ramp_hours)
     # weight=1 inside stress window, ramps toward 1 outside; factor applied where weight>0
-    multipliers = 1.0 - ramp * (1.0 - factor)
+    if factor_profile is not None:
+        target = factor_profile.reindex(mask.index).fillna(factor)
+        multipliers = 1.0 - ramp * (1.0 - target)
+        factor_desc = (
+            f"profile min={target.min():.2f}, max={target.max():.2f}, "
+            f"mean={target.mean():.2f} (scalar fallback {factor:.2f})"
+        )
+    else:
+        multipliers = 1.0 - ramp * (1.0 - factor)
+        factor_desc = f"{factor:.2f}"
+
     for col in cols:
         n.generators_t.p_max_pu[col] = n.generators_t.p_max_pu[col].mul(multipliers)
 
     logger.info(
-        "Applied factor %.2f to %d generators (%s)",
-        factor,
+        "Applied factor %s to %d generators (%s)",
+        factor_desc,
         len(cols),
         ", ".join(sorted(carriers)),
     )
@@ -168,6 +232,26 @@ def apply_dunkelflaute(
 
     wind_carriers, solar_carriers = _carrier_sets(params)
     ramp_hours = int(params.get("ramp_hours", 0) or 0)
-    _apply_factor(n, wind_carriers, float(params.get("wind_factor", 1.0)), mask, ramp_hours)
-    _apply_factor(n, solar_carriers, float(params.get("solar_factor", 1.0)), mask, ramp_hours)
+    wind_profile = _load_factor_profile(
+        params.get("wind_factor_profile"), snapshots, config_path
+    )
+    solar_profile = _load_factor_profile(
+        params.get("solar_factor_profile"), snapshots, config_path
+    )
+    _apply_factor(
+        n,
+        wind_carriers,
+        float(params.get("wind_factor", 1.0)),
+        mask,
+        ramp_hours,
+        factor_profile=wind_profile,
+    )
+    _apply_factor(
+        n,
+        solar_carriers,
+        float(params.get("solar_factor", 1.0)),
+        mask,
+        ramp_hours,
+        factor_profile=solar_profile,
+    )
     return n

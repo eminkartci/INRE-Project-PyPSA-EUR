@@ -1,0 +1,14 @@
+# Global model settings (Germany electricity, INRE-aligned window)
+
+snapshots:
+  start: "2021-01-25"
+  end: "2021-02-08"
+  freq: "3h"
+
+co2:
+  annual_limit_t: 500000000
+  enable: true
+
+solver: highs
+
+discount_rate: 0.07
