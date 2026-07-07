@@ -1,0 +1,5 @@
+scenario,reference,delta_co2_kt_vs_reference,delta_opex_meur_vs_reference,delta_objective_meur_vs_reference,lcoa_operational_eur_per_tco2,lcoa_period_all_in_eur_per_tco2,policy_grade
+base,dunkelflaute,-61.9,-41.5,-3393.7,-670.0,-54821.0,borderline
+dunkelflaute-smr,dunkelflaute,-5.1,27.4,-761.1,,,no
+dunkelflaute-msr,dunkelflaute,-1.9,14.5,-455.7,,,no
+dunkelflaute-lfr,dunkelflaute,-0.3,15.5,-462.7,,,no

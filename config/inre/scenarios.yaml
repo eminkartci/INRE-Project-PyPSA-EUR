@@ -17,9 +17,38 @@ base:
     nuclear:
       extendable_carriers: []
 
+base-fixedcap:
+  run:
+    name: inre-de-base-fixedcap
+  electricity:
+    extendable_carriers:
+      Generator: []
+      StorageUnit: []
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: false
+    nuclear:
+      extendable_carriers: []
+
 dunkelflaute:
   run:
     name: inre-de-dunkelflaute
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      config: data/inre/dunkelflaute.yaml
+    nuclear:
+      extendable_carriers: []
+
+dunkelflaute-fixedcap:
+  run:
+    name: inre-de-dunkelflaute-fixedcap
+  electricity:
+    extendable_carriers:
+      Generator: []
+      StorageUnit: []
   inre:
     enabled: true
     dunkelflaute:

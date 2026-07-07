@@ -1,6 +1,6 @@
-scenario,period_hours,load_twh,generation_twh,opex_meur,capex_annuitised_meur,objective_meur,co2_kt,nuclear_build_mw,delta_opex_meur_vs_base,delta_co2_kt_vs_base
-base,336.0,21.15,21.21,266.9,1935.7,543.8,1020.0,0.0,0.0,0.0
-dunkelflaute,336.0,21.15,21.24,308.4,5287.9,3937.5,1082.0,0.0,41.5,62.0
-dunkelflaute-smr,336.0,21.15,21.22,335.8,4499.5,3176.4,1077.0,7499999.75,68.9,57.0
-dunkelflaute-msr,336.0,21.15,21.23,322.9,4817.8,3481.8,1080.0,4499999.99,56.0,60.0
-dunkelflaute-lfr,336.0,21.15,21.23,323.9,4809.7,3474.8,1082.0,4499999.98,57.0,62.0
+scenario,period_hours,nyears,load_twh,generation_twh,opex_meur,capex_annuitised_meur,capex_period_meur,objective_meur,co2_kt,nuclear_build_mw,battery_storageunit_power_mw,battery_storageunit_energy_mwh,operational_lcoe_eur_per_mwh,period_all_in_lcoe_eur_per_mwh,operational_lco2_eur_per_tco2,period_all_in_lco2_eur_per_tco2,delta_opex_meur_vs_base,delta_co2_kt_vs_base
+base,336.0,0.038356,21.15,21.21,266.9,1935.7,74.2,543.8,1020.0,0.0,35.194,211.162,12.6,25.7,262.0,533.0,0.0,0.0
+dunkelflaute,336.0,0.038356,21.15,21.24,308.4,5287.9,202.8,3937.5,1082.0,0.0,29315.968,175895.805,14.6,186.2,285.0,3638.0,41.5,62.0
+dunkelflaute-smr,336.0,0.038356,21.15,21.22,335.8,4499.5,172.6,3176.4,1077.0,7499.9997,15187.919,91127.515,15.9,150.2,312.0,2949.0,68.9,57.0
+dunkelflaute-msr,336.0,0.038356,21.15,21.23,322.9,4817.8,184.8,3481.8,1080.0,4500.0,12717.375,76304.253,15.3,164.6,299.0,3223.0,56.0,60.0
+dunkelflaute-lfr,336.0,0.038356,21.15,21.23,323.9,4809.7,184.5,3474.8,1082.0,4500.0,12129.365,72776.19,15.3,164.3,299.0,3212.0,57.0,62.0

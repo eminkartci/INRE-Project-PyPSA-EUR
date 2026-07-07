@@ -17,17 +17,19 @@ This project builds a custom modelling layer on top of [PyPSA-Eur](https://githu
 1. A full Snakemake-integrated INRE workflow (configs, data, Python scripts, rules).
 2. A five-scenario matrix: base reference, Dunkelflaute stress, and three Dunkelflaute + nuclear technology variants.
 3. Successful execution of all five linear programming (LP) optimisations using the HiGHS solver.
-4. A cross-scenario comparison script producing KPI tables (`results/inre-comparison/`).
+4. A cross-scenario comparison script producing KPI tables (`results/inre-comparison-v2/`; v1 deprecated).
 
-**Headline preliminary findings:**
+**Headline preliminary findings (updated 2026-07-07 — v2 extraction):**
+
+See [RESULTS_SECTION_DATA_CLEAN.md](RESULTS_SECTION_DATA_CLEAN.md) for report-ready wording. Earlier bullets below used v1 extraction and are superseded.
 
 | Finding | Engineering interpretation |
 |---------|---------------------------|
-| Dunkelflaute stress raises operating cost by **+69 M EUR (+25.6%)** over the 2-week window | VRE shortfall is met primarily by **CCGT (+247%)** and slightly more **coal/lignite**, not by storage or nuclear |
-| Wind capacity factor drops **~19%**, solar **~37%** under stress | The stress model works as intended; worst days were auto-detected inside the simulation window |
-| New nuclear builds **~0 MW** (numerical dust only: 0.0001–0.002 MW total) | At placeholder 2050 costs (~18–22 kEUR/MW/year annuitised CAPEX) and a **2-week optimisation window**, nuclear cannot recover investment; gas is cheaper |
-| CO₂ limit is **not binding** (3.3 Mt emitted vs 19.2 Mt allowed over 2 weeks) | The 500 Mt/year cap is a loose placeholder; coal/lignite remain in the dispatch stack |
-| Average load **~63 GW**, peak **~76 GW** | Consistent with a winter week in a 2050-horizon, electricity-only DE model |
+| Dunkelflaute stress raises **period OPEX by +41.5 M EUR (+15.5%)** over the 2-week window | VRE shortfall met primarily by **CCGT (+20%)**; coal dispatch falls to near zero |
+| Wind generation drops **−32%** (13.6 → 9.3 TWh) under stress | Primary interpretable Dunkelflaute signal; solar cross-scenario change is **not comparable** |
+| Nuclear builds to **site caps** when enabled (SMR 7,500 MW; MSR/LFR 4,500 MW) | Endogenous LP outcome under 2-week horizon — **not** a deployment recommendation |
+| CO₂ limit is **not binding** (~1,020–1,082 kt emitted vs **1,918 kt** pro-rata for 50 Mt/yr) | Cap is loose; emissions rise +6% under stress |
+| Phantom VRE/battery capacities in optimiser output | Short horizon + uncapped extendable carriers; exclude from capacity findings |
 
 **Critical caveat:** Results are **preliminary and exploratory**. Many inputs are explicit placeholders (`INRE assumption`). The 2-week / 3-hour snapshot design prioritises fast iteration over annual energy balance or investment realism.
 
@@ -611,6 +613,8 @@ What happens in the Snakemake workflow for each scenario after the shared build 
 
 ### 6.8 Cross-scenario findings comparison table
 
+> **Superseded (2026-07-07):** Tables below were updated to match v2 solved networks and period-correct extraction (`results/inre-comparison-v2/`). Full report-ready package: [RESULTS_SECTION_DATA_CLEAN.md](RESULTS_SECTION_DATA_CLEAN.md). Earlier values in this section (CO₂ ≈ 3,283 kt, zero nuclear build, no phantom expansion) reflected v1 extraction bugs and are no longer valid.
+
 All values for the **2-week simulation period** (336 hours, 112 snapshots at 3h resolution).  
 Δ columns show change relative to `base`. Δ vs `dunkelflaute` shows incremental effect of adding nuclear.
 
@@ -619,68 +623,71 @@ All values for the **2-week simulation period** (336 hours, 112 snapshots at 3h 
 | KPI | base | dunkelflaute | dunkelflaute-smr | dunkelflaute-msr | dunkelflaute-lfr |
 |-----|-----:|-------------:|-----------------:|-----------------:|-----------------:|
 | **Load (TWh)** | 21.15 | 21.15 | 21.15 | 21.15 | 21.15 |
-| **Generation (TWh)** | 21.21 | 21.21 | 21.21 | 21.21 | 21.21 |
-| **OPEX (M EUR)** | 269.7 | 338.8 | 338.8 | 338.9 | 338.8 |
-| **Objective (M EUR)** | 269.7 | 338.8 | 338.8 | 338.9 | 338.8 |
-| **CAPEX (M EUR)** | 1,658.9 | 1,658.9 | 1,658.9 | 1,658.9 | 1,658.9 |
-| **CO₂ (kt)** | 3,283 | 3,849 | 3,849 | 3,849 | 3,849 |
-| **Solver time (s)** | ~306 | ~375–382 | ~382 | ~382 | ~379 |
-| Δ OPEX vs base (M EUR) | — | **+69.1** | **+69.1** | **+69.2** | **+69.1** |
-| Δ OPEX vs base (%) | — | **+25.6%** | **+25.6%** | **+25.6%** | **+25.6%** |
-| Δ CO₂ vs base (kt) | — | **+566** | **+566** | **+566** | **+566** |
-| Δ vs dunkelflaute (OPEX) | — | — | −0.001 M EUR | +0.019 M EUR | +0.007 M EUR |
+| **Generation (TWh)** | 21.21 | 21.24 | 21.22 | 21.23 | 21.23 |
+| **Period OPEX (M EUR)** | 266.9 | 308.4 | 335.8 | 322.9 | 323.9 |
+| **Solver objective (M EUR)** | 543.8 | 3,937.5 | 3,176.4 | 3,481.8 | 3,474.8 |
+| **Annuitised CAPEX (M EUR/yr)** | 1,935.7 | 5,287.9 | 4,499.5 | 4,817.8 | 4,809.7 |
+| **CO₂ (kt)** | 1,020 | 1,082 | 1,077 | 1,080 | 1,082 |
+| **Nuclear built (MW)** | 0 | 0 | **7,500** | **4,500** | **4,500** |
+| Δ OPEX vs base (M EUR) | — | **+41.5** | **+68.9** | **+56.0** | **+57.0** |
+| Δ OPEX vs base (%) | — | **+15.5%** | **+25.8%** | **+21.0%** | **+21.4%** |
+| Δ CO₂ vs base (kt) | — | **+62** | **+57** | **+60** | **+62** |
+| Δ vs dunkelflaute (OPEX, M EUR) | — | — | +27.4 | +14.5 | +15.5 |
+| Δ vs dunkelflaute (CO₂, kt) | — | — | −5.1 | −1.9 | −0.3 |
+
+**Metric note:** Use **period OPEX** for operational comparisons. Do not add annuitised CAPEX (EUR/yr) to period OPEX. Solver objective is inflated in stress scenarios by phantom capital terms (see [RESULTS_SECTION_DATA_CLEAN.md](RESULTS_SECTION_DATA_CLEAN.md) §2).
 
 #### 6.8.2 Generation mix (TWh, 2-week period)
 
 | Carrier | base | dunkelflaute | dunkelflaute-smr | dunkelflaute-msr | dunkelflaute-lfr | Δ base→dunkelflaute |
 |---------|-----:|-------------:|-----------------:|-----------------:|-----------------:|--------------------:|
-| CCGT | 0.34 | 1.18 | 1.18 | 1.18 | 1.18 | **+0.84 (+247%)** |
-| Coal + lignite | 8.74 | 9.61 | 9.61 | 9.61 | 9.61 | +0.87 (+10%) |
-| Wind (all) | 8.86 | 7.21 | 7.21 | 7.21 | 7.21 | −1.65 (−19%) |
-| Solar (all) | 0.70 | 0.44 | 0.44 | 0.44 | 0.44 | −0.26 (−37%) |
-| Biomass | 6.15 | 6.15 | 6.15 | 6.15 | 6.15 | ~0 |
-| OCGT | 0.0003 | 0.0002 | 0.0001 | 0.0009 | 0.0004 | ~0 |
-| SMR | — | — | ~0 | — | — | — |
-| MSR | — | — | — | ~0 | — | — |
-| LFR | — | — | — | — | ~0 | — |
+| CCGT | 4.55 | 5.46 | 5.43 | 5.45 | 5.46 | **+0.91 (+20%)** |
+| Coal + lignite | 0.32 | ~0 | ~0 | ~0 | ~0 | −0.32 |
+| Wind (all) | 13.63 | 9.29 | 7.99 | 8.40 | 8.39 | **−4.34 (−32%)** |
+| Solar (all)\* | 0.70 | 3.78 | 2.82 | 3.31 | 3.31 | +3.08 (not interpretable) |
+| Biomass | 1.94 | 2.69 | 2.69 | 2.69 | 2.69 | +0.75 |
+| SMR | — | — | **2.27** | — | — | — |
+| MSR | — | — | — | **1.36** | — | — |
+| LFR | — | — | — | — | **1.36** | — |
+
+\*Solar cross-scenario change is **not** a pure Dunkelflaute weather signal (different profiles + phantom solar expansion).
 
 #### 6.8.3 VRE capacity factors (2-week average)
 
-| Carrier | base | dunkelflaute | All stress + nuclear scenarios | Δ base→stress |
-|---------|-----:|-------------:|:--------------------------------:|--------------:|
-| Onshore wind | 9.3% | 7.5% | 7.5% (unchanged) | −18.7% |
-| Offshore wind (AC) | 17.8% | 14.5% | 14.5% (unchanged) | −18.3% |
-| Solar PV | 1.4% | 0.9% | 0.9% (unchanged) | −37.0% |
+Capacity factors computed from generation and **initial** fleet `p_nom` (not phantom `p_nom_opt`). Solar cross-scenario comparison is not interpretable (§6.8.2 footnote).
 
-VRE capacity factors are identical across all stress scenarios because Dunkelflaute parameters are the same; nuclear availability does not feed back into VRE profiles.
+| Carrier | base | dunkelflaute | stress + nuclear | Δ base→stress |
+|---------|-----:|-------------:|:----------------:|--------------:|
+| Onshore wind | ~19% | ~11% | ~9–11% | −32% energy |
+| Offshore wind (all) | ~17% | ~4% | ~4% | large reduction |
+| Solar PV\* | ~1.4% | not comparable | not comparable | — |
 
-#### 6.8.4 New build outcomes (optimal capacity)
+#### 6.8.4 Credible capacity outcomes
 
 | Technology | base | dunkelflaute | dunkelflaute-smr | dunkelflaute-msr | dunkelflaute-lfr |
 |------------|-----:|-------------:|-----------------:|-----------------:|-----------------:|
-| Onshore wind (GW) | 73.33 | 73.33 | 73.33 | 73.33 | 73.33 |
-| Solar (GW) | 48.77 | 48.77 | 48.77 | 48.77 | 48.77 |
-| CCGT (GW) | 30.78 | 30.78 | 30.78 | 30.78 | 30.78 |
-| Coal (GW) | 20.35 | 20.35 | 20.35 | 20.35 | 20.35 |
-| Lignite (GW) | 19.46 | 19.46 | 19.46 | 19.46 | 19.46 |
-| Battery (MW) | 0.07 | 0.03 | 0.02 | 0.14 | 0.06 |
-| **SMR (MW)** | — | — | **0.0007** | — | — |
-| **MSR (MW)** | — | — | — | **0.0023** | — |
-| **LFR (MW)** | — | — | — | — | **0.0012** |
-| H₂ storage (MW) | ~0.008 | ~0.003 | ~0.002 | ~0.015 | ~0.007 |
+| Existing wind (GW) | 84.5 | 84.5 | 84.5 | 84.5 | 84.5 |
+| Existing solar (GW) | 48.8 | 48.8 | 48.8 | 48.8 | 48.8 |
+| CCGT (GW) | 30.8 | 36.9 | 35.2 | 35.8 | 36.6 |
+| **SMR (MW)** | — | — | **7,500** | — | — |
+| **MSR (MW)** | — | — | — | **4,500** | — |
+| **LFR (MW)** | — | — | — | — | **4,500** |
+| Battery SU power (MW)\* | 35 | 29,316 | 15,188 | 12,717 | 12,129 |
 
-Nuclear capacities are numerical dust (sub-kW); effectively **zero build** in all three nuclear scenarios.
+\*Battery StorageUnit values are short-horizon artefacts. Phantom link-based battery capacities (hundreds of GW in `capacity_gw.csv`) must not be reported as real build.
+
+Nuclear builds to **site cap (1,500 MW)** in v2 runs — endogenous LP outcome, not a deployment recommendation.
 
 #### 6.8.5 CO₂ emissions breakdown (kt, 2-week period)
 
 | Emitter | base | dunkelflaute | dunkelflaute-smr | dunkelflaute-msr | dunkelflaute-lfr | Δ base→dunkelflaute |
 |---------|-----:|-------------:|-----------------:|-----------------:|-----------------:|--------------------:|
-| Coal | 1,885 | 1,910 | 1,910 | 1,910 | 1,910 | +25 |
-| Lignite | 1,275 | 1,597 | 1,597 | 1,597 | 1,597 | **+322** |
-| CCGT | 67 | 234 | 234 | 234 | 234 | **+167** |
-| Waste | 55 | 106 | 106 | 106 | 106 | +51 |
-| **Total** | **3,283** | **3,849** | **3,849** | **3,849** | **3,849** | **+566 (+17%)** |
-| CO₂ limit (period) | 19,178 | 19,178 | 19,178 | 19,178 | 19,178 | Not binding |
+| CCGT | 901 | 1,081 | 1,074 | 1,079 | 1,081 | **+180** |
+| Coal | 108 | ~0 | ~0 | ~0 | ~0 | −108 |
+| OCGT | 10 | ~0 | ~2 | ~0 | ~0 | −10 |
+| Other | ~1 | ~1 | ~1 | ~1 | ~1 | ~0 |
+| **Total** | **1,020** | **1,082** | **1,077** | **1,080** | **1,082** | **+62 (+6%)** |
+| CO₂ limit (period, 50 Mt/yr pro-rata) | 1,918 | 1,918 | 1,918 | 1,918 | 1,918 | Not binding |
 
 ---
 
@@ -690,105 +697,85 @@ Nuclear capacities are numerical dust (sub-kW); effectively **zero build** in al
 |---------|------|--------------|------------------|------------------|------------------|
 | Dunkelflaute stress applied | No | **Yes** | Yes | Yes | Yes |
 | New nuclear option available | No | No | **SMR (5 sites)** | **MSR (3 sites)** | **LFR (3 sites)** |
-| Nuclear built | — | — | ~0 MW | ~0 MW | ~0 MW |
-| Primary flexibility response | CCGT baseload | **CCGT +247%** | CCGT (same) | CCGT (same) | CCGT (same) |
-| VRE share of generation | ~45% | ~36% | ~36% | ~36% | ~36% |
-| Fossil + biomass share | ~70% | ~78% | ~78% | ~78% | ~78% |
+| Nuclear built | — | — | **7,500 MW** | **4,500 MW** | **4,500 MW** |
+| Primary flexibility response | CCGT | **CCGT +20%** | CCGT + nuclear baseload | CCGT + nuclear | CCGT + nuclear |
+| Wind share of generation | ~64% | ~44% | ~38% | ~40% | ~40% |
 | CO₂ limit binding | No | No | No | No | No |
-| Storage utilisation | Negligible | Negligible | Negligible | Negligible | Negligible |
-| Cost impact vs base | Reference | **+25.6% OPEX** | +25.6% (no delta vs dunkelflaute) | +25.6% | +25.6% |
-| Engineering conclusion | Winter baseline | Gas fills VRE gap | SMR not competitive at placeholder costs | MSR lowest marginal cost but still no build | LFR intermediate, no build |
+| Cost impact vs base (OPEX) | Reference | **+15.5%** | +25.8% | +21.0% | +21.4% |
+| CO₂ abatement vs dunkelflaute | — | — | −5.1 kt (unstable LCOA) | −1.9 kt | −0.3 kt |
+| Engineering conclusion | Winter baseline | Gas fills VRE gap | Nuclear at site caps; marginal CO₂ benefit | Same, smaller build | Same, negligible CO₂ delta |
 
-**Central conclusion from cross-scenario comparison:** The only scenario change that materially affects system outcomes is **Dunkelflaute stress** (base → dunkelflaute). Adding SMR, MSR, or LFR on top of Dunkelflaute produces **no meaningful difference** in dispatch, cost, or emissions under current assumptions — because the optimiser builds effectively zero nuclear capacity.
+**Central conclusion:** Dunkelflaute stress materially shifts dispatch from wind to gas (+15.5% OPEX). Nuclear **does build** at site caps when enabled, supplying 1.4–2.3 TWh baseload, but **CO₂ abatement vs stress-only is marginal** (≤5 kt) and **LCOA is not policy-grade**. Phantom VRE/link battery expansion in optimiser output must be excluded from capacity interpretation.
 
 ---
 
 ## 7. Preliminary Results — Quantitative Analysis
 
+> **Updated 2026-07-07:** Values below match v2 extraction. See [RESULTS_SECTION_DATA_CLEAN.md](RESULTS_SECTION_DATA_CLEAN.md) for report wording.
+
 ### 7.1 Summary table (2-week simulation period — correct scaling)
 
-Energy and costs integrated over the 336-hour simulation window with proper snapshot weights:
+| Scenario | Load (TWh) | Generation (TWh) | OPEX (M EUR) | Objective (M EUR) | CO₂ (kt) | Nuclear (MW) |
+|----------|------------|-------------------|--------------|-------------------|----------|-------------|
+| **base** | 21.15 | 21.21 | 266.9 | 543.8 | 1,020 | 0 |
+| **dunkelflaute** | 21.15 | 21.24 | 308.4 | 3,937.5 | 1,082 | 0 |
+| **dunkelflaute-smr** | 21.15 | 21.22 | 335.8 | 3,176.4 | 1,077 | 7,500 |
+| **dunkelflaute-msr** | 21.15 | 21.23 | 322.9 | 3,481.8 | 1,080 | 4,500 |
+| **dunkelflaute-lfr** | 21.15 | 21.23 | 323.9 | 3,474.8 | 1,082 | 4,500 |
 
-| Scenario | Load (TWh) | Generation (TWh) | OPEX (M EUR) | Objective (M EUR) | CO₂ (kt) |
-|----------|------------|-------------------|--------------|-------------------|----------|
-| **base** | 21.15 | 21.21 | 269.7 | 269.7 | 3,283 |
-| **dunkelflaute** | 21.15 | 21.21 | 338.8 | 338.8 | 3,849 |
-| **dunkelflaute-smr** | 21.15 | 21.21 | 338.8 | 338.8 | 3,849 |
-| **dunkelflaute-msr** | 21.15 | 21.21 | 338.8 | 338.8 | 3,849 |
-| **dunkelflaute-lfr** | 21.15 | 21.21 | 338.8 | 338.8 | 3,849 |
-
-**Note:** CAPEX (~1,659 M EUR) is similar across scenarios because it reflects **annuitised cost of the entire installed fleet**, not incremental investment in this 2-week run. Incremental CAPEX from new nuclear is negligible (~0 MW built).
+**Note:** Annuitised CAPEX (EUR/yr) ranges 1,936–5,288 M EUR/yr and must not be added to period OPEX. Objective values in stress scenarios are distorted by phantom capital terms.
 
 ### 7.2 Generation mix shift — base vs Dunkelflaute (TWh, 2-week period)
 
-| Carrier | base | dunkelflaute | Δ | Δ (%) |
-|---------|------|--------------|---|-------|
-| **CCGT** | 0.34 | 1.18 | +0.84 | **+247%** |
-| **Coal + lignite** | 8.74 | 9.61 | +0.87 | +10% |
-| **Wind (all)** | 8.86 | 7.21 | −1.65 | −19% |
-| **Solar (all)** | 0.70 | 0.44 | −0.26 | −37% |
-| **Biomass** | 6.15 | 6.15 | ~0 | 0% |
-| **OCGT** | 0.0003 | 0.0002 | ~0 | — |
-| **Nuclear (SMR/MSR/LFR)** | 0 | ~10⁻⁷ | ~0 | — |
+| Carrier | base | dunkelflaute | Δ | Δ (%) | Interpretable? |
+|---------|------|--------------|---|-------|:--------------|
+| **Wind (all)** | 13.63 | 9.29 | −4.34 | **−32%** | Yes |
+| **CCGT** | 4.55 | 5.46 | +0.91 | **+20%** | Yes |
+| **Coal + lignite** | 0.32 | ~0 | −0.32 | −100% | Yes |
+| **Solar (all)** | 0.70 | 3.78 | +3.08 | +438% | **No** |
+| **Biomass** | 1.94 | 2.69 | +0.75 | +39% | Partial |
+| **Nuclear** | 0 | 0 | 0 | — | — |
 
-### 7.3 Installed capacity (GW) — optimal expansion
+### 7.3 Installed capacity — credible subset
 
-Capacities are essentially **identical across all five scenarios** because the 2-week window does not justify large structural changes:
-
-| Carrier | Capacity (GW) | Extendable? |
-|---------|---------------|-------------|
-| Onshore wind | 73.3 | Yes |
-| Solar PV | 48.8 | Yes |
-| CCGT | 30.8 | Yes |
-| Coal | 20.4 | No (fixed) |
-| Lignite | 19.5 | No (fixed) |
-| Offshore wind (AC) | 11.2 | Yes |
-| Biomass | 8.0 | No |
-| OCGT | 6.1 | Yes |
-| **SMR / MSR / LFR** | **~10⁻⁶** | Yes (but builds nothing) |
-| Battery | ~10⁻⁴ | Yes (negligible) |
-
-The model's 2024-estimated renewable fleet (~122 GW wind + solar) is retained; the optimiser does not expand VRE within this short window because existing capacity is sufficient except during Dunkelflaute hours.
+| Carrier | base | dunkelflaute | dunkelflaute-smr | Notes |
+|---------|-----:|-------------:|-----------------:|-------|
+| Existing wind (GW) | 84.5 | 84.5 | 84.5 | From `p_nom` |
+| Existing solar (GW) | 48.8 | 48.8 | 48.8 | From `p_nom` |
+| CCGT (GW) | 30.8 | 36.9 | 35.2 | Extendable |
+| SMR (MW) | 0 | 0 | **7,500** | Site caps |
+| Phantom onwind in `p_nom_opt` | 131 | 488 | 445 | **Do not report** |
 
 ### 7.4 VRE capacity factors (2-week average)
 
-| Carrier | base CF | dunkelflaute CF | Change |
-|---------|---------|-----------------|--------|
-| Onshore wind | 9.3% | 7.5% | −18.7% |
-| Offshore wind (AC) | 17.8% | 14.5% | −18.3% |
-| Solar PV | 1.4% | 0.9% | −37.0% |
-
-Winter capacity factors are low in absolute terms (January); the Dunkelflaute derating further suppresses them during the 5 worst days.
+Wind energy falls 32% under stress — primary Dunkelflaute signal. Solar CF cross-scenario comparison is not interpretable (profile + phantom expansion).
 
 ### 7.5 Dispatch on worst VRE day (2021-01-25) — Dunkelflaute-SMR scenario
 
-| Carrier | Generation (GWh/day) |
-|---------|---------------------|
-| Coal | 163 |
-| Lignite | 156 |
-| CCGT | 100 |
-| Biomass | 64 |
-| Waste | 22 |
-| Onshore wind | 7.7 |
-| Offshore wind | 4.0 |
-| Solar | 1.6 |
-| SMR | ~0.000004 |
+| Carrier | Generation (GWh/day) | Share (%) |
+|---------|---------------------:|----------:|
+| CCGT | 591.8 | 45.7 |
+| Solar | 196.5 | 15.2 |
+| Biomass | 192.5 | 14.9 |
+| Nuclear SMR | 162.0 | 12.5 |
+| Onshore wind | 136.6 | 10.6 |
+| Offshore wind (AC) | 13.2 | 1.0 |
 
-On the worst day, **~95% of electricity comes from fossil and biomass**; VRE contributes ~13 GWh (~6% of daily energy).
+Wind + solar ≈ 26.8% of daily energy on worst VRE day; fossil + biomass dominate.
 
 ### 7.6 Nuclear build detail
 
-| Scenario | Total nuclear built (MW) | Generators | Generation (TWh) |
-|----------|--------------------------|------------|------------------|
-| dunkelflaute-smr | 0.00066 | 5 × ~0.00013 MW | 1.5×10⁻⁷ |
-| dunkelflaute-msr | 0.00225 | 5 × ~0.00045 MW | 5.0×10⁻⁷ |
-| dunkelflaute-lfr | 0.00115 | 5 × ~0.00023 MW | 2.6×10⁻⁷ |
+| Scenario | Total nuclear built (MW) | Generation (TWh) | Avg CF |
+|----------|-------------------------:|-----------------:|-------:|
+| dunkelflaute-smr | **7,500** | **2.27** | ~90% |
+| dunkelflaute-msr | **4,500** | **1.36** | ~90% |
+| dunkelflaute-lfr | **4,500** | **1.36** | ~90% |
 
-These are **numerical artefacts** (sub-kW capacities), not meaningful engineering outcomes. The LP assigns tiny capacities to avoid degeneracy; they have zero practical significance.
+Nuclear at site cap is an **endogenous model outcome** under the 2-week horizon and current cost assumptions — **not** a deployment recommendation. Earlier sub-kW “dust” builds from development runs are superseded.
 
-### 7.7 Comparison script caveat
+### 7.7 Comparison script
 
-`compare_scenarios.py` annualises supply by multiplying by `8760 / n_snapshots`, producing values like "911,266 TWh" — **physically meaningless**. The script's plotting function also fails on this data (`ValueError: If using all scalar values, you must pass an index`). **Use period-correct energy (Section 7.1–7.2) for interpretation.** Fix planned in next steps.
+`scripts/inre/compare_scenarios.py` (v2) integrates energy and OPEX over snapshot weights correctly. Outputs: `results/inre-comparison-v2/`. Do **not** use `results/inre-comparison/` (v1).
 
 ---
 
@@ -809,19 +796,16 @@ The Jan 2021 window captures a **winter high-pressure situation** typical of Cen
 
 **Engineering conclusion:** In the current model setup, **Dunkelflaute is a gas-and-coal event**, not a storage or nuclear event. This aligns with real-world observations from Jan 2021 when Germany relied heavily on conventional generation and imports (imports not modelled here).
 
-### 8.2 Why nuclear did not build
+### 8.2 Why nuclear builds at site caps in v2 runs (and why this is not a deployment recommendation)
 
-Three reinforcing reasons:
+In the current v2 solved networks, nuclear **does build** to the per-site maximum (1,500 MW) when SMR/MSR/LFR are enabled. This is an **endogenous LP outcome**, not evidence of economic viability for real deployment:
 
-1. **Capital recovery period vs snapshot window:** Annuitised CAPEX ~18,000 EUR/MW/year must be recovered from dispatch savings over **336 hours**. Even if nuclear displaced CCGT at 43 EUR/MWh every hour, revenue ≈ 43 × 336 ≈ 14,500 EUR/MW — less than one year's capital cost alone.
+1. **Short optimisation horizon (336 h):** Annuitised CAPEX is compared against a 2-week dispatch window; baseload nuclear achieves ~90% capacity factor in the model.
+2. **Non-binding CO₂ cap:** Pro-rata limit is ~1,918 kt over 336 h; emissions are ~1,020–1,082 kt, so gas remains on the margin.
+3. **Site caps as hard upper bounds:** The optimiser fills allowed sites because nuclear provides firm low-carbon energy during stress.
+4. **Phantom VRE/link CAPEX distorts objective:** Solver objective differences across scenarios are dominated by artefact investment terms, not operational savings.
 
-2. **High absolute CAPEX:** At 4,500 EUR/kW (SMR), a 1 GW plant costs ~4.5 bn EUR overnight → ~18 kEUR/MW/year annuitised. Competing with CCGT at ~4.8 kEUR/MW/year annuitised CAPEX, gas wins on short horizons.
-
-3. **No carbon price binding:** With CO₂ cap at 17–20% utilisation, coal/lignite remain cheap. Nuclear's zero-carbon advantage is not monetised.
-
-4. **Baseload mismatch:** Nuclear with `p_min_pu = 0.3` wants to run continuously; a 2-week winter window with moderate total demand does not create enough **scarcity pricing** to justify 24/7 firm capacity investment.
-
-**Engineering conclusion:** The model correctly rejects nuclear under current cost assumptions and short optimisation horizon. This is **not evidence that nuclear is useless for Dunkelflaute** — it indicates the **model configuration is not yet suited to capacity adequacy decisions**.
+**Engineering conclusion:** Nuclear site-cap builds indicate the **model structure permits** nuclear under current assumptions and horizon, but results are **not policy-grade deployment guidance**. Meaningful adequacy assessment requires longer horizons, credible expansion limits, and binding climate constraints.
 
 ### 8.3 Technology ranking (if nuclear were forced to build)
 

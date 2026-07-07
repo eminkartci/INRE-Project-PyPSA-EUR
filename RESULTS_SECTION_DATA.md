@@ -1,5 +1,7 @@
 # Results Section Data Package
 
+> **Report-ready version:** See [RESULTS_FINAL.md](RESULTS_FINAL.md) for the latest corrected results. This file is retained as an audit trail.
+
 **Project:** Integration of nuclear and renewables for Dunkelflaute resilience in the German electricity system  
 **Simulation window:** 14 days, 112 snapshots, 3-hour resolution (336 hours) — **2021-01-25 to 2021-02-07**  
 **Energy unit convention:** All TWh values below are **integrated over the 2-week simulation period** unless explicitly labelled as annualised extrapolations.

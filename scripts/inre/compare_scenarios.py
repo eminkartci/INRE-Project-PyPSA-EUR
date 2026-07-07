@@ -118,6 +118,55 @@ def _group_by_carrier(series: pd.Series) -> pd.Series:
     return grouped
 
 
+def _generator_capacity_mw(n: pypsa.Network, carrier: str) -> tuple[float, float]:
+    gens = n.generators.query("carrier == @carrier")
+    if gens.empty:
+        return 0.0, 0.0
+    p_nom = float(gens.p_nom.sum())
+    p_nom_opt = float(gens.p_nom_opt.sum()) if "p_nom_opt" in gens.columns else p_nom
+    return p_nom, p_nom_opt
+
+
+def _wind_capacity_mw(n: pypsa.Network) -> tuple[float, float]:
+    wind = n.generators[n.generators.carrier.str.contains("wind", case=False, na=False)]
+    if wind.empty:
+        return 0.0, 0.0
+    return float(wind.p_nom.sum()), float(wind.p_nom_opt.sum())
+
+
+def _solar_capacity_mw(n: pypsa.Network) -> tuple[float, float]:
+    solar = n.generators[n.generators.carrier.str.contains("solar", case=False, na=False)]
+    if solar.empty:
+        return 0.0, 0.0
+    return float(solar.p_nom.sum()), float(solar.p_nom_opt.sum())
+
+
+def _credible_capacity(n: pypsa.Network) -> dict[str, float]:
+    wind_nom, _ = _wind_capacity_mw(n)
+    solar_nom, _ = _solar_capacity_mw(n)
+    _, ccgt_opt = _generator_capacity_mw(n, "CCGT")
+    nuclear_mw = float(
+        n.generators.query("carrier in @NUCLEAR_CARRIERS").p_nom_opt.sum()
+        if len(n.generators)
+        else 0.0
+    )
+    battery_su = n.storage_units.query("carrier == 'battery'") if hasattr(n, "storage_units") else None
+    battery_power_mw = float(battery_su.p_nom_opt.sum()) if battery_su is not None and len(battery_su) else 0.0
+    battery_energy_mwh = (
+        float((battery_su.p_nom_opt * battery_su.max_hours).sum())
+        if battery_su is not None and len(battery_su)
+        else 0.0
+    )
+    return {
+        "existing_wind_gw": wind_nom / 1e3,
+        "existing_solar_gw": solar_nom / 1e3,
+        "ccgt_gw": ccgt_opt / 1e3,
+        "nuclear_mw": nuclear_mw,
+        "battery_storageunit_power_mw": battery_power_mw,
+        "battery_storageunit_energy_mwh": battery_energy_mwh,
+    }
+
+
 def extract_kpis(n: pypsa.Network, label: str) -> dict:
     supply = n.statistics.supply(comps=["Generator"]).dropna()
     supply_by_carrier = _group_by_carrier(supply)
@@ -134,20 +183,38 @@ def extract_kpis(n: pypsa.Network, label: str) -> dict:
     capex = float(n.statistics.capex().sum())
     opex = float(n.statistics.opex().sum())
 
-    nuclear_mw = cap_by_carrier.reindex(NUCLEAR_CARRIERS).fillna(0.0).sum() * 1e3
+    weight = n.snapshot_weightings.objective.reindex(n.snapshots).fillna(1.0)
+    nyears = float(weight.sum() / 8760.0)
+
+    # statistics.optimal_capacity() returns MW by component; keep nuclear in MW (no extra scaling)
+    nuclear_mw = float(cap_by_carrier.reindex(NUCLEAR_CARRIERS).fillna(0.0).sum())
+
+    # Battery (StorageUnit carrier) is more credible than link-based charger/discharger capacities.
+    battery_su = n.storage_units.query("carrier == 'battery'") if hasattr(n, "storage_units") else None
+    battery_power_mw = float(battery_su.p_nom_opt.sum()) if battery_su is not None and len(battery_su) else 0.0
+    battery_energy_mwh = (
+        float((battery_su.p_nom_opt * battery_su.max_hours).sum())
+        if battery_su is not None and len(battery_su)
+        else 0.0
+    )
 
     return {
         "scenario": label,
         "period_hours": _period_hours(n),
+        "nyears": nyears,
         "load_twh": _load_twh(n),
         "objective_eur": float(n.objective),
         "capex_eur": capex,
+        "capex_period_eur": capex * nyears,
         "opex_eur": opex,
         "co2_t": _co2_emissions_t(n),
         "co2_by_carrier_kt": _co2_by_carrier_kt(n),
         "supply_by_carrier_twh": supply_twh,
         "capacity_by_carrier_gw": cap_gw,
         "nuclear_build_mw": float(nuclear_mw),
+        "battery_storageunit_power_mw": battery_power_mw,
+        "battery_storageunit_energy_mwh": battery_energy_mwh,
+        "credible_capacity": _credible_capacity(n),
     }
 
 
@@ -157,17 +224,31 @@ def build_report_summary(kpis: list[dict]) -> pd.DataFrame:
     base_co2 = kpis[0]["co2_t"] if kpis else 0.0
 
     for k in kpis:
+        load_mwh = k["load_twh"] * 1e6
+        opex_per_mwh = k["opex_eur"] / load_mwh if load_mwh else float("nan")
+        objective_per_mwh = k["objective_eur"] / load_mwh if load_mwh else float("nan")
+        co2_kt = k["co2_t"] / 1e3
+        lco2_opex = (k["opex_eur"] / 1e3) / co2_kt if co2_kt else float("nan")
+        lco2_objective = (k["objective_eur"] / 1e3) / co2_kt if co2_kt else float("nan")
         rows.append(
             {
                 "scenario": k["scenario"],
                 "period_hours": k["period_hours"],
+                "nyears": round(k["nyears"], 6),
                 "load_twh": round(k["load_twh"], 2),
                 "generation_twh": round(k["supply_by_carrier_twh"].sum(), 2),
                 "opex_meur": round(k["opex_eur"] / 1e6, 1),
                 "capex_annuitised_meur": round(k["capex_eur"] / 1e6, 1),
+                "capex_period_meur": round(k["capex_period_eur"] / 1e6, 1),
                 "objective_meur": round(k["objective_eur"] / 1e6, 1),
-                "co2_kt": round(k["co2_t"] / 1e3, 0),
+                "co2_kt": round(co2_kt, 0),
                 "nuclear_build_mw": round(k["nuclear_build_mw"], 4),
+                "battery_storageunit_power_mw": round(k["battery_storageunit_power_mw"], 3),
+                "battery_storageunit_energy_mwh": round(k["battery_storageunit_energy_mwh"], 3),
+                "operational_lcoe_eur_per_mwh": round(opex_per_mwh, 1),
+                "period_all_in_lcoe_eur_per_mwh": round(objective_per_mwh, 1),
+                "operational_lco2_eur_per_tco2": round(lco2_opex, 0),
+                "period_all_in_lco2_eur_per_tco2": round(lco2_objective, 0),
                 "delta_opex_meur_vs_base": round((k["opex_eur"] - base_opex) / 1e6, 1),
                 "delta_co2_kt_vs_base": round((k["co2_t"] - base_co2) / 1e3, 0),
             }
@@ -185,6 +266,55 @@ def build_capacity_table(kpis: list[dict]) -> pd.DataFrame:
 
 def build_co2_table(kpis: list[dict]) -> pd.DataFrame:
     return pd.DataFrame({k["scenario"]: k["co2_by_carrier_kt"] for k in kpis}).fillna(0.0)
+
+
+def build_credible_capacity_table(kpis: list[dict]) -> pd.DataFrame:
+    return pd.DataFrame({k["scenario"]: pd.Series(k["credible_capacity"]) for k in kpis})
+
+
+def build_lcoa_table(
+    kpis: list[dict],
+    reference: str = "dunkelflaute",
+    unstable_threshold_kt: float = 10.0,
+) -> pd.DataFrame:
+    by_scenario = {k["scenario"]: k for k in kpis}
+    if reference not in by_scenario:
+        return pd.DataFrame()
+
+    ref = by_scenario[reference]
+    rows = []
+    for scenario, k in by_scenario.items():
+        if scenario == reference:
+            continue
+        delta_co2_kt = (k["co2_t"] - ref["co2_t"]) / 1e3
+        delta_opex_meur = (k["opex_eur"] - ref["opex_eur"]) / 1e6
+        delta_objective_meur = (k["objective_eur"] - ref["objective_eur"]) / 1e6
+        unstable = abs(delta_co2_kt) < unstable_threshold_kt
+        lcoa_opex = (
+            (delta_opex_meur * 1e6) / (-delta_co2_kt * 1e3)
+            if delta_co2_kt and not unstable
+            else float("nan")
+        )
+        lcoa_objective = (
+            (delta_objective_meur * 1e6) / (-delta_co2_kt * 1e3)
+            if delta_co2_kt and not unstable
+            else float("nan")
+        )
+        rows.append(
+            {
+                "scenario": scenario,
+                "reference": reference,
+                "delta_co2_kt_vs_reference": round(delta_co2_kt, 1),
+                "delta_opex_meur_vs_reference": round(delta_opex_meur, 1),
+                "delta_objective_meur_vs_reference": round(delta_objective_meur, 1),
+                "lcoa_operational_eur_per_tco2": round(lcoa_opex, 0) if lcoa_opex == lcoa_opex else None,
+                "lcoa_period_all_in_eur_per_tco2": round(lcoa_objective, 0)
+                if lcoa_objective == lcoa_objective
+                else None,
+                "policy_grade": "no" if unstable else "borderline",
+            }
+        )
+    return pd.DataFrame(rows).set_index("scenario")
 
 
 def build_generation_groups(mix: pd.DataFrame) -> pd.DataFrame:
@@ -316,14 +446,19 @@ def export_report(kpis: list[dict], output_dir: Path) -> None:
     summary = build_report_summary(kpis)
     mix = build_generation_mix(kpis)
     capacity = build_capacity_table(kpis)
+    credible_capacity = build_credible_capacity_table(kpis)
     co2 = build_co2_table(kpis)
+    lcoa = build_lcoa_table(kpis)
     groups = build_generation_groups(mix)
 
     summary.to_csv(output_dir / "report_summary.csv")
     groups.to_csv(output_dir / "generation_mix_groups_twh.csv")
     mix.to_csv(output_dir / "generation_mix_twh.csv")
     capacity.to_csv(output_dir / "capacity_gw.csv")
+    credible_capacity.to_csv(output_dir / "credible_capacity.csv")
     co2.to_csv(output_dir / "co2_by_carrier_kt.csv")
+    if not lcoa.empty:
+        lcoa.to_csv(output_dir / "lcoa_vs_dunkelflaute.csv")
 
     legacy = summary.rename(
         columns={
@@ -344,7 +479,10 @@ def export_report(kpis: list[dict], output_dir: Path) -> None:
             groups.to_excel(writer, sheet_name="generation_groups")
             mix.to_excel(writer, sheet_name="generation_detail")
             capacity.to_excel(writer, sheet_name="capacity")
+            credible_capacity.to_excel(writer, sheet_name="credible_capacity")
             co2.to_excel(writer, sheet_name="co2")
+            if not lcoa.empty:
+                lcoa.to_excel(writer, sheet_name="lcoa")
     except ImportError:
         logger.warning("openpyxl not installed; skipping report_tables.xlsx")
 
