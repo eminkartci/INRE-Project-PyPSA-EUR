@@ -1,0 +1,9 @@
+scenario: dunkelflaute-smr-capex115
+status: '      Solver Status   Model Status  ...  Solver  Solver Time
+
+  0  NormalCompletion  OptimalGlobal  ...   HIGHS        6.375
+
+
+  [1 rows x 8 columns]'
+objective: 34613493146.9194
+total_dispatch_MWh: 19435695.711484134

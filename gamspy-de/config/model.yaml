@@ -6,7 +6,7 @@ snapshots:
   freq: "3h"
 
 co2:
-  annual_limit_t: 500000000
+  annual_limit_t: 50000000
   enable: true
 
 solver: highs

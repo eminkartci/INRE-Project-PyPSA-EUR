@@ -18,13 +18,21 @@ from export_results import export_results
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
-SCENARIOS = [
+SCENARIO_CORE = [
     "base",
     "dunkelflaute",
     "dunkelflaute-smr",
     "dunkelflaute-msr",
     "dunkelflaute-lfr",
 ]
+
+SCENARIO_CAPEX = [
+    "dunkelflaute-smr-capex70",
+    "dunkelflaute-smr-capex85",
+    "dunkelflaute-smr-capex115",
+]
+
+SCENARIOS = SCENARIO_CORE + SCENARIO_CAPEX
 
 
 def run_scenario(scenario_name: str, root: Path) -> dict:
@@ -55,7 +63,7 @@ def main() -> None:
     parser.add_argument(
         "--scenario",
         default="base",
-        help=f"Scenario name or 'all'. Choices: {', '.join(SCENARIOS)}",
+        help="Scenario name, or 'all' (8), 'core' (5), 'capex' (3 SMR sensitivity)",
     )
     parser.add_argument(
         "--root",
@@ -66,14 +74,25 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.scenario == "all":
+        names = SCENARIOS
+    elif args.scenario == "core":
+        names = SCENARIO_CORE
+    elif args.scenario == "capex":
+        names = SCENARIO_CAPEX
+    else:
+        names = None
+
+    if names is not None:
         results = {}
-        for name in SCENARIOS:
+        for name in names:
             results[name] = run_scenario(name, args.root)
         for name, info in results.items():
             logger.info("%s: objective=%s", name, info.get("objective"))
     else:
         if args.scenario not in SCENARIOS:
-            raise SystemExit(f"Unknown scenario '{args.scenario}'. Choose from: {SCENARIOS}")
+            raise SystemExit(
+                f"Unknown scenario '{args.scenario}'. Choose from: {SCENARIOS}, all, core, capex"
+            )
         run_scenario(args.scenario, args.root)
 
 

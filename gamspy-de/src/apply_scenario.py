@@ -117,18 +117,16 @@ def apply_dunkelflaute(
     solar_carriers = scenario_cfg.get("solar_carriers", ["solar"])
     out = availability.copy()
 
-    if scenario_cfg.get("wind_profile") and scenario_cfg.get("solar_profile"):
-        wind_profile = _load_factor_profile(root / scenario_cfg["wind_profile"], snapshots)
-        solar_profile = _load_factor_profile(root / scenario_cfg["solar_profile"], snapshots)
-        for t_idx, ts in enumerate(snapshots):
-            ts_val = pd.Timestamp(ts)
-            wind_mult = float(wind_profile.iloc[t_idx])
-            solar_mult = float(solar_profile.iloc[t_idx])
-            sel_w = out["tech"].isin(wind_carriers) & (out["timestamp"] == ts_val)
-            sel_s = out["tech"].isin(solar_carriers) & (out["timestamp"] == ts_val)
-            out.loc[sel_w, "p_max_pu"] *= wind_mult
-            out.loc[sel_s, "p_max_pu"] *= solar_mult
-        return out
+    wind_profile = (
+        _load_factor_profile(root / scenario_cfg["wind_profile"], snapshots)
+        if scenario_cfg.get("wind_profile")
+        else None
+    )
+    solar_profile = (
+        _load_factor_profile(root / scenario_cfg["solar_profile"], snapshots)
+        if scenario_cfg.get("solar_profile")
+        else None
+    )
 
     ramp_hours = int(scenario_cfg.get("ramp_hours", 0) or 0)
     mask = _build_stress_mask(
@@ -140,23 +138,61 @@ def apply_dunkelflaute(
         scenario_cfg.get("time_start"),
         scenario_cfg.get("time_end"),
     )
-    if not mask.any():
+    if wind_profile is None and solar_profile is None:
+        if not mask.any():
+            return out
+        ramp = _ramp_weights(mask, ramp_hours, snapshot_hours)
+        wind_factor = float(scenario_cfg.get("wind_factor", 0.15))
+        solar_factor = float(scenario_cfg.get("solar_factor", 0.10))
+        for t_idx, ts in enumerate(snapshots):
+            multiplier_w = 1.0 - ramp.iloc[t_idx] * (1.0 - wind_factor)
+            multiplier_s = 1.0 - ramp.iloc[t_idx] * (1.0 - solar_factor)
+            sel_w = out["tech"].isin(wind_carriers) & (out["timestamp"] == ts)
+            sel_s = out["tech"].isin(solar_carriers) & (out["timestamp"] == ts)
+            out.loc[sel_w, "p_max_pu"] *= multiplier_w
+            out.loc[sel_s, "p_max_pu"] *= multiplier_s
         return out
 
+    # Profile path — aligned with PyPSA apply_dunkelflaute (mask + ramp on 14-day window).
+    if not mask.any():
+        mask = pd.Series(True, index=snapshots)
     ramp = _ramp_weights(mask, ramp_hours, snapshot_hours)
-    wind_factor = float(scenario_cfg.get("wind_factor", 0.15))
-    solar_factor = float(scenario_cfg.get("solar_factor", 0.10))
+    wind_fallback = float(scenario_cfg.get("wind_factor", 1.0))
+    solar_fallback = float(scenario_cfg.get("solar_factor", 1.0))
+    wind_target = (
+        wind_profile.reindex(snapshots).fillna(wind_fallback)
+        if wind_profile is not None
+        else pd.Series(wind_fallback, index=snapshots)
+    )
+    solar_target = (
+        solar_profile.reindex(snapshots).fillna(solar_fallback)
+        if solar_profile is not None
+        else pd.Series(solar_fallback, index=snapshots)
+    )
 
     for t_idx, ts in enumerate(snapshots):
-        target_w = wind_factor
-        target_s = solar_factor
-        multiplier_w = 1.0 - ramp.iloc[t_idx] * (1.0 - target_w)
-        multiplier_s = 1.0 - ramp.iloc[t_idx] * (1.0 - target_s)
-        sel_w = out["tech"].isin(wind_carriers) & (out["timestamp"] == ts)
-        sel_s = out["tech"].isin(solar_carriers) & (out["timestamp"] == ts)
+        ts_val = pd.Timestamp(ts)
+        multiplier_w = 1.0 - ramp.iloc[t_idx] * (1.0 - float(wind_target.iloc[t_idx]))
+        multiplier_s = 1.0 - ramp.iloc[t_idx] * (1.0 - float(solar_target.iloc[t_idx]))
+        sel_w = out["tech"].isin(wind_carriers) & (out["timestamp"] == ts_val)
+        sel_s = out["tech"].isin(solar_carriers) & (out["timestamp"] == ts_val)
         out.loc[sel_w, "p_max_pu"] *= multiplier_w
         out.loc[sel_s, "p_max_pu"] *= multiplier_s
+    return out
 
+
+def apply_nuclear_capex_multiplier(
+    tech_params: pd.DataFrame,
+    nuclear_cfg: dict,
+) -> pd.DataFrame:
+    mult = nuclear_cfg.get("capex_multiplier")
+    if not mult or not nuclear_cfg.get("enabled"):
+        return tech_params
+    tech = nuclear_cfg.get("tech")
+    if not tech or tech not in tech_params.index:
+        return tech_params
+    out = tech_params.copy()
+    out.loc[tech, "capital_cost_EUR_per_MWyr"] *= float(mult)
     return out
 
 
@@ -192,11 +228,16 @@ def prepare_scenario(inputs: ModelInputs, scenario: dict) -> PreparedData:
     )
     nuclear = apply_nuclear_sites(inputs.nuclear_sites, scenario.get("nuclear", {}))
 
-    annual_co2 = float(inputs.config["co2"]["annual_limit_t"])
+    policy = scenario.get("policy", {})
+    annual_co2 = float(policy.get("co2_annual_limit_t", inputs.config["co2"]["annual_limit_t"]))
     total_hours = sum(weights.values())
     co2_limit = annual_co2 * (total_hours / 8760.0) if inputs.config["co2"].get("enable", True) else 1e18
 
-    techs = sorted(inputs.technologies["tech"].unique().tolist())
+    tech_params = apply_nuclear_capex_multiplier(
+        inputs.technologies.set_index("tech"),
+        scenario.get("nuclear", {}),
+    )
+    techs = sorted(tech_params.index.unique().tolist())
     model_techs = [t for t in techs if not t.startswith("nuclear-")]
 
     existing = inputs.capacity_existing.pivot_table(
@@ -213,7 +254,7 @@ def prepare_scenario(inputs: ModelInputs, scenario: dict) -> PreparedData:
         demand=inputs.demand.copy(),
         availability=availability,
         existing_cap=existing,
-        tech_params=inputs.technologies.set_index("tech"),
+        tech_params=tech_params,
         line_params=inputs.lines.set_index("line_id"),
         storage_params=inputs.storage.set_index("bus"),
         nuclear_sites=nuclear,

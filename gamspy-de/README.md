@@ -14,14 +14,19 @@ GAMSPy wraps GAMS — a valid GAMS installation and license are mandatory.
 
 ## Quick start
 
+**Important:** Do **not** run GAMSPy from `pixi shell` (PyPSA-EUR). Pixi’s Python does not include GAMSPy.
+Leave the pixi environment first (`exit`), then use a separate terminal or conda/base Python.
+
 ```bash
 cd gamspy-de
 pip install -r requirements.txt
-gamspy install solver highs   # one-time HiGHS install for GAMS
-python src/run.py --scenario base
-python src/run.py --scenario dunkelflaute-smr
-python src/run.py --scenario all
+gamspy install solver highs
+./run_scenarios.sh --scenario base
+./run_scenarios.sh --scenario dunkelflaute-smr
+./run_scenarios.sh --scenario all
 ```
+
+Or explicitly: `GAMSPY_PYTHON=/path/to/python ./run_scenarios.sh --scenario all`
 
 Results are written to `results/<scenario>/`.
 

@@ -6,12 +6,14 @@ carriers:
   wind: [onwind, offwind-ac, offwind-dc, offwind-float]
   solar: [solar, solar-hsat]
 
-# Used only when auto_worst_days is null
-time_start: "2021-01-28"
-time_end: "2021-02-03"
+# Used when auto_worst_days is null — full INRE simulation window (14 days, 112 × 3h snapshots).
+# Align with config/inre/config.base.yaml snapshots and the notebook stress window.
+time_start: "2021-01-25"
+time_end: "2021-02-07"
 
-# Pick the N lowest national VRE days inside the simulation window (recommended for Phase 2)
-auto_worst_days: 5
+# null = apply profile over the fixed time_start…time_end window (same 14-day stress as GAMSPy).
+# Set to an integer (e.g. 5) to stress only the N worst VRE days instead.
+auto_worst_days: null
 
 # Scalar derating (fallback when profile is disabled)
 # wind_factor: 0.15

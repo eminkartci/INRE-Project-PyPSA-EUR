@@ -1,5 +1,11 @@
 # INRE scenario overrides (merged into config/inre/config.base.yaml).
 # Enable via config/inre/config.scenarios.yaml
+#
+# Shared policy (config.base.yaml): CO2 50 Mt/y; no new OCGT or H2 build; CCGT+VRE+battery extendable.
+# Dunkelflaute: 14-day profile stress (data/inre/dunkelflaute.yaml).
+# CAPEX sensitivity: dunkelflaute-smr-capex{70,85,115} scale SMR investment vs baseline (100% = dunkelflaute-smr).
+# Per-scenario costs are built by ``process_inre_scenario_costs`` (see rules/inre.smk) because shared
+# ``resources/costs_*_processed.csv`` ignores scenario ``costs.custom_cost_fn`` overrides.
 
 base:
   run:
@@ -95,4 +101,80 @@ dunkelflaute-lfr:
       config: data/inre/dunkelflaute.yaml
     nuclear:
       extendable_carriers: [nuclear-lfr]
+      sites_file: data/inre/custom_powerplants_nuclear_DE.csv
+
+# SMR CAPEX sensitivity (Dunkelflaute + nuclear-smr; investment scaled vs OECD/NEA baseline)
+dunkelflaute-smr-capex70:
+  run:
+    name: inre-de-df-smr-capex70
+  costs:
+    custom_cost_fn: data/inre/custom_costs_nuclear_smr_capex70.csv
+  pypsa_eur:
+    Generator:
+    - onwind
+    - offwind-ac
+    - offwind-dc
+    - offwind-float
+    - solar-hsat
+    - solar
+    - ror
+    - nuclear
+    - nuclear-smr
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      config: data/inre/dunkelflaute.yaml
+    nuclear:
+      extendable_carriers: [nuclear-smr]
+      sites_file: data/inre/custom_powerplants_nuclear_DE.csv
+
+dunkelflaute-smr-capex85:
+  run:
+    name: inre-de-df-smr-capex85
+  costs:
+    custom_cost_fn: data/inre/custom_costs_nuclear_smr_capex85.csv
+  pypsa_eur:
+    Generator:
+    - onwind
+    - offwind-ac
+    - offwind-dc
+    - offwind-float
+    - solar-hsat
+    - solar
+    - ror
+    - nuclear
+    - nuclear-smr
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      config: data/inre/dunkelflaute.yaml
+    nuclear:
+      extendable_carriers: [nuclear-smr]
+      sites_file: data/inre/custom_powerplants_nuclear_DE.csv
+
+dunkelflaute-smr-capex115:
+  run:
+    name: inre-de-df-smr-capex115
+  costs:
+    custom_cost_fn: data/inre/custom_costs_nuclear_smr_capex115.csv
+  pypsa_eur:
+    Generator:
+    - onwind
+    - offwind-ac
+    - offwind-dc
+    - offwind-float
+    - solar-hsat
+    - solar
+    - ror
+    - nuclear
+    - nuclear-smr
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      config: data/inre/dunkelflaute.yaml
+    nuclear:
+      extendable_carriers: [nuclear-smr]
       sites_file: data/inre/custom_powerplants_nuclear_DE.csv

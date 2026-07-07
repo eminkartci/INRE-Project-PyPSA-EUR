@@ -8,29 +8,34 @@ CAPEX is annuitised cost of the installed fleet (EUR/year).
 System summary
 ----------------------------------------
 base: load 21.15 TWh, OPEX 269.7 M EUR, CO2 3283 kt
-dunkelflaute: load 21.15 TWh, OPEX 327.0 M EUR, CO2 3780 kt
-dunkelflaute-smr: load 21.15 TWh, OPEX 327.0 M EUR, CO2 3780 kt
-dunkelflaute-msr: load 21.15 TWh, OPEX 327.0 M EUR, CO2 3780 kt
-dunkelflaute-lfr: load 21.15 TWh, OPEX 327.0 M EUR, CO2 3780 kt
+dunkelflaute: load 21.15 TWh, OPEX 695.3 M EUR, CO2 3821 kt
+dunkelflaute-smr: load 21.15 TWh, OPEX 333.9 M EUR, CO2 3816 kt
+dunkelflaute-msr: load 21.15 TWh, OPEX 333.9 M EUR, CO2 3816 kt
+dunkelflaute-lfr: load 21.15 TWh, OPEX 333.9 M EUR, CO2 3816 kt
 
 Generation mix by group (TWh, simulation period)
 ----------------------------------------
-Wind (all): base=8.86, dunkelflaute=7.44, dunkelflaute-smr=7.44, dunkelflaute-msr=7.44, dunkelflaute-lfr=7.44
-Solar (all): base=0.70, dunkelflaute=0.50, dunkelflaute-smr=0.50, dunkelflaute-msr=0.50, dunkelflaute-lfr=0.50
-Combined-Cycle Gas: base=0.34, dunkelflaute=0.98, dunkelflaute-smr=0.98, dunkelflaute-msr=0.98, dunkelflaute-lfr=0.98
-Open-Cycle Gas: base=0.00, dunkelflaute=0.00, dunkelflaute-smr=0.00, dunkelflaute-msr=0.00, dunkelflaute-lfr=0.00
-biomass: base=2.34, dunkelflaute=2.34, dunkelflaute-smr=2.34, dunkelflaute-msr=2.34, dunkelflaute-lfr=2.34
-coal: base=5.61, dunkelflaute=5.68, dunkelflaute-smr=5.68, dunkelflaute-msr=5.68, dunkelflaute-lfr=5.68
+Wind (all): base=8.86, dunkelflaute=6.67, dunkelflaute-smr=7.28, dunkelflaute-msr=7.28, dunkelflaute-lfr=7.28
+Solar (all): base=0.70, dunkelflaute=0.45, dunkelflaute-smr=0.49, dunkelflaute-msr=0.49, dunkelflaute-lfr=0.49
+Combined-Cycle Gas: base=0.34, dunkelflaute=0.02, dunkelflaute-smr=1.11, dunkelflaute-msr=1.11, dunkelflaute-lfr=1.11
+Open-Cycle Gas: base=0.00, dunkelflaute=8.98, dunkelflaute-smr=0.00, dunkelflaute-msr=0.00, dunkelflaute-lfr=0.00
+SMR: base=0.00, dunkelflaute=0.00, dunkelflaute-smr=0.00, dunkelflaute-msr=0.00, dunkelflaute-lfr=0.00
+biomass: base=2.34, dunkelflaute=1.66, dunkelflaute-smr=2.34, dunkelflaute-msr=2.34, dunkelflaute-lfr=2.34
+coal: base=5.61, dunkelflaute=3.87, dunkelflaute-smr=5.68, dunkelflaute-msr=5.68, dunkelflaute-lfr=5.68
 geothermal: base=0.01, dunkelflaute=0.01, dunkelflaute-smr=0.01, dunkelflaute-msr=0.01, dunkelflaute-lfr=0.01
-lignite: base=3.13, dunkelflaute=3.87, dunkelflaute-smr=3.87, dunkelflaute-msr=3.87, dunkelflaute-lfr=3.87
-oil: base=0.00, dunkelflaute=0.00, dunkelflaute-smr=0.00, dunkelflaute-msr=0.00, dunkelflaute-lfr=0.00
-waste: base=0.21, dunkelflaute=0.39, dunkelflaute-smr=0.39, dunkelflaute-msr=0.39, dunkelflaute-lfr=0.39
+lignite: base=3.13, dunkelflaute=1.74, dunkelflaute-smr=3.89, dunkelflaute-msr=3.89, dunkelflaute-lfr=3.89
+oil: base=0.00, dunkelflaute=0.01, dunkelflaute-smr=0.00, dunkelflaute-msr=0.00, dunkelflaute-lfr=0.00
+waste: base=0.21, dunkelflaute=0.10, dunkelflaute-smr=0.40, dunkelflaute-msr=0.40, dunkelflaute-lfr=0.40
 
 Key shift base → dunkelflaute
 ----------------------------------------
-  Wind (all): -1.43 TWh (-16%)
-  Solar (all): -0.20 TWh (-29%)
-  Combined-Cycle Gas: +0.64 TWh (+189%)
-  coal: +0.07 TWh (+1%)
-  lignite: +0.74 TWh (+24%)
-  waste: +0.17 TWh (+82%)
+  Wind (all): -2.19 TWh (-25%)
+  Solar (all): -0.25 TWh (-36%)
+  Combined-Cycle Gas: -0.32 TWh (-93%)
+  Open-Cycle Gas: +8.98 TWh
+  biomass: -0.68 TWh (-29%)
+  coal: -1.73 TWh (-31%)
+  geothermal: -0.00 TWh (-29%)
+  lignite: -1.39 TWh (-44%)
+  oil: +0.01 TWh
+  waste: -0.11 TWh (-53%)

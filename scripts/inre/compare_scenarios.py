@@ -26,6 +26,23 @@ logger = logging.getLogger(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
+SCENARIO_PRESETS = {
+    "core": [
+        "base:base",
+        "dunkelflaute:dunkelflaute",
+        "dunkelflaute-smr:dunkelflaute-smr",
+        "dunkelflaute-msr:dunkelflaute-msr",
+        "dunkelflaute-lfr:dunkelflaute-lfr",
+    ],
+    "capex": [
+        "smr-capex70:dunkelflaute-smr-capex70",
+        "smr-capex85:dunkelflaute-smr-capex85",
+        "smr-capex100:dunkelflaute-smr",
+        "smr-capex115:dunkelflaute-smr-capex115",
+    ],
+    "full": None,
+}
+
 NUCLEAR_CARRIERS = {"nuclear-smr", "nuclear-msr", "nuclear-lfr", "nuclear", "SMR", "MSR", "LFR"}
 NON_GENERATION_CARRIERS = {
     "AC",
@@ -350,16 +367,16 @@ def export_report(kpis: list[dict], output_dir: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Compare INRE PyPSA-Eur scenarios")
     parser.add_argument(
+        "--preset",
+        choices=["core", "capex", "full"],
+        default="core",
+        help="Scenario group: core (5), capex (SMR sensitivity), full (all 8)",
+    )
+    parser.add_argument(
         "--scenarios",
         nargs="+",
-        default=[
-            "base:base",
-            "dunkelflaute:dunkelflaute",
-            "dunkelflaute-smr:dunkelflaute-smr",
-            "dunkelflaute-msr:dunkelflaute-msr",
-            "dunkelflaute-lfr:dunkelflaute-lfr",
-        ],
-        help="label:run_name pairs pointing to results/<run_name>/networks/",
+        default=None,
+        help="Override preset: label:run_name pairs (folder = run_name for multi-scenario runs)",
     )
     parser.add_argument("--clusters", default="10")
     parser.add_argument("--opts", default="")
@@ -371,12 +388,19 @@ def main() -> None:
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO)
 
+    if args.scenarios:
+        scenario_specs = args.scenarios
+    elif args.preset == "full":
+        scenario_specs = SCENARIO_PRESETS["core"] + SCENARIO_PRESETS["capex"]
+    else:
+        scenario_specs = SCENARIO_PRESETS[args.preset]
+
     output_dir = Path(args.output_dir)
     if not output_dir.is_absolute():
         output_dir = REPO_ROOT / output_dir
 
     kpis = []
-    for label, run_name in parse_scenarios(args.scenarios):
+    for label, run_name in parse_scenarios(scenario_specs):
         path = _network_path(run_name, args.clusters, args.opts)
         if not path.exists():
             logger.warning("Skipping %s: network not found at %s", label, path)

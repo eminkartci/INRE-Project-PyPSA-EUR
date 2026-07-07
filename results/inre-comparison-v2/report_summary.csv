@@ -1,0 +1,6 @@
+scenario,period_hours,load_twh,generation_twh,opex_meur,capex_annuitised_meur,objective_meur,co2_kt,nuclear_build_mw,delta_opex_meur_vs_base,delta_co2_kt_vs_base
+base,336.0,21.15,21.21,266.9,1935.7,543.8,1020.0,0.0,0.0,0.0
+dunkelflaute,336.0,21.15,21.24,308.4,5287.9,3937.5,1082.0,0.0,41.5,62.0
+dunkelflaute-smr,336.0,21.15,21.22,335.8,4499.5,3176.4,1077.0,7499999.75,68.9,57.0
+dunkelflaute-msr,336.0,21.15,21.23,322.9,4817.8,3481.8,1080.0,4499999.99,56.0,60.0
+dunkelflaute-lfr,336.0,21.15,21.23,323.9,4809.7,3474.8,1082.0,4499999.98,57.0,62.0

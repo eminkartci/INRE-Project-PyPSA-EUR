@@ -1,0 +1,16 @@
+name: dunkelflaute-smr-capex70
+dunkelflaute:
+  enabled: true
+  wind_carriers: [onwind, offwind]
+  solar_carriers: [solar]
+  wind_profile: profiles/dunkelflaute_wind_factors.csv
+  solar_profile: profiles/dunkelflaute_solar_factors.csv
+  time_start: "2021-01-25"
+  time_end: "2021-02-07"
+  auto_worst_days: null
+  ramp_hours: 6
+nuclear:
+  enabled: true
+  tech: nuclear-smr
+  capex_multiplier: 0.70
+  filter_sites: [Grohnde, Brokdorf, Isar, Emsland, Neckarwestheim]

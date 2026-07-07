@@ -1,10 +1,9 @@
 scenario: dunkelflaute-smr
-status: '      Solver Status   Model Status     Objective  ...  Model Type  Solver
-  Solver Time
+status: '      Solver Status   Model Status  ...  Solver  Solver Time
 
-  0  NormalCompletion  OptimalGlobal  2.863758e+09  ...          LP   HIGHS       0.367
+  0  NormalCompletion  OptimalGlobal  ...   HIGHS        4.893
 
 
   [1 rows x 8 columns]'
-objective: 2863758406.196459
-total_dispatch_MWh: 20832000.18
+objective: 34152729094.46618
+total_dispatch_MWh: 19435695.711484138
