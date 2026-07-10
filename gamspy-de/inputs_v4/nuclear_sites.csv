@@ -1,0 +1,4 @@
+site_id,tech,bus_id,lat,lon,p_nom_max_MW,p_min_pu,p_max_pu,ramp_pu_per_h
+Grohnde,nuclear-smr,DE3,51.906,9.401,1500.0,0.0,0.9,0.5
+Brokdorf,nuclear-smr,DE8,53.851,9.345,1500.0,0.0,0.9,0.5
+Isar,nuclear-smr,DE4,48.617,12.293,1500.0,0.0,0.9,0.5

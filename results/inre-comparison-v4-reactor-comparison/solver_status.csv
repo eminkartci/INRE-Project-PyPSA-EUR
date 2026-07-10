@@ -1,0 +1,6 @@
+technology,scenario,status,objective_meur,solve_time_s,reused
+Severe reference,severe_reference,ok,694.13,0.0,True
+Generic advanced nuclear,generic-advanced-nuclear,ok,639.94,0.0,True
+SMR,stylised-df-severe-smr-v4,ok,641.56,37.1,False
+MSR,stylised-df-severe-msr-v4,ok,637.99,37.0,False
+LFR,stylised-df-severe-lfr-v4,ok,639.94,37.3,False

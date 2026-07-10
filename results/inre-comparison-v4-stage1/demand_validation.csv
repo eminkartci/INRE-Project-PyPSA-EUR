@@ -1,0 +1,9 @@
+scenario,scope,demand_twh
+Matched Base,pre-buffer,10.6388
+Matched Base,core,21.1519
+Matched Base,post-buffer,10.9512
+Matched Base,full-window,42.7419
+Severe,pre-buffer,10.6388
+Severe,core,21.1519
+Severe,post-buffer,10.9512
+Severe,full-window,42.7419

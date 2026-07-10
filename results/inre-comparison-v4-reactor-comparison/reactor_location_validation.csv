@@ -1,0 +1,4 @@
+site,bus,allocation_mw,label
+Grohnde,DE0 3,1500.0,common analytical deployment nodes
+Brokdorf,DE0 8,1500.0,common analytical deployment nodes
+Isar,DE0 4,1500.0,common analytical deployment nodes

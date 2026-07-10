@@ -1,0 +1,63 @@
+scenario,label,scope,carrier,generation_twh
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,CCGT,9.4931
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,biomass,2.5515
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,lignite,0.0
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,oil,1.2171
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,waste,0.9761
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,geothermal,0.009
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,coal,0.0
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,OCGT,1.6646
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,offwind-dc,0.0
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,solar,0.176
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,offwind-ac,0.7208
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,solar-hsat,0.0
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,onwind,2.5954
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,offwind-float,0.0
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,load_shed,1.7483
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,CCGT,15.6736
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,biomass,4.7581
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,lignite,0.0
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,oil,1.413
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,waste,1.78
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,geothermal,0.0181
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,coal,0.0
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,OCGT,2.1575
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,offwind-dc,0.0
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,solar,1.1108
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,offwind-ac,3.3351
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,solar-hsat,0.0
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,onwind,10.6557
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,offwind-float,0.0
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,load_shed,1.84
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,CCGT,9.3594
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,biomass,2.511
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,lignite,0.0
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,oil,0.9964
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,waste,0.9758
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,geothermal,0.009
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,coal,0.0
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,OCGT,1.4395
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,offwind-dc,0.0
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,solar,0.176
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,offwind-ac,0.7208
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,solar-hsat,0.0
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,onwind,2.5954
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,offwind-float,0.0
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,load_shed,1.0642
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,nuclear-smr,1.3043
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,CCGT,14.8819
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,biomass,4.613
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,lignite,0.0
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,oil,1.0992
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,waste,1.7515
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,geothermal,0.0181
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,coal,0.0
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,OCGT,1.725
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,offwind-dc,0.0
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,solar,1.1108
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,offwind-ac,3.3351
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,solar-hsat,0.0
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,onwind,10.6557
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,offwind-float,0.0
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,load_shed,1.0887
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,nuclear-smr,2.4629

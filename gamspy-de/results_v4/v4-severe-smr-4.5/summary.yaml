@@ -1,0 +1,52 @@
+scenario: v4-severe-smr-4.5
+status: '      Solver Status   Model Status     Objective  ...  Model Type  Solver
+  Solver Time
+
+  0  NormalCompletion  OptimalGlobal  7.592048e+08  ...          LP   HIGHS       0.018
+
+
+  [1 rows x 8 columns]'
+objective: 759204835.7927766
+demand_mwh: 42741896.87617095
+demand_twh: 42.74189687617095
+renewable_generation_mwh: 15136353.546739765
+renewable_generation_twh: 15.136353546739764
+nuclear_generation_mwh: 2438566.399175682
+nuclear_generation_twh: 2.438566399175682
+coal_generation_mwh: 11355612.636111619
+coal_generation_twh: 11.35561263611162
+lignite_generation_mwh: 9137720.18554744
+lignite_generation_twh: 9.137720185547439
+ccgt_generation_mwh: 4673644.108596518
+ccgt_generation_twh: 4.673644108596518
+biomass_generation_mwh: 0.0
+biomass_generation_twh: 0.0
+ocgt_generation_mwh: 0.0
+ocgt_generation_twh: 0.0
+oil_generation_mwh: 0.0
+oil_generation_twh: 0.0
+waste_generation_mwh: 0.0
+waste_generation_twh: 0.0
+eens_mwh: 0.0
+eens_gwh: 0.0
+peak_load_shedding_mw: 0.0
+peak_load_shedding_gw: 0.0
+co2_t: 22133341.58712952
+co2_mt: 22.133341587129518
+variable_opex_excl_voll_eur: 759204835.7927767
+variable_opex_excl_voll_meur: 759.2048357927767
+load_shedding_penalty_eur: 0.0
+load_shedding_penalty_meur: 0.0
+total_operational_cost_eur: 759204835.7927767
+total_operational_cost_meur: 759.2048357927767
+solver_objective_eur: 759204835.7927766
+objective_residual_eur: -1.1920928955078125e-07
+objective_residual_percent: 1.5701861201437233e-14
+generation_by_tech_mwh:
+  onwind: 10671070.36726726
+  offshore: 3335087.9569928274
+  solar: 1130195.2224796778
+  ccgt: 4673644.108596518
+  coal: 11355612.636111619
+  lignite: 9137720.18554744
+  nuclear-smr: 2438566.399175682

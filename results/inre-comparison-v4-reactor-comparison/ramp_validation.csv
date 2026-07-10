@@ -1,0 +1,6 @@
+scenario,technology,ramp_limit_per_hour_pu,ramp_limit_per_snapshot_pu,ramp_binding,status
+severe_reference,Severe reference,0.5,,False,ok
+generic-advanced-nuclear,Generic advanced nuclear,0.5,1.5,False,ok
+stylised-df-severe-smr-v4,SMR,0.5,1.5,False,ok
+stylised-df-severe-msr-v4,MSR,0.5,1.5,False,ok
+stylised-df-severe-lfr-v4,LFR,0.5,1.5,False,ok

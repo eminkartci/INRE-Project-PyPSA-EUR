@@ -1,0 +1,61 @@
+scenario,scope,carrier,generation_twh
+Matched Base,core_event,CCGT,0.3407
+Matched Base,core_event,biomass,2.353
+Matched Base,core_event,lignite,3.1312
+Matched Base,core_event,oil,0.0
+Matched Base,core_event,waste,0.2127
+Matched Base,core_event,geothermal,0.009
+Matched Base,core_event,coal,5.586
+Matched Base,core_event,OCGT,0.0
+Matched Base,core_event,offwind-dc,0.0
+Matched Base,core_event,solar,0.7046
+Matched Base,core_event,offwind-ac,1.9992
+Matched Base,core_event,solar-hsat,0.0
+Matched Base,core_event,onwind,6.8155
+Matched Base,core_event,offwind-float,0.0
+Matched Base,core_event,load_shed,0.0
+Matched Base,full_window,CCGT,0.507
+Matched Base,full_window,biomass,4.4437
+Matched Base,full_window,lignite,5.7638
+Matched Base,full_window,oil,0.0
+Matched Base,full_window,waste,0.3536
+Matched Base,full_window,geothermal,0.0181
+Matched Base,full_window,coal,10.5271
+Matched Base,full_window,OCGT,0.0
+Matched Base,full_window,offwind-dc,0.0
+Matched Base,full_window,solar,1.6393
+Matched Base,full_window,offwind-ac,4.6135
+Matched Base,full_window,solar-hsat,0.0
+Matched Base,full_window,onwind,14.8758
+Matched Base,full_window,offwind-float,0.0
+Matched Base,full_window,load_shed,0.0
+Severe,core_event,CCGT,2.2962
+Severe,core_event,biomass,2.5113
+Severe,core_event,lignite,5.7584
+Severe,core_event,oil,0.0
+Severe,core_event,waste,0.7236
+Severe,core_event,geothermal,0.009
+Severe,core_event,coal,6.3612
+Severe,core_event,OCGT,0.0
+Severe,core_event,offwind-dc,0.0
+Severe,core_event,solar,0.176
+Severe,core_event,offwind-ac,0.7208
+Severe,core_event,solar-hsat,0.0
+Severe,core_event,onwind,2.5954
+Severe,core_event,offwind-float,0.0
+Severe,core_event,load_shed,0.0
+Severe,full_window,CCGT,2.4625
+Severe,full_window,biomass,4.602
+Severe,full_window,lignite,8.391
+Severe,full_window,oil,0.0
+Severe,full_window,waste,0.8645
+Severe,full_window,geothermal,0.0181
+Severe,full_window,coal,11.3023
+Severe,full_window,OCGT,0.0
+Severe,full_window,offwind-dc,0.0
+Severe,full_window,solar,1.1108
+Severe,full_window,offwind-ac,3.3351
+Severe,full_window,solar-hsat,0.0
+Severe,full_window,onwind,10.6557
+Severe,full_window,offwind-float,0.0
+Severe,full_window,load_shed,0.0

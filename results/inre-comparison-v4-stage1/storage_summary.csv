@@ -1,0 +1,5 @@
+scenario,scope,soc_initial_gwh,soc_final_gwh,status
+Matched Base,core_event,0.0,0.0,ok
+Matched Base,full_window,0.0,0.0,ok
+Severe,core_event,0.0,0.0,ok
+Severe,full_window,0.0,0.0,ok

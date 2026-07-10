@@ -1,0 +1,24 @@
+parameter,value
+carrier,generic-advanced-nuclear
+investment_eur_per_kw,6210.0
+investment_eur_per_mw,6210000.0
+capital_cost_eur_per_mw_year,493796.38672960945
+fom_pct_per_year,0.778
+annual_fom_eur_per_mw_year,48313.8
+vom_eur_per_mwh,3.2
+fuel_eur_per_mwh_th,2.8
+marginal_cost_eur_per_mwh,11.435294117647057
+efficiency,0.34
+p_max_pu,0.9
+p_min_pu,0.0
+ramp_limit_per_hour_pu,0.5
+lifetime_years,55.0
+discount_rate,0.07
+annualisation_method,calculate_annuity (PyPSA-EUR): CRF = r/(1-(1+r)^-n); capital_cost = (CRF + FOM/100) × investment [EUR/MW-year]
+crf,0.07173632636547657
+co2_intensity_t_per_mwh_el,0.0
+p_min_pu_representation,upper-flexibility representation without commitment binaries
+dispatch_mode,unconstrained operational dispatch
+selected_buses,"Grohnde→DE0 3, Brokdorf→DE0 8, Isar→DE0 4"
+ramp_limit_per_snapshot_pu,1.5
+allocation,equal per site: total/3

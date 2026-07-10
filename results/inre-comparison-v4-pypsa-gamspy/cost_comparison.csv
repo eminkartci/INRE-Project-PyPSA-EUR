@@ -1,0 +1,9 @@
+scenario,kpi,unit,pypsa,gamspy,absolute_difference,relative_difference_percent,threshold_percent,category,exceeds_threshold
+severe-no-nuclear,operational_cost_excl_voll,M EUR,694.131843,829.994659,135.862817,19.57,5.0,cost,True
+severe-no-nuclear,load_shedding_penalty,M EUR,0.0,0.0,0.0,N/A,10.0,cost,False
+severe-smr-4.5,operational_cost_excl_voll,M EUR,641.556388,729.569732,88.013344,13.72,5.0,cost,True
+severe-smr-4.5,load_shedding_penalty,M EUR,0.0,0.0,0.0,N/A,10.0,cost,False
+severe-decarbonised-no-nuclear,operational_cost_excl_voll,M EUR,1221.553235,1018.10468,-203.448555,-16.65,5.0,cost,True
+severe-decarbonised-no-nuclear,load_shedding_penalty,M EUR,184000.47576,674551.232074,490550.756314,266.60,10.0,cost,True
+severe-decarbonised-smr-4.5,operational_cost_excl_voll,M EUR,1142.918996,981.489406,-161.42959,-14.12,5.0,cost,True
+severe-decarbonised-smr-4.5,load_shedding_penalty,M EUR,108869.639543,505732.246443,396862.6069,364.53,10.0,cost,True

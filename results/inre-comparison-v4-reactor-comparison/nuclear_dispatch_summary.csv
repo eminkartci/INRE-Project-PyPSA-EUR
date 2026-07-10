@@ -1,0 +1,6 @@
+technology,capacity_gw,nuclear_installed_capacity_gw,nuclear_generation_twh,nuclear_capacity_factor_pct,nuclear_min_output_gw,nuclear_max_output_gw,max_nuclear_ramp_gw_per_snapshot
+Severe reference,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Generic advanced nuclear,4.5,4.5,1.304318660555788,86.2644616769701,0.0,4.05,3.966429268315825
+SMR,4.5,4.5,1.304318660555788,86.2644616769701,0.0,4.05,3.966429268315825
+MSR,4.5,4.5,1.304318660555788,86.2644616769701,0.0,4.05,3.966429268315825
+LFR,4.5,4.5,1.304318660555788,86.2644616769701,0.0,4.05,3.966429268315825

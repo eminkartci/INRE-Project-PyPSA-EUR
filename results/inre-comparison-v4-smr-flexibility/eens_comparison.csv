@@ -1,0 +1,9 @@
+scope,metric,flexible_smr,limited_flex_smr,difference
+core,eens_gwh,1064.2436,1064.2436,0.0
+core,eens_pct_demand,5.0314,5.0314,0.0
+core,peak_load_shedding_gw,14.0134,14.0134,0.0
+core,load_shedding_snapshots,49.0,49.0,0.0
+full_window,eens_gwh,1088.6964,1088.6964,0.0
+full_window,eens_pct_demand,2.5471,2.5471,0.0
+full_window,peak_load_shedding_gw,14.0134,14.0134,0.0
+full_window,load_shedding_snapshots,52.0,52.0,0.0

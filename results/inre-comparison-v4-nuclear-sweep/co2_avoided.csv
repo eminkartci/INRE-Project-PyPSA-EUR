@@ -1,0 +1,5 @@
+scenario,capacity_gw,co2_avoided_mt,co2_avoided_per_nuclear_twh
+stylised-df-severe-nuc-1.5-v4,1.5,0.23019999999999996,0.5231818181818181
+stylised-df-severe-nuc-3.0-v4,3.0,0.48019999999999996,0.5496165731944602
+stylised-df-severe-nuc-4.5-v4,4.5,0.7421000000000006,0.5689641953538301
+stylised-df-severe-nuc-7.5-v4,7.5,1.3034,0.6048821236309634

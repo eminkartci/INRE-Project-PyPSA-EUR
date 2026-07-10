@@ -1,0 +1,5 @@
+scenario,scope,variable_opex_excl_voll_meur,load_shedding_penalty_meur,total_computed_meur,objective_meur,reconciliation_gap_meur,status
+Matched Base,core_event,269.4847137298657,0.0,269.4847137298657,,,ok
+Matched Base,full_window,496.5182774075786,0.0,496.5182774075786,496.5182774076044,2.580691216280684e-11,ok
+Severe,core_event,467.0982789734975,0.0,467.0982789734975,,,ok
+Severe,full_window,694.13184265121,0.0,694.13184265121,694.1318426511887,2.1373125491663814e-11,ok

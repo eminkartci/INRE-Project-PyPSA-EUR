@@ -1,0 +1,6 @@
+reference,prepared_checksum_sha256,reference_reused,reuse_reason,scenario,identical_non_nuclear,issues
+stylised-df-severe-v4,fb0080e0536128294334fb8527b9e7f8443a195fe4555674dd7787955375fc81,True,prepared checksum fb0080e053612829…; demand validated,,,
+,,,,stylised-df-severe-nuc-1.5-v4,True,
+,,,,stylised-df-severe-nuc-3.0-v4,True,
+,,,,stylised-df-severe-nuc-4.5-v4,True,
+,,,,stylised-df-severe-nuc-7.5-v4,True,

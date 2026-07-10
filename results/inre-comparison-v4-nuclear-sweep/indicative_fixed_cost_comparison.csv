@@ -1,0 +1,11 @@
+capacity_gw,scope,operational_cost_meur,period_equivalent_fixed_cost_meur,indicative_total_cost_meur,annualised_capital_cost_meur_per_year,annual_fom_meur_per_year,annual_fixed_cost_meur_per_year,annual_fom_included,label,comparison_capacity_note
+0.0,core,467.1,0.0,467.1,0.0,0.0,0.0,True,indicative period-equivalent economic comparison,"4.5 GW is a standardised three-node comparison capacity, not an economic optimum"
+0.0,full_window,694.13,0.0,694.13,0.0,0.0,0.0,True,indicative period-equivalent economic comparison,"4.5 GW is a standardised three-node comparison capacity, not an economic optimum"
+1.5,core,454.41,28.41,482.82,668.22,72.47,740.69,True,indicative period-equivalent economic comparison,"4.5 GW is a standardised three-node comparison capacity, not an economic optimum"
+1.5,full_window,675.22,56.82,732.04,668.22,72.47,740.69,True,indicative period-equivalent economic comparison,"4.5 GW is a standardised three-node comparison capacity, not an economic optimum"
+3.0,core,442.31,56.82,499.13,1336.45,144.94,1481.39,True,indicative period-equivalent economic comparison,"4.5 GW is a standardised three-node comparison capacity, not an economic optimum"
+3.0,full_window,657.28,113.64,770.92,1336.45,144.94,1481.39,True,indicative period-equivalent economic comparison,"4.5 GW is a standardised three-node comparison capacity, not an economic optimum"
+4.5,core,430.53,85.23,515.76,2004.67,217.41,2222.08,True,indicative period-equivalent economic comparison,"4.5 GW is a standardised three-node comparison capacity, not an economic optimum"
+4.5,full_window,639.94,170.46,810.4,2004.67,217.41,2222.08,True,indicative period-equivalent economic comparison,"4.5 GW is a standardised three-node comparison capacity, not an economic optimum"
+7.5,core,408.34,142.05,550.39,3341.12,362.35,3703.47,True,indicative period-equivalent economic comparison,"4.5 GW is a standardised three-node comparison capacity, not an economic optimum"
+7.5,full_window,607.37,284.1,891.47,3341.12,362.35,3703.47,True,indicative period-equivalent economic comparison,"4.5 GW is a standardised three-node comparison capacity, not an economic optimum"

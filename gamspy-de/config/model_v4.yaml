@@ -1,0 +1,18 @@
+# V4 INRE validation — 224 snapshots, 3-hour resolution, unconstrained dispatch
+
+snapshots:
+  start: "2021-01-18"
+  end: "2021-02-14"
+  freq: "3h"
+  count: 224
+  weight_hours: 3.0
+
+co2:
+  enable: false
+
+solver: highs
+
+dispatch_mode: fixed_capacity
+copper_plate: true
+voll_eur_per_mwh: 10000.0
+snapshot_hours: 3.0

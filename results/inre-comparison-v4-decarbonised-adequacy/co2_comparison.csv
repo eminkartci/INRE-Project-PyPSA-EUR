@@ -1,0 +1,5 @@
+scenario,label,scope,co2_mt
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,5.418529292762035
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,8.28258942274765
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,5.104285970445366
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,7.554270497328329

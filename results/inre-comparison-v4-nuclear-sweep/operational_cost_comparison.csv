@@ -1,0 +1,5 @@
+scenario,capacity_gw,operational_cost_change_meur,reference_opex_meur,scenario_opex_meur
+stylised-df-severe-nuc-1.5-v4,1.5,-12.689999999999998,467.1,454.41
+stylised-df-severe-nuc-3.0-v4,3.0,-24.79000000000002,467.1,442.31
+stylised-df-severe-nuc-4.5-v4,4.5,-36.57000000000005,467.1,430.53
+stylised-df-severe-nuc-7.5-v4,7.5,-58.76000000000005,467.1,408.34

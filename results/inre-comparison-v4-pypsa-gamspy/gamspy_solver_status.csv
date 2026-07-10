@@ -1,0 +1,5 @@
+scenario,status,solver_objective_eur,generation_cost_eur,voll_cost_eur,residual_percent
+severe-no-nuclear,OptimalGlobal,733945401.863127,733945401.863127,0.0,0.0
+severe-smr-4.5,OptimalGlobal,759204835.7927766,759204835.7927767,0.0,1.5701861201437233e-14
+severe-decarbonised-no-nuclear,OptimalGlobal,256540266877.127,1242621985.316686,255297644891.81033,0.0
+severe-decarbonised-smr-4.5,OptimalGlobal,299630518793.2229,1000874400.342887,298629644392.87994,2.0370140029734682e-14

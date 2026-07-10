@@ -1,33 +1,7 @@
 generator,carrier,bus,entry_jump,exit_jump,maximum_jump,warning
-DE0 0 0 offwind-ac,offwind-ac,DE0 0,0.04452656229593798,0.11449008597796928,0.11449008597796928,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
-DE0 7 0 offwind-ac,offwind-ac,DE0 7,0.019364223752106224,0.11449999999999994,0.11449999999999994,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
-DE0 8 0 offwind-ac,offwind-ac,DE0 8,0.011253065802215918,0.11450045642547213,0.11450045642547213,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
-DE0 0 0 offwind-float,offwind-float,DE0 0,0.02325449900658188,0.1144492572295096,0.1144492572295096,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
-DE0 7 0 offwind-float,offwind-float,DE0 7,0.011948983196601034,0.11448733793791455,0.11448733793791455,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
-DE0 8 0 offwind-float,offwind-float,DE0 8,0.01679584617379772,0.11427328563331529,0.11427328563331529,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
-DE0 0 0 offwind-dc,offwind-dc,DE0 0,0.012880727618030626,0.1144999999999996,0.1144999999999996,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
-DE0 7 0 offwind-dc,offwind-dc,DE0 7,0.01869631451567822,0.11449999999999994,0.11449999999999994,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
-DE0 8 0 offwind-dc,offwind-dc,DE0 8,0.09220270037738629,0.11450000000000005,0.11450000000000005,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
-DE0 0 0 onwind,onwind,DE0 0,0.01470784364136217,0.03289091940901545,0.03289091940901545,
-DE0 1 0 onwind,onwind,DE0 1,0.047526726969319165,0.04972772941821932,0.04972772941821932,
-DE0 2 0 onwind,onwind,DE0 2,0.03983607066939712,0.01109562597231184,0.03983607066939712,
-DE0 3 0 onwind,onwind,DE0 3,0.01330511528357431,0.06485356049125007,0.06485356049125007,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
-DE0 4 0 onwind,onwind,DE0 4,0.10787068588925963,0.08078901342792272,0.10787068588925963,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
-DE0 5 0 onwind,onwind,DE0 5,0.0004853116355595932,0.006069936888879385,0.006069936888879385,
-DE0 6 0 onwind,onwind,DE0 6,0.04694454671071835,0.03254968225246796,0.04694454671071835,
-DE0 7 0 onwind,onwind,DE0 7,0.03884904536283644,0.012021903095468134,0.03884904536283644,
-DE0 8 0 onwind,onwind,DE0 8,0.01698039232575571,0.00911570800196737,0.01698039232575571,
-DE0 9 0 onwind,onwind,DE0 9,0.020102725773011074,0.11606886935472593,0.11606886935472593,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
-DE0 0 0 solar-hsat,solar-hsat,DE0 0,0.0,0.0,0.0,
-DE0 1 0 solar-hsat,solar-hsat,DE0 1,0.0,0.0,0.0,
-DE0 2 0 solar-hsat,solar-hsat,DE0 2,0.0,0.0,0.0,
-DE0 3 0 solar-hsat,solar-hsat,DE0 3,0.0,0.0,0.0,
-DE0 4 0 solar-hsat,solar-hsat,DE0 4,0.0,0.0,0.0,
-DE0 5 0 solar-hsat,solar-hsat,DE0 5,0.0,0.0,0.0,
-DE0 6 0 solar-hsat,solar-hsat,DE0 6,0.0,0.0,0.0,
-DE0 7 0 solar-hsat,solar-hsat,DE0 7,0.0,0.0,0.0,
-DE0 8 0 solar-hsat,solar-hsat,DE0 8,0.0,0.0,0.0,
-DE0 9 0 solar-hsat,solar-hsat,DE0 9,0.0,0.0,0.0,
+DE0 0 0 offwind-dc,offwind-dc,DE0 0,0.012880727618030668,0.1144999999999996,0.1144999999999996,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
+DE0 7 0 offwind-dc,offwind-dc,DE0 7,0.018696314515678256,0.1144999999999996,0.1144999999999996,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
+DE0 8 0 offwind-dc,offwind-dc,DE0 8,0.09220270037738632,0.11450000000000005,0.11450000000000005,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
 DE0 0 0 solar,solar,DE0 0,0.0,0.0,0.0,
 DE0 1 0 solar,solar,DE0 1,0.0,0.0,0.0,
 DE0 2 0 solar,solar,DE0 2,0.0,0.0,0.0,
@@ -38,3 +12,29 @@ DE0 6 0 solar,solar,DE0 6,0.0,0.0,0.0,
 DE0 7 0 solar,solar,DE0 7,0.0,0.0,0.0,
 DE0 8 0 solar,solar,DE0 8,0.0,0.0,0.0,
 DE0 9 0 solar,solar,DE0 9,0.0,0.0,0.0,
+DE0 0 0 offwind-ac,offwind-ac,DE0 0,0.04452656229593808,0.11449008597796917,0.11449008597796917,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
+DE0 7 0 offwind-ac,offwind-ac,DE0 7,0.019364223752106155,0.11449999999999994,0.11449999999999994,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
+DE0 8 0 offwind-ac,offwind-ac,DE0 8,0.011253065802216015,0.11450045642547213,0.11450045642547213,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
+DE0 0 0 solar-hsat,solar-hsat,DE0 0,0.0,0.0,0.0,
+DE0 1 0 solar-hsat,solar-hsat,DE0 1,0.0,0.0,0.0,
+DE0 2 0 solar-hsat,solar-hsat,DE0 2,0.0,0.0,0.0,
+DE0 3 0 solar-hsat,solar-hsat,DE0 3,0.0,0.0,0.0,
+DE0 4 0 solar-hsat,solar-hsat,DE0 4,0.0,0.0,0.0,
+DE0 5 0 solar-hsat,solar-hsat,DE0 5,0.0,0.0,0.0,
+DE0 6 0 solar-hsat,solar-hsat,DE0 6,0.0,0.0,0.0,
+DE0 7 0 solar-hsat,solar-hsat,DE0 7,0.0,0.0,0.0,
+DE0 8 0 solar-hsat,solar-hsat,DE0 8,0.0,0.0,0.0,
+DE0 9 0 solar-hsat,solar-hsat,DE0 9,0.0,0.0,0.0,
+DE0 0 0 onwind,onwind,DE0 0,0.014707843641362219,0.03289091940901512,0.03289091940901512,
+DE0 1 0 onwind,onwind,DE0 1,0.04752672696931919,0.04972772941821936,0.04972772941821936,
+DE0 2 0 onwind,onwind,DE0 2,0.039836070669396845,0.011095625972312617,0.039836070669396845,
+DE0 3 0 onwind,onwind,DE0 3,0.013305115283574462,0.06485356049124907,0.06485356049124907,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
+DE0 4 0 onwind,onwind,DE0 4,0.1078706858892598,0.08078901342792282,0.1078706858892598,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
+DE0 5 0 onwind,onwind,DE0 5,0.0004853116355599263,0.006069936888879801,0.006069936888879801,
+DE0 6 0 onwind,onwind,DE0 6,0.046944546710718335,0.032549682252468085,0.046944546710718335,
+DE0 7 0 onwind,onwind,DE0 7,0.038849045362836565,0.012021903095468134,0.038849045362836565,
+DE0 8 0 onwind,onwind,DE0 8,0.016980392325755808,0.00911570800196737,0.016980392325755808,
+DE0 9 0 onwind,onwind,DE0 9,0.020102725773011185,0.11606886935472527,0.11606886935472527,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
+DE0 0 0 offwind-float,offwind-float,DE0 0,0.023254499006581962,0.11444925722950972,0.11444925722950972,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
+DE0 7 0 offwind-float,offwind-float,DE0 7,0.011948983196601058,0.11448733793791488,0.11448733793791488,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation
+DE0 8 0 offwind-float,offwind-float,DE0 8,0.016795846173797955,0.11427328563331529,0.11427328563331529,possible_causes: renewable_config_mismatch; correction_factor; aggregation_settings; profile_reconstruction; weather_variation

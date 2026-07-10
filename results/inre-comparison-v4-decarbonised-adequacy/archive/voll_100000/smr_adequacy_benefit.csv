@@ -1,0 +1,2 @@
+description,eens_reduction_gwh_core,eens_reduction_gwh_full_window,relative_eens_reduction_pct_core,relative_eens_reduction_pct_full_window,peak_shedding_reduction_gw_core,avoided_voll_cost_meur_core,avoided_voll_cost_meur_full_window,co2_reduction_mt_core,co2_reduction_mt_full_window,smr_adequacy_effect,load_shedding_eliminated
+"a stylised decarbonised-fleet adequacy sensitivity, not a forecast of the German power system",684.0969,751.3084,39.13,40.83,4.05,68409.69,75130.84,0.3142,0.7283,partially reduces load shedding,False

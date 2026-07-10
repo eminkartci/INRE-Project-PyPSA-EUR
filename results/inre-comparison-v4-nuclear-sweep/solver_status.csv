@@ -1,0 +1,6 @@
+scenario,status,condition,objective_meur,solve_time_s,reused,dispatch_mode
+stylised-df-severe-v4,ok,optimal,694.13,0.0,True,unconstrained operational dispatch
+stylised-df-severe-nuc-1.5-v4,ok,optimal,675.22,35.9,False,unconstrained operational dispatch
+stylised-df-severe-nuc-3.0-v4,ok,optimal,657.28,36.4,False,unconstrained operational dispatch
+stylised-df-severe-nuc-4.5-v4,ok,optimal,639.94,36.9,False,unconstrained operational dispatch
+stylised-df-severe-nuc-7.5-v4,ok,optimal,607.37,37.4,False,unconstrained operational dispatch

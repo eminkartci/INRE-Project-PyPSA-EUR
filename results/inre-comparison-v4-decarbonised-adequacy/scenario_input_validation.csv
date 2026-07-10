@@ -1,0 +1,3 @@
+scenario,coal_p_nom_mw,lignite_p_nom_mw,coal_p_nom_mw_reference,lignite_p_nom_mw_reference,ccgt_unchanged,demand_unchanged,renewable_profiles_unchanged,smr_capacity_mw,ok,issues
+stylised-df-severe-decarb-v4,0.0,0.0,20351.945,19457.035,True,True,True,0.0,True,
+stylised-df-severe-decarb-smr-4.5-v4,0.0,0.0,20351.945,19457.035,True,True,True,4500.0,True,

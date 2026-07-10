@@ -1,0 +1,5 @@
+name: v4-severe-decarbonised-no-nuclear
+capacity_overrides:
+  coal: 0.0
+  lignite: 0.0
+  nuclear: 0.0

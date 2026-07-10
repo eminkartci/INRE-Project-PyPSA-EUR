@@ -1,0 +1,11 @@
+technology,scope,indicative_total_cost_meur,severe_reference_operational_cost_meur,co2_avoided_mt,avoided_co2_cost_eur_per_t,status
+Severe reference,core,467.1,467.1,0.0,,not_applicable
+Severe reference,full_window,694.13,694.13,0.0,,not_applicable
+Generic advanced nuclear,core,515.76,467.0982789734975,0.7421,65.57,ok
+Generic advanced nuclear,full_window,810.4,694.13184265121,1.7485,66.5,ok
+SMR,core,510.02,467.0982789734975,0.7421,57.84,ok
+SMR,full_window,798.82,694.13184265121,1.7485,59.88,ok
+MSR,core,521.85,467.0982789734975,0.7421,73.78,ok
+MSR,full_window,822.7,694.13184265121,1.7485,73.53,ok
+LFR,core,515.76,467.0982789734975,0.7421,65.57,ok
+LFR,full_window,810.4,694.13184265121,1.7485,66.5,ok

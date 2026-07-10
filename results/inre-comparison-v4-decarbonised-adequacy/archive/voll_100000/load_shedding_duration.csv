@@ -1,0 +1,5 @@
+scenario,label,scope,snapshots_with_load_shedding,equivalent_load_shedding_duration_hours,max_consecutive_load_shedding_hours,eens_weighted_mwh
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,63,189.0,21.0,1748340.5251783729
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,69,207.0,21.0,1840004.7576024844
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,49,147.0,15.0,1064243.6417736728
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,52,156.0,15.0,1088696.3954332753

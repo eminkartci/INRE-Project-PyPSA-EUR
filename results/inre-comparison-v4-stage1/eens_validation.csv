@@ -1,0 +1,5 @@
+scenario,scope,eens_gwh,eens_pct_demand,peak_load_shedding_gw,status
+Matched Base,core_event,0.0,0.0,0.0,ok
+Matched Base,full_window,0.0,0.0,0.0,ok
+Severe,core_event,0.0,0.0,0.0,ok
+Severe,full_window,0.0,0.0,0.0,ok

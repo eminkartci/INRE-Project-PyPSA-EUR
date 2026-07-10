@@ -93,8 +93,8 @@ def _snapshot_hours(profile: pd.DataFrame) -> float:
 
 
 def _infer_demand_unit(series: pd.Series) -> str:
-    peak = float(series.max())
-    return "MW" if peak > 500.0 else "GW"
+    med = float(series.dropna().median())
+    return "MW" if med > 500 else "GW"
 
 
 def freeze_fixed_capacity_operation(n: pypsa.Network) -> None:
@@ -111,6 +111,46 @@ def freeze_fixed_capacity_operation(n: pypsa.Network) -> None:
     freeze_transmission(n)
 
 
+def _load_national_demand_mw(
+    demand_csv: Path,
+    timestamps: pd.DatetimeIndex,
+    snapshot_hours: float,
+) -> pd.Series:
+    """Load ENTSO-E DE demand, resample to snapshot grid, return national total in MW."""
+    if not demand_csv.exists():
+        raise FileNotFoundError(f"Demand CSV not found: {demand_csv}")
+
+    df = pd.read_csv(demand_csv, index_col=0, parse_dates=True)
+    df.index = pd.DatetimeIndex(df.index).tz_localize(None)
+    if df.index.duplicated().any():
+        raise ValueError(f"Duplicated timestamps in demand file: {demand_csv}")
+    if "DE" not in df.columns:
+        raise ValueError(f"Column DE not in {demand_csv}")
+
+    hourly = df["DE"].astype(float)
+    unit = _infer_demand_unit(hourly)
+    hourly_mw = hourly if unit == "MW" else hourly * 1000.0
+
+    freq = f"{int(snapshot_hours)}h"
+    resampled = hourly_mw.resample(freq).mean()
+    aligned = resampled.reindex(timestamps)
+    missing = aligned.isna()
+    if missing.any():
+        raise ValueError(
+            f"Missing ENTSO-E demand for {int(missing.sum())} snapshots "
+            f"(first gap: {timestamps[missing][0]})"
+        )
+    return aligned
+
+
+def _cluster_load_shares(loads: pd.DataFrame) -> pd.Series:
+    """Normalised spatial shares per load bus (constant across the window)."""
+    totals = loads.sum(axis=0).astype(float)
+    if float(totals.sum()) <= 0:
+        raise ValueError("Cannot derive load shares from zero total demand")
+    return totals / float(totals.sum())
+
+
 def _extend_snapshots_and_demand(n: pypsa.Network, profile: pd.DataFrame, demand_csv: Path | None) -> None:
     profile_snaps = pd.DatetimeIndex(profile.index).tz_localize(None)
     network_snaps = pd.DatetimeIndex(n.snapshots).tz_localize(None)
@@ -122,6 +162,14 @@ def _extend_snapshots_and_demand(n: pypsa.Network, profile: pd.DataFrame, demand
     old_loads = n.loads_t.p_set.copy() if not n.loads_t.p_set.empty else None
 
     n.set_snapshots(profile_snaps)
+    snap_h = _snapshot_hours(profile)
+    if hasattr(n, "snapshot_weightings"):
+        n.snapshot_weightings["objective"] = snap_h
+        if "generators" in n.snapshot_weightings.columns:
+            n.snapshot_weightings["generators"] = snap_h
+        if "stores" in n.snapshot_weightings.columns:
+            n.snapshot_weightings["stores"] = snap_h
+
     n.generators_t.p_max_pu = pd.DataFrame(index=profile_snaps, columns=old_p_max.columns, dtype=float)
     overlap = profile_snaps.intersection(network_snaps)
     n.generators_t.p_max_pu.loc[overlap] = old_p_max.loc[overlap].values
@@ -130,27 +178,27 @@ def _extend_snapshots_and_demand(n: pypsa.Network, profile: pd.DataFrame, demand
         missing = profile_snaps.difference(network_snaps)
         n.generators_t.p_max_pu.loc[missing, col] = const
 
-    if old_loads is not None:
-        load_cols = old_loads.columns
-        n.loads_t.p_set = pd.DataFrame(index=profile_snaps, columns=load_cols, dtype=float)
-        n.loads_t.p_set.loc[overlap] = old_loads.loc[overlap].values
-        missing = profile_snaps.difference(network_snaps)
-        if len(missing) and demand_csv and demand_csv.exists():
-            df = pd.read_csv(demand_csv, index_col=0, parse_dates=True)
-            df.index = pd.DatetimeIndex(df.index).tz_localize(None)
-            if "DE" not in df.columns:
-                raise ValueError(f"Column DE not in {demand_csv}")
-            snap_h = int(_snapshot_hours(profile))
-            demand_raw = df["DE"].astype(float)
-            unit = _infer_demand_unit(demand_raw)
-            demand_gw = demand_raw / 1000.0 if unit == "MW" else demand_raw
-            demand_resampled = demand_gw.resample(f"{snap_h}h").mean()
-            for col in load_cols:
-                n.loads_t.p_set.loc[missing, col] = demand_resampled.reindex(missing).values
-        elif len(missing):
-            raise ValueError(
-                "Profile extends beyond Base network snapshots; provide --demand-csv for buffer demand"
-            )
+    if old_loads is None:
+        return
+
+    load_cols = list(old_loads.columns)
+    if not demand_csv or not demand_csv.exists():
+        raise ValueError(
+            "Profile extends beyond Base network snapshots; provide --demand-csv for buffer demand"
+        )
+
+    national_mw = _load_national_demand_mw(demand_csv, profile_snaps, snap_h)
+    shares = _cluster_load_shares(old_loads.loc[overlap])
+
+    n.loads_t.p_set = pd.DataFrame(index=profile_snaps, columns=load_cols, dtype=float)
+    for col in load_cols:
+        n.loads_t.p_set[col] = national_mw.values * float(shares[col])
+
+    # Preserve exact Base-network core demand (authoritative 14-day window).
+    n.loads_t.p_set.loc[overlap] = old_loads.loc[overlap].values
+
+    if n.loads_t.p_set.isna().any().any():
+        raise ValueError("NaN values in loads_t.p_set after buffer demand population")
 
 
 def main() -> None:

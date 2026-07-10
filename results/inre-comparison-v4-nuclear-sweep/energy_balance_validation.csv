@@ -1,0 +1,6 @@
+scenario,max_imbalance_mw,validation_ok,issues
+stylised-df-severe-v4,1.1641532182693481e-10,True,
+stylised-df-severe-nuc-1.5-v4,1.4551915228366852e-10,True,
+stylised-df-severe-nuc-3.0-v4,1.1641532182693481e-10,True,
+stylised-df-severe-nuc-4.5-v4,1.4551915228366852e-10,True,
+stylised-df-severe-nuc-7.5-v4,1.7462298274040222e-10,True,

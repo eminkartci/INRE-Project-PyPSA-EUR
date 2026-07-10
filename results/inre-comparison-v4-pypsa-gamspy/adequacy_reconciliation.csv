@@ -1,0 +1,5 @@
+scenario,pypsa_eens_gwh,gamspy_eens_gwh,absolute_difference_gwh,relative_difference_percent
+severe-no-nuclear,0.0,0.0,0.0,N/A
+severe-smr-4.5,0.0,0.0,0.0,N/A
+severe-decarbonised-no-nuclear,1840.0047576024842,2552.976448918105,712.9716913156205,38.75
+severe-decarbonised-smr-4.5,1088.6963954332755,2986.2964439288007,1897.6000484955252,174.30

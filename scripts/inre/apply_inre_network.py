@@ -80,10 +80,14 @@ def _apply_dunkelflaute_layer(n: pypsa.Network, dunkel_cfg: dict) -> None:
 def _patch_co2_emissions_for_thermal(n: pypsa.Network) -> None:
     """Align carrier co2_emissions with fuel-input intensity ÷ efficiency (MWh_el basis)."""
     thermal = {"CCGT", "OCGT", "coal", "lignite", "oil"}
-    for gen in n.generators.query("carrier in @thermal").index:
-        carrier = n.generators.at[gen, "carrier"]
-        eff = float(n.generators.at[gen, "efficiency"])
-        if eff <= 0 or carrier not in n.carriers.index:
+    for carrier in thermal:
+        if carrier not in n.carriers.index:
+            continue
+        gens = n.generators.query("carrier == @carrier")
+        if gens.empty:
+            continue
+        eff = float(gens.efficiency.mean())
+        if eff <= 0:
             continue
         raw = float(n.carriers.at[carrier, "co2_emissions"])
         n.carriers.at[carrier, "co2_emissions"] = raw / eff

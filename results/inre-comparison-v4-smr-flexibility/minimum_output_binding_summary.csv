@@ -1,0 +1,4 @@
+scenario,scope,minimum_output_binding_snapshots
+Flexible SMR,core,0
+Limited-flexibility SMR,core,33
+Limited-flexibility SMR,full_window,33

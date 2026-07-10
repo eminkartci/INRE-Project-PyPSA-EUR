@@ -1,0 +1,5 @@
+scenario,label,scope,variable_opex_excl_voll_meur,load_shedding_penalty_meur,total_operational_cost_meur,objective_meur,reconciliation_gap_meur,status
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,core,797.7905189905349,174834.05251783732,175631.84303682786,,,ok
+stylised-df-severe-decarb-v4,Decarbonised no nuclear,full_window,1221.5532348819163,184000.47576024843,185222.02899513036,185222.02899513172,1.367880031466484e-09,ok
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,core,764.772094844247,106424.3641773673,107189.13627221154,,,ok
+stylised-df-severe-decarb-smr-4.5-v4,Decarbonised + 4.5 GW SMR,full_window,1142.9189964085326,108869.63954332753,110012.55853973607,110012.55853973643,3.637978807091713e-10,ok

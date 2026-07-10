@@ -1,0 +1,9 @@
+technology,scope,operational_cost_meur,period_equivalent_fixed_cost_meur,indicative_total_cost_meur,annual_fixed_cost_meur_per_year,annual_fom_included,label
+Generic advanced nuclear,core,430.53,85.23,515.76,2222.08,True,indicative period-equivalent economic comparison
+Generic advanced nuclear,full_window,639.94,170.46,810.4,2222.08,True,indicative period-equivalent economic comparison
+SMR,core,431.39,78.63,510.02,2050.06,True,indicative period-equivalent economic comparison
+SMR,full_window,641.56,157.26,798.82,2050.06,True,indicative period-equivalent economic comparison
+MSR,core,429.5,92.35,521.85,2407.8,True,indicative period-equivalent economic comparison
+MSR,full_window,637.99,184.71,822.7,2407.8,True,indicative period-equivalent economic comparison
+LFR,core,430.53,85.23,515.76,2222.08,True,indicative period-equivalent economic comparison
+LFR,full_window,639.94,170.46,810.4,2222.08,True,indicative period-equivalent economic comparison

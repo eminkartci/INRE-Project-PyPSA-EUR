@@ -1,0 +1,29 @@
+scenario: v4-severe-decarbonised-smr-4.5
+status: '      Solver Status   Model Status     Objective  ...  Model Type  Solver
+  Solver Time
+
+  0  NormalCompletion  OptimalGlobal  1.205121e+10  ...          LP   HIGHS       0.015
+
+
+  [1 rows x 8 columns]'
+objective: 12051206204.356115
+demand_twh: 42.74189687617095
+vre_generation_twh: 15.136353546739766
+nuclear_generation_twh: 2.4385663991756816
+firm_thermal_generation_twh: 24.078280534822202
+eens_gwh: 1088.696395433277
+peak_load_shedding_gw: 14.013405086879699
+co2_mt: 7.632416056912485
+variable_opex_excl_voll_meur: 1164.2422500233408
+load_shedding_penalty_meur: 10886.963954332774
+total_operational_cost_meur: 12051.206204356113
+solver_objective_eur: 12051206204.356115
+objective_residual_percent: 1.5827035074074627e-14
+generation_by_block_mwh:
+  ccgt: 14881376.728023877
+  coal: 0.0
+  lignite: 0.0
+  nuclear: 2438566.3991756816
+  other_firm: 6372625.28942791
+  peaker: 2824278.5173704163
+  vre: 15136353.546739766

@@ -1,0 +1,6 @@
+scenario,technology,max_imbalance_mw,validation_ok
+severe_reference,Severe reference,1.1641532182693481e-10,True
+generic-advanced-nuclear,Generic advanced nuclear,1.4551915228366852e-10,True
+stylised-df-severe-smr-v4,SMR,1.4551915228366852e-10,True
+stylised-df-severe-msr-v4,MSR,1.4551915228366852e-10,True
+stylised-df-severe-lfr-v4,LFR,1.4551915228366852e-10,True

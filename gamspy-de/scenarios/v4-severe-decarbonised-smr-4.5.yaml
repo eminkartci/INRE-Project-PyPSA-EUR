@@ -1,0 +1,5 @@
+name: v4-severe-decarbonised-smr-4.5
+capacity_overrides:
+  coal: 0.0
+  lignite: 0.0
+  nuclear: 4500.0

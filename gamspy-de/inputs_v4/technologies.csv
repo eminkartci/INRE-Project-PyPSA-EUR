@@ -1,0 +1,13 @@
+tech,capital_cost_EUR_per_MWyr,marginal_cost_EUR_per_MWh,co2_t_per_MWh,extendable,p_min_pu,p_max_pu_default,ramp_pu_per_h,co2_relevant
+onwind,0.0,0.025172677368015622,0.0,False,0.0,1.0,10.0,False
+offshore,0.0,0.024336449878312093,0.0,False,0.0,1.0,10.0,False
+solar,0.0,0.019669335231147476,0.0,False,0.0,1.0,10.0,False
+ccgt,0.0,48.79586635999518,0.36992160032619387,False,0.0,1.0,10.0,True
+ocgt,0.0,58.94622741991121,0.4605722820149321,False,0.0,1.0,10.0,True
+coal,0.0,21.91249234753832,0.8738195161041712,False,0.0,1.0,10.0,True
+lignite,0.0,27.628778720835985,1.1470808393703271,False,0.0,1.0,10.0,True
+biomass,0.0,20.0657337905105,0.0,False,0.0,1.0,10.0,False
+oil,0.0,124.47411406853317,0.7297214905510195,False,0.0,1.0,10.0,True
+waste,0.0,34.12364472211285,0.2571,False,0.0,1.0,10.0,True
+geothermal,0.0,0.00995271855573959,0.12,False,0.0,1.0,10.0,True
+nuclear-smr,0.0,12.09,0.0,False,0.0,0.9,0.5,False

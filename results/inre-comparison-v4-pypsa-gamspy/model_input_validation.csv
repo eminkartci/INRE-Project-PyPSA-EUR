@@ -1,0 +1,39 @@
+scenario,check,expected,actual,status
+severe-no-nuclear,snapshots,224,224,pass
+severe-no-nuclear,demand_units_MW,MW instantaneous load,full_window=42.7419 TWh,pass
+severe-no-nuclear,snapshot_weight_hours,3.0,3.0,pass
+severe-no-nuclear,renewable_factors,severe stylised V4 profiles,max_p_max_pu=1.0000,pass
+severe-no-nuclear,smr_capacity_MW,0.0,0.0,pass
+severe-no-nuclear,coal_lignite_capacity,PyPSA severe reference,"coal=20351.9 MW, lignite=19457.0 MW",pass
+severe-no-nuclear,storage,no storage (p_nom/e_nom=0),"storage_units=0 MW, stores=0 MWh",pass
+severe-no-nuclear,ramp_convention,ramp_pu_per_hour × 3 h per snapshot (SMR 0.5/h → 1.5),GAMSPy build_model_v4 uses snap_h=3,pass
+severe-no-nuclear,load_shedding_in_balance,"VOLL=100,000 EUR/MWh in energy balance","GAMSPy ls[n,t] term in balance equation",pass
+severe-smr-4.5,snapshots,224,224,pass
+severe-smr-4.5,demand_units_MW,MW instantaneous load,full_window=42.7419 TWh,pass
+severe-smr-4.5,snapshot_weight_hours,3.0,3.0,pass
+severe-smr-4.5,renewable_factors,severe stylised V4 profiles,max_p_max_pu=1.0000,pass
+severe-smr-4.5,smr_capacity_MW,4500.0,4500.0,pass
+severe-smr-4.5,nuclear_availability_pu,0.9,0.9,pass
+severe-smr-4.5,coal_lignite_capacity,PyPSA severe reference,"coal=20351.9 MW, lignite=19457.0 MW",pass
+severe-smr-4.5,storage,no storage (p_nom/e_nom=0),"storage_units=0 MW, stores=0 MWh",pass
+severe-smr-4.5,ramp_convention,ramp_pu_per_hour × 3 h per snapshot (SMR 0.5/h → 1.5),GAMSPy build_model_v4 uses snap_h=3,pass
+severe-smr-4.5,load_shedding_in_balance,"VOLL=100,000 EUR/MWh in energy balance","GAMSPy ls[n,t] term in balance equation",pass
+severe-decarbonised-no-nuclear,snapshots,224,224,pass
+severe-decarbonised-no-nuclear,demand_units_MW,MW instantaneous load,full_window=42.7419 TWh,pass
+severe-decarbonised-no-nuclear,snapshot_weight_hours,3.0,3.0,pass
+severe-decarbonised-no-nuclear,renewable_factors,severe stylised V4 profiles,max_p_max_pu=1.0000,pass
+severe-decarbonised-no-nuclear,smr_capacity_MW,0.0,0.0,pass
+severe-decarbonised-no-nuclear,coal_lignite_capacity,0 MW,"coal=0.0 MW, lignite=0.0 MW",pass
+severe-decarbonised-no-nuclear,storage,no storage (p_nom/e_nom=0),"storage_units=0 MW, stores=0 MWh",pass
+severe-decarbonised-no-nuclear,ramp_convention,ramp_pu_per_hour × 3 h per snapshot (SMR 0.5/h → 1.5),GAMSPy build_model_v4 uses snap_h=3,pass
+severe-decarbonised-no-nuclear,load_shedding_in_balance,"VOLL=100,000 EUR/MWh in energy balance","GAMSPy ls[n,t] term in balance equation",pass
+severe-decarbonised-smr-4.5,snapshots,224,224,pass
+severe-decarbonised-smr-4.5,demand_units_MW,MW instantaneous load,full_window=42.7419 TWh,pass
+severe-decarbonised-smr-4.5,snapshot_weight_hours,3.0,3.0,pass
+severe-decarbonised-smr-4.5,renewable_factors,severe stylised V4 profiles,max_p_max_pu=1.0000,pass
+severe-decarbonised-smr-4.5,smr_capacity_MW,4500.0,4500.0,pass
+severe-decarbonised-smr-4.5,nuclear_availability_pu,0.9,0.9,pass
+severe-decarbonised-smr-4.5,coal_lignite_capacity,0 MW,"coal=0.0 MW, lignite=0.0 MW",pass
+severe-decarbonised-smr-4.5,storage,no storage (p_nom/e_nom=0),"storage_units=0 MW, stores=0 MWh",pass
+severe-decarbonised-smr-4.5,ramp_convention,ramp_pu_per_hour × 3 h per snapshot (SMR 0.5/h → 1.5),GAMSPy build_model_v4 uses snap_h=3,pass
+severe-decarbonised-smr-4.5,load_shedding_in_balance,"VOLL=100,000 EUR/MWh in energy balance","GAMSPy ls[n,t] term in balance equation",pass

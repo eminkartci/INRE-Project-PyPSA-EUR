@@ -1,0 +1,45 @@
+scenario,kpi,unit,pypsa,gamspy,absolute_difference,relative_difference_percent,threshold_percent,category,exceeds_threshold
+severe-no-nuclear,total_demand,TWh,42.741897,42.741897,-0.0,-0.00,2.0,demand,False
+severe-no-nuclear,renewable_generation,TWh,15.10156,15.136354,0.034794,0.23,5.0,generation,False
+severe-no-nuclear,nuclear_generation,TWh,0.0,0.0,0.0,N/A,5.0,generation,False
+severe-no-nuclear,coal_generation,TWh,11.302316,11.635825,0.333509,2.95,5.0,generation,False
+severe-no-nuclear,lignite_generation,TWh,8.391036,9.659,1.267963,15.11,5.0,generation,True
+severe-no-nuclear,ccgt_generation,TWh,7.06443,6.310718,-0.753712,-10.67,5.0,generation,True
+severe-no-nuclear,eens,GWh,0.0,0.0,0.0,N/A,10.0,adequacy,False
+severe-no-nuclear,peak_load_shedding,GW,0.0,0.0,0.0,N/A,10.0,adequacy,False
+severe-no-nuclear,co2_emissions,Mt,20.636729,9.09057,-11.546159,-55.95,5.0,co2,True
+severe-no-nuclear,operational_cost_excl_voll,M EUR,694.131843,829.994659,135.862817,19.57,5.0,cost,True
+severe-no-nuclear,load_shedding_penalty,M EUR,0.0,0.0,0.0,N/A,10.0,cost,False
+severe-smr-4.5,total_demand,TWh,42.741897,42.741897,-0.0,-0.00,2.0,demand,False
+severe-smr-4.5,renewable_generation,TWh,15.10156,15.136354,0.034794,0.23,5.0,generation,False
+severe-smr-4.5,nuclear_generation,TWh,2.462877,2.438566,-0.024311,-0.99,5.0,generation,False
+severe-smr-4.5,coal_generation,TWh,11.007994,11.355613,0.347618,3.16,5.0,generation,False
+severe-smr-4.5,lignite_generation,TWh,7.421764,9.13772,1.715956,23.12,5.0,generation,True
+severe-smr-4.5,ccgt_generation,TWh,6.075565,4.673644,-1.401921,-23.07,5.0,generation,True
+severe-smr-4.5,eens,GWh,0.0,0.0,0.0,N/A,10.0,adequacy,False
+severe-smr-4.5,peak_load_shedding,GW,0.0,0.0,0.0,N/A,10.0,adequacy,False
+severe-smr-4.5,co2_emissions,Mt,18.888244,8.460141,-10.428102,-55.21,5.0,co2,True
+severe-smr-4.5,operational_cost_excl_voll,M EUR,641.556388,729.569732,88.013344,13.72,5.0,cost,True
+severe-smr-4.5,load_shedding_penalty,M EUR,0.0,0.0,0.0,N/A,10.0,cost,False
+severe-decarbonised-no-nuclear,total_demand,TWh,42.741897,42.741897,-0.0,-0.00,2.0,demand,False
+severe-decarbonised-no-nuclear,renewable_generation,TWh,15.10156,15.136354,0.034794,0.23,5.0,generation,False
+severe-decarbonised-no-nuclear,nuclear_generation,TWh,0.0,0.0,0.0,N/A,5.0,generation,False
+severe-decarbonised-no-nuclear,coal_generation,TWh,0.0,0.0,0.0,N/A,5.0,generation,False
+severe-decarbonised-no-nuclear,lignite_generation,TWh,0.0,0.0,0.0,N/A,5.0,generation,False
+severe-decarbonised-no-nuclear,ccgt_generation,TWh,20.431767,20.860031,0.428264,2.10,5.0,generation,False
+severe-decarbonised-no-nuclear,eens,GWh,1840.004758,6745.512321,4905.507563,266.60,10.0,adequacy,True
+severe-decarbonised-no-nuclear,peak_load_shedding,GW,18.063405,33.015054,14.951649,82.77,10.0,adequacy,True
+severe-decarbonised-no-nuclear,co2_emissions,Mt,8.282589,4.130286,-4.152303,-50.13,5.0,co2,True
+severe-decarbonised-no-nuclear,operational_cost_excl_voll,M EUR,1221.553235,1018.10468,-203.448555,-16.65,5.0,cost,True
+severe-decarbonised-no-nuclear,load_shedding_penalty,M EUR,184000.47576,674551.232074,490550.756314,266.60,10.0,cost,True
+severe-decarbonised-smr-4.5,total_demand,TWh,42.741897,42.741897,-0.0,-0.00,2.0,demand,False
+severe-decarbonised-smr-4.5,renewable_generation,TWh,15.10156,15.136354,0.034794,0.23,5.0,generation,False
+severe-decarbonised-smr-4.5,nuclear_generation,TWh,2.462877,2.438566,-0.024311,-0.99,5.0,generation,False
+severe-decarbonised-smr-4.5,coal_generation,TWh,0.0,0.0,0.0,N/A,5.0,generation,False
+severe-decarbonised-smr-4.5,lignite_generation,TWh,0.0,0.0,0.0,N/A,5.0,generation,False
+severe-decarbonised-smr-4.5,ccgt_generation,TWh,19.494873,20.109654,0.614782,3.15,5.0,generation,False
+severe-decarbonised-smr-4.5,eens,GWh,1088.696395,5057.322464,3968.626069,364.53,10.0,adequacy,True
+severe-decarbonised-smr-4.5,peak_load_shedding,GW,14.013405,28.965054,14.951649,106.70,10.0,adequacy,True
+severe-decarbonised-smr-4.5,co2_emissions,Mt,7.55427,3.981712,-3.572559,-47.29,5.0,co2,True
+severe-decarbonised-smr-4.5,operational_cost_excl_voll,M EUR,1142.918996,981.489406,-161.42959,-14.12,5.0,cost,True
+severe-decarbonised-smr-4.5,load_shedding_penalty,M EUR,108869.639543,505732.246443,396862.6069,364.53,10.0,cost,True

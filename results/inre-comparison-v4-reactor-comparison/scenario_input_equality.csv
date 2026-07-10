@@ -1,0 +1,5 @@
+reference,prepared_checksum_sha256,scenario,identical_non_nuclear,issues
+severe_reference,fb0080e0536128294334fb8527b9e7f8443a195fe4555674dd7787955375fc81,,,
+,,stylised-df-severe-smr-v4,True,
+,,stylised-df-severe-msr-v4,True,
+,,stylised-df-severe-lfr-v4,True,

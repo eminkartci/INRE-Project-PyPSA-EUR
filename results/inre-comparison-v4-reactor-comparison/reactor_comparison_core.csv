@@ -1,0 +1,6 @@
+technology,scope,nuclear_generation_twh,nuclear_capacity_factor_pct,coal_generation_twh,lignite_generation_twh,ccgt_generation_twh,total_fossil_generation_twh,co2_mt,co2_avoided_mt,variable_opex_meur,operational_savings_meur,total_operational_cost_meur,renewable_curtailment_twh,eens_gwh,dispatch_mode
+Severe reference,core,0.0,0.0,6.3612,5.7584,2.2962,17.6507,13.2004,0.0,467.1,0.0,467.1,0.0098,0.0,unconstrained operational dispatch
+Generic advanced nuclear,core,1.3043,86.26,6.3132,5.4302,1.5143,16.3463,12.4583,0.7421,430.53,36.56,430.53,0.0098,0.0,unconstrained operational dispatch
+SMR,core,1.3043,86.26,6.3132,5.4302,1.5143,16.3463,12.4583,0.7421,431.39,35.71,431.39,0.0098,0.0,unconstrained operational dispatch
+MSR,core,1.3043,86.26,6.3132,5.4302,1.5143,16.3463,12.4583,0.7421,429.5,37.6,429.5,0.0098,0.0,unconstrained operational dispatch
+LFR,core,1.3043,86.26,6.3132,5.4302,1.5143,16.3463,12.4583,0.7421,430.53,36.56,430.53,0.0098,0.0,unconstrained operational dispatch

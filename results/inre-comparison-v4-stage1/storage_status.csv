@@ -1,0 +1,2 @@
+storage_units_p_nom_mw,storage_units_energy_mwh,stores_e_nom_mwh,available,interpretation
+0.0,0.0,0.0,False,"Storage unavailable (p_nom/e_nom = 0); zero charge/discharge is expected, not operational behaviour."

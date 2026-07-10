@@ -1,0 +1,3 @@
+scenario,status,objective_meur,solve_time_s,dispatch_mode
+stylised-df-severe-decarb-v4,ok,185222.03,47.2,unconstrained operational dispatch
+stylised-df-severe-decarb-smr-4.5-v4,ok,110012.56,48.8,unconstrained operational dispatch

@@ -1,0 +1,3 @@
+model,eens_without_smr_gwh,eens_with_smr_gwh,eens_reduction_percent
+PyPSA,1840.0047576024842,1088.6963954332755,40.8
+GAMSPy,1840.0047576024879,1088.696395433277,40.8

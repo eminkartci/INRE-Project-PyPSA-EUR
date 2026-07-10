@@ -1,0 +1,6 @@
+scenario,ramp_limit_per_hour_pu,ramp_limit_per_snapshot_pu,snapshot_hours,ramp_binding,max_ramp_violation_gw,status
+stylised-df-severe-v4,0.5,1.5,3.0,False,0.0,ok
+stylised-df-severe-nuc-1.5-v4,0.5,1.5,3.0,False,0.0,ok
+stylised-df-severe-nuc-3.0-v4,0.5,1.5,3.0,False,0.0,ok
+stylised-df-severe-nuc-4.5-v4,0.5,1.5,3.0,False,0.0,ok
+stylised-df-severe-nuc-7.5-v4,0.5,1.5,3.0,False,0.0,ok

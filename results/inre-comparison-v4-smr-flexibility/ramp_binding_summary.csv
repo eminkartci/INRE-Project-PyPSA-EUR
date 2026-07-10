@@ -1,0 +1,4 @@
+scenario,scope,ramp_up_binding_snapshots,ramp_down_binding_snapshots
+Flexible SMR,core,0,0
+Limited-flexibility SMR,core,35,33
+Limited-flexibility SMR,full_window,35,33

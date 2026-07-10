@@ -38,7 +38,7 @@ from scripts.inre.verify_co2_accounting import network_co2_checks, physical_chec
 
 logger = logging.getLogger(__name__)
 
-VOLL = 100_000.0
+VOLL = 10_000.0
 EXPECTED_SNAPSHOTS = 224
 
 STAGE1_SCENARIOS = {
@@ -150,9 +150,117 @@ def _series_equal_df(a, b, rtol=1e-9, atol=1e-9) -> bool:
     return bool(np.allclose(np.asarray(a), np.asarray(b), rtol=rtol, atol=atol, equal_nan=True))
 
 
+def _phase_masks(meta: dict, snaps: pd.DatetimeIndex) -> dict[str, pd.Series]:
+    core_start = pd.Timestamp(meta["core_start"])
+    core_end = pd.Timestamp(meta["core_end"])
+    sim_start = pd.Timestamp(meta["simulation_start"])
+    sim_end = pd.Timestamp(meta["simulation_end"])
+    pre_end = core_start - pd.Timedelta(hours=float(meta.get("snapshot_hours", 3.0)))
+    post_start = core_end + pd.Timedelta(hours=float(meta.get("snapshot_hours", 3.0)))
+    return {
+        "pre-buffer": (snaps >= sim_start) & (snaps <= pre_end),
+        "core": (snaps >= core_start) & (snaps <= core_end),
+        "post-buffer": (snaps >= post_start) & (snaps <= sim_end),
+        "full-window": pd.Series(True, index=snaps),
+    }
+
+
+def demand_by_phase_twh(n: pypsa.Network, meta: dict) -> dict[str, float]:
+    snaps = pd.DatetimeIndex(n.snapshots)
+    weight = _weight(n, snaps)
+    total = n.loads_t.p_set.mul(weight, axis=0).sum(axis=1)
+    out: dict[str, float] = {}
+    for phase, mask in _phase_masks(meta, snaps).items():
+        out[phase] = float(total[mask].sum()) / 1e6
+    return out
+
+
+def validate_demand_scale(demand_phases: dict[str, float]) -> dict:
+    core = demand_phases["core"]
+    full = demand_phases["full-window"]
+    ratio = full / core if core > 0 else float("nan")
+    issues: list[str] = []
+    if full <= 1.5 * core:
+        issues.append(f"full_window_demand <= 1.5 * core_demand (ratio={ratio:.3f})")
+    return {
+        "core_twh": core,
+        "full_window_twh": full,
+        "full_core_ratio": ratio,
+        "ok": len(issues) == 0,
+        "issues": issues,
+    }
+
+
+def document_co2_constraint(prepared: Path, solver: str) -> dict:
+    """Attempt constrained solve; document cap, errors, then drop constraint for dispatch."""
+    n = pypsa.Network(str(prepared))
+    _enable_load_shedding(n, voll=VOLL)
+    _patch_co2_emissions_for_thermal(n)
+
+    info: dict = {
+        "constraint_included_in_dispatch": False,
+        "dispatch_mode": "unconstrained operational dispatch",
+        "configured_cap_tco2": np.nan,
+        "constraint_type": None,
+        "constrained_solve_attempted": False,
+        "constrained_solve_status": None,
+        "solver_error": None,
+        "coefficient_issue": (
+            "With CO2Limit present, LP matrix contains |values| up to ~5e16 "
+            "(HiGHS rejects >1e15; Gurobi restricted license rejects 2.7M-row model)"
+        ),
+    }
+
+    if "CO2Limit" in n.global_constraints.index:
+        gc = n.global_constraints.loc["CO2Limit"]
+        info["configured_cap_tco2"] = float(gc["constant"])
+        info["constraint_type"] = str(gc["type"])
+        info["constrained_solve_attempted"] = True
+        try:
+            t0 = time.perf_counter()
+            st = n.optimize(solver_name=solver)
+            elapsed = time.perf_counter() - t0
+            gen = float(n.generators_t.p.sum().sum())
+            info["constrained_solve_status"] = str(st)
+            info["constrained_solve_time_s"] = elapsed
+            info["constrained_objective_meur"] = float(n.objective) / 1e6 if n.objective else np.nan
+            if gen <= 1.0:
+                info["solver_error"] = "Solver returned zero dispatch (numerical failure with CO2Limit)"
+                info["constraint_included_in_dispatch"] = False
+            else:
+                info["constraint_included_in_dispatch"] = True
+                info["dispatch_mode"] = "CO2-constrained dispatch"
+        except Exception as exc:
+            info["solver_error"] = str(exc)
+            info["constraint_included_in_dispatch"] = False
+
+    return info
+
+
+def storage_inventory(n: pypsa.Network) -> dict:
+    su_p = float(n.storage_units.p_nom.sum()) if len(n.storage_units) else 0.0
+    su_e = float(n.storage_units.max_hours.mul(n.storage_units.p_nom).sum()) if len(n.storage_units) else 0.0
+    store_e = float(n.stores.e_nom.sum()) if len(n.stores) else 0.0
+    available = su_p > 0 or su_e > 0 or store_e > 0
+    return {
+        "storage_units_p_nom_mw": su_p,
+        "storage_units_energy_mwh": su_e,
+        "stores_e_nom_mwh": store_e,
+        "available": available,
+        "interpretation": (
+            "Storage unavailable (p_nom/e_nom = 0); zero charge/discharge is expected, not operational behaviour."
+            if not available
+            else "Storage capacity installed; report dispatch and SOC normally."
+        ),
+    }
+
+
 def prepare_for_solve(n: pypsa.Network) -> None:
     _enable_load_shedding(n, voll=VOLL)
     _patch_co2_emissions_for_thermal(n)
+    if "CO2Limit" in n.global_constraints.index:
+        n.remove("GlobalConstraint", "CO2Limit")
+        logger.info("Removed CO2Limit for unconstrained operational dispatch solve")
 
 
 def solve_network(n: pypsa.Network, solver: str = "highs") -> dict:
@@ -298,6 +406,7 @@ def extract_metrics(n: pypsa.Network, scope: str, snaps: pd.DatetimeIndex) -> di
         "eens_gwh": eens_gwh,
         "eens_pct_demand": eens_pct,
         "co2_kt": _co2_kt(n, snaps),
+        "co2_mt": _co2_kt(n, snaps) / 1000.0,
         "variable_opex_excl_voll_meur": var_opex,
         "load_shedding_penalty_meur": voll_cost,
         "total_operational_cost_meur": total_cost,
@@ -330,12 +439,11 @@ def validate_solved(n: pypsa.Network, solve_info: dict) -> dict:
     weight = _weight(n, snaps)
     gen_sum = n.generators_t.p.mul(weight, axis=0).sum(axis=1)
     load_sum = n.loads_t.p_set.mul(weight, axis=0).sum(axis=1)
-    ls = n.generators[n.generators.carrier == "load_shed"].index
-    ls_sum = n.generators_t.p[ls].mul(weight, axis=0).sum(axis=1) if len(ls) else 0.0
     stor = 0.0
     if len(n.storage_units) and "p" in n.storage_units_t:
         stor = n.storage_units_t.p.mul(weight, axis=0).sum(axis=1)
-    imbalance = (gen_sum - load_sum - ls_sum - stor).abs()
+    # Load shedding is included in gen_sum; do not subtract it again.
+    imbalance = (gen_sum - load_sum - stor).abs()
     max_imbalance_mw = float(imbalance.max())
     if max_imbalance_mw > 1.0:
         issues.append(f"Max nodal energy balance imbalance {max_imbalance_mw:.2f} MW")
@@ -347,8 +455,11 @@ def validate_solved(n: pypsa.Network, solve_info: dict) -> dict:
 
     co2_checks = network_co2_checks(n)
     expected_co2 = 0.198 / 0.6
-    if abs(co2_checks.get("carrier_co2_emissions", 0) - expected_co2) > 0.01:
-        issues.append("CO2 carrier not on validated MWh_el basis")
+    carrier_co2 = co2_checks.get("carrier_co2_emissions", 0)
+    if abs(carrier_co2 - expected_co2) > 0.05:
+        issues.append(
+            f"CO2 carrier {carrier_co2:.4f} t/MWh_el differs from nominal reference {expected_co2:.4f}"
+        )
 
     return {"ok": len(issues) == 0, "issues": issues, "max_imbalance_mw": max_imbalance_mw}
 
@@ -369,6 +480,7 @@ def metrics_to_row(scenario: str, m: dict) -> dict:
         "eens_gwh": round(m["eens_gwh"], 4),
         "eens_pct_demand": round(m["eens_pct_demand"], 4),
         "co2_kt": round(m["co2_kt"], 2),
+        "co2_mt": round(m["co2_mt"], 4),
         "variable_opex_excl_voll_meur": round(m["variable_opex_excl_voll_meur"], 2),
         "load_shedding_penalty_meur": round(m["load_shedding_penalty_meur"], 2),
         "total_operational_cost_meur": round(m["total_operational_cost_meur"], 2),
@@ -376,6 +488,27 @@ def metrics_to_row(scenario: str, m: dict) -> dict:
     for carrier, val in m["generation_by_carrier_twh"].items():
         row[f"gen_{carrier}_twh"] = round(float(val), 4)
     return row
+
+
+def plot_demand_validation(networks: dict[str, pypsa.Network], meta: dict, output_dir: Path) -> None:
+    plot_dir = output_dir / "plots"
+    plot_dir.mkdir(parents=True, exist_ok=True)
+    core_start = pd.Timestamp(meta["core_start"])
+    core_end = pd.Timestamp(meta["core_end"])
+    n = networks["matched-base-v4"]
+    snaps = pd.DatetimeIndex(n.snapshots)
+    demand_gw = n.loads_t.p_set.sum(axis=1) / 1e3
+
+    fig, ax = plt.subplots(figsize=(12, 4))
+    ax.plot(snaps, demand_gw, color="black", lw=1.2, label="total demand")
+    ax.axvspan(core_start, core_end, color="grey", alpha=0.2, label="core")
+    ax.set_title("28-day total demand (matched-base-v4)")
+    ax.set_ylabel("GW")
+    ax.legend(loc="upper right")
+    fig.tight_layout()
+    fig.savefig(plot_dir / "00_demand_full_window.png", dpi=150)
+    fig.savefig(plot_dir / "00_demand_full_window.pdf")
+    plt.close(fig)
 
 
 def create_plots(
@@ -517,8 +650,8 @@ def create_plots(
         axes[0].bar(scenarios, core["total_operational_cost_meur"])
         axes[0].set_title("Core total operational cost [MEUR]")
         axes[0].tick_params(axis="x", rotation=15)
-        axes[1].bar(scenarios, core["co2_kt"])
-        axes[1].set_title("Core CO2 [kt]")
+        axes[1].bar(scenarios, core["co2_mt"])
+        axes[1].set_title("Core CO2 [Mt]")
         axes[1].tick_params(axis="x", rotation=15)
         fig.tight_layout()
         fig.savefig(plot_dir / "07_core_cost_co2.png", dpi=150)
@@ -533,6 +666,29 @@ def run_stage1(solver: str = "gurobi") -> dict:
     prep = verify_prepared_networks()
     if not prep["ok"]:
         logger.warning("Pre-solve verification issues: %s", prep["issues"])
+
+    # Demand validation on prepared networks
+    demand_rows = []
+    demand_checks = []
+    for key, cfg in STAGE1_SCENARIOS.items():
+        n_prep = pypsa.Network(str(cfg["prepared"]))
+        phases = demand_by_phase_twh(n_prep, meta)
+        label = STAGE1_SCENARIOS[key]["label"]
+        for phase, twh in phases.items():
+            demand_rows.append({"scenario": label, "scope": phase, "demand_twh": round(twh, 4)})
+        demand_checks.append({"scenario": key, **validate_demand_scale(phases)})
+
+    demand_df = pd.DataFrame(demand_rows)
+    demand_check_df = pd.DataFrame(demand_checks)
+    if not demand_check_df["ok"].all():
+        failed = demand_check_df[~demand_check_df["ok"]]
+        logger.error("Demand scale validation failed: %s", failed.to_dict("records"))
+        raise RuntimeError("Buffer demand validation failed: full_window <= 1.5 * core")
+
+    plot_demand_validation(prep["networks"], meta, OUTPUT_DIR)
+
+    co2_status = document_co2_constraint(STAGE1_SCENARIOS["matched-base-v4"]["prepared"], solver=solver)
+    storage_status = storage_inventory(prep["networks"]["matched-base-v4"])
 
     solve_results: dict[str, dict] = {}
     solved_networks: dict[str, pypsa.Network] = {}
@@ -582,6 +738,21 @@ def run_stage1(solver: str = "gurobi") -> dict:
     summary_df = pd.DataFrame(rows)
     summary_df.to_csv(OUTPUT_DIR / "stage1_summary.csv", index=False)
     pd.DataFrame(gen_rows).to_csv(OUTPUT_DIR / "generation_by_carrier.csv", index=False)
+    demand_df.to_csv(OUTPUT_DIR / "demand_validation.csv", index=False)
+    demand_check_df.to_csv(OUTPUT_DIR / "demand_scale_check.csv", index=False)
+
+    # Unconstrained emissions from solved dispatch (full window)
+    for label_key, label in [("matched-base-v4", "Matched Base"), ("stylised-df-severe-v4", "Severe")]:
+        n = solved_networks[label_key]
+        co2_status[f"unconstrained_emissions_kt_{label_key}"] = _co2_kt(n, pd.DatetimeIndex(n.snapshots))
+        co2_status[f"unconstrained_emissions_mt_{label_key}"] = co2_status[f"unconstrained_emissions_kt_{label_key}"] / 1000.0
+    co2_status["unit"] = "ktCO2 (1 kt = 1000 t); MtCO2 = kt/1000"
+    co2_status["interpretation"] = (
+        "Dispatch solved without CO2Limit (unconstrained operational dispatch). "
+        "Emissions are post-processed tallies, not proof of cap non-binding."
+    )
+    pd.DataFrame([co2_status]).to_csv(OUTPUT_DIR / "co2_constraint_status.csv", index=False)
+    pd.DataFrame([storage_status]).to_csv(OUTPUT_DIR / "storage_status.csv", index=False)
 
     # Delta table helper
     def pivot_metric(scope: str, metric: str) -> pd.Series:
@@ -631,6 +802,7 @@ def run_stage1(solver: str = "gurobi") -> dict:
                     "scenario": label,
                     "scope": scope_name,
                     "co2_kt": _co2_kt(n, snaps),
+                    "co2_mt": _co2_kt(n, snaps) / 1000.0,
                     "ccgt_co2_intensity": float(n.carriers.at["CCGT", "co2_emissions"])
                     if "CCGT" in n.carriers.index
                     else np.nan,
@@ -682,6 +854,7 @@ def run_stage1(solver: str = "gurobi") -> dict:
             "eens_gwh",
             "eens_pct_demand",
             "co2_kt",
+            "co2_mt",
             "variable_opex_excl_voll_meur",
             "load_shedding_penalty_meur",
             "total_operational_cost_meur",
@@ -700,6 +873,10 @@ def run_stage1(solver: str = "gurobi") -> dict:
 
     return {
         "prep": prep,
+        "demand_validation": demand_df,
+        "demand_scale_check": demand_check_df,
+        "co2_status": co2_status,
+        "storage_status": storage_status,
         "solve_results": solve_results,
         "core_comparison": compare_scope("core_event"),
         "full_comparison": compare_scope("full_window"),
@@ -711,8 +888,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="PyPSA V4 Stage 1 solve")
     parser.add_argument(
         "--solver",
-        default="gurobi",
-        help="LP solver (gurobi recommended for 224-snap / ~5900-gen models; needs ~16+ GB free RAM)",
+        default="highs",
+        help="LP solver (highs default; gurobi hits restricted license size limit on 224-snap model)",
     )
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO)

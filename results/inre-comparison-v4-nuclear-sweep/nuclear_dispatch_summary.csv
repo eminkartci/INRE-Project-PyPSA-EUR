@@ -1,0 +1,6 @@
+scenario,capacity_gw,nuclear_installed_capacity_gw,nuclear_generation_twh,nuclear_capacity_factor_pct,nuclear_min_output_gw,nuclear_max_output_gw,max_nuclear_ramp_gw_per_snapshot
+stylised-df-severe-v4,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+stylised-df-severe-nuc-1.5-v4,1.5,1.5,0.439989387063773,87.29948156027241,0.0,1.35,1.35
+stylised-df-severe-nuc-3.0-v4,3.0,3.0,0.8737254474965043,86.67911185481194,0.0,2.7,2.7
+stylised-df-severe-nuc-4.5-v4,4.5,4.5,1.304318660555788,86.2644616769701,0.0,4.05,3.966429268315825
+stylised-df-severe-nuc-7.5-v4,7.5,7.5,2.1548186605557884,85.50867700618207,0.0,6.75,6.571662810390335

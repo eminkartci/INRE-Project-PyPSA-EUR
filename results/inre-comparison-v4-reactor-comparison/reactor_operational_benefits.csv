@@ -1,0 +1,5 @@
+technology,coal_displacement_twh,lignite_displacement_twh,ccgt_displacement_twh,total_fossil_displacement_twh,co2_avoided_per_nuclear_twh,fossil_displacement_per_nuclear_twh,operational_savings_per_nuclear_twh_meur
+Generic advanced nuclear,0.048,0.3282,0.7819,1.3044,0.569,1.0001,28.0304
+SMR,0.048,0.3282,0.7819,1.3044,0.569,1.0001,27.3787
+MSR,0.048,0.3282,0.7819,1.3044,0.569,1.0001,28.8277
+LFR,0.048,0.3282,0.7819,1.3044,0.569,1.0001,28.0304
