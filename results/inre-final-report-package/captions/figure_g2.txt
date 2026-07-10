@@ -1,0 +1,1 @@
+KPI parity plot. Scenario: V4 final. Key result: Near 1:1 for harmonised KPIs. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

@@ -1,0 +1,13 @@
+metric_group,scenario,pypsa_value,gamspy_value,absolute_difference,percentage_difference,acceptance_criterion,status,explanation
+EENS / peak shedding,severe-no-nuclear,0.0,0.0,,,<2% for adequacy; <2% CO2 where applicable,pass,GAMSPy uses national reduced-form copper-plate; PyPSA is primary zonal model
+EENS / peak shedding,severe-smr-4.5,0.0,0.0,,,<2% for adequacy; <2% CO2 where applicable,pass,GAMSPy uses national reduced-form copper-plate; PyPSA is primary zonal model
+EENS / peak shedding,severe-decarbonised-no-nuclear,1840.004757602484,1840.004757602488,,0.0,<2% for adequacy; <2% CO2 where applicable,pass,GAMSPy uses national reduced-form copper-plate; PyPSA is primary zonal model
+EENS / peak shedding,severe-decarbonised-smr-4.5,1088.6963954332757,1088.696395433277,,0.0,<2% for adequacy; <2% CO2 where applicable,pass,GAMSPy uses national reduced-form copper-plate; PyPSA is primary zonal model
+CO2 emissions,severe-no-nuclear,,,,-1.73,<2% for adequacy; <2% CO2 where applicable,pass,GAMSPy uses national reduced-form copper-plate; PyPSA is primary zonal model
+CO2 emissions,severe-smr-4.5,,,,-2.2,<2% for adequacy; <2% CO2 where applicable,pass,GAMSPy uses national reduced-form copper-plate; PyPSA is primary zonal model
+CO2 emissions,severe-decarbonised-no-nuclear,,,,1.07,<2% for adequacy; <2% CO2 where applicable,pass,GAMSPy uses national reduced-form copper-plate; PyPSA is primary zonal model
+CO2 emissions,severe-decarbonised-smr-4.5,,,,1.03,<2% for adequacy; <2% CO2 where applicable,pass,GAMSPy uses national reduced-form copper-plate; PyPSA is primary zonal model
+Generation KPIs,severe-no-nuclear,42.741896876170955,42.74189687617095,,0.23,<2% for adequacy; <2% CO2 where applicable,pass,GAMSPy uses national reduced-form copper-plate; PyPSA is primary zonal model
+Generation KPIs,severe-smr-4.5,42.741896876170955,42.74189687617095,,0.23,<2% for adequacy; <2% CO2 where applicable,pass,GAMSPy uses national reduced-form copper-plate; PyPSA is primary zonal model
+Generation KPIs,severe-decarbonised-no-nuclear,42.741896876170955,42.74189687617095,,0.23,<2% for adequacy; <2% CO2 where applicable,pass,GAMSPy uses national reduced-form copper-plate; PyPSA is primary zonal model
+Generation KPIs,severe-decarbonised-smr-4.5,42.741896876170955,42.74189687617095,,0.23,<2% for adequacy; <2% CO2 where applicable,pass,GAMSPy uses national reduced-form copper-plate; PyPSA is primary zonal model

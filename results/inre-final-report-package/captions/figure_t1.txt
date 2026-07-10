@@ -1,0 +1,1 @@
+Reactor technology cost comparison. Scenario: V4 final. Key result: SMR/MSR/LFR stacked costs. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

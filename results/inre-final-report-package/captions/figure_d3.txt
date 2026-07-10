@@ -1,0 +1,1 @@
+Demand, available VRE and residual load. Scenario: matched-base; severe. Key result: Diagnostic residual load under Base vs severe availability. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

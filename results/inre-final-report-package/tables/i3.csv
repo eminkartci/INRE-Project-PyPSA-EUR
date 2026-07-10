@@ -1,0 +1,36 @@
+carrier,efficiency,marginal_cost_EUR_per_MWh,effective_CO2_factor_t_per_MWh,p_max_pu_treatment,p_min_pu,ramp_pu_per_hour,CAPEX,annual_FOM,lifetime,discount_rate,source,block
+onwind,,0.0251726773680156,0.0,time-varying for VRE; 1.0 default thermal,0.0,10.0,0.0,,,,GAMSPy inputs_v4 / PyPSA harmonised,existing fleet dispatch
+offshore,,0.024336449878312,0.0,time-varying for VRE; 1.0 default thermal,0.0,10.0,0.0,,,,GAMSPy inputs_v4 / PyPSA harmonised,existing fleet dispatch
+solar,,0.0196693352311474,0.0,time-varying for VRE; 1.0 default thermal,0.0,10.0,0.0,,,,GAMSPy inputs_v4 / PyPSA harmonised,existing fleet dispatch
+ccgt,,48.79586635999518,0.3699216003261938,time-varying for VRE; 1.0 default thermal,0.0,10.0,0.0,,,,GAMSPy inputs_v4 / PyPSA harmonised,existing fleet dispatch
+ocgt,,58.94622741991121,0.4605722820149321,time-varying for VRE; 1.0 default thermal,0.0,10.0,0.0,,,,GAMSPy inputs_v4 / PyPSA harmonised,existing fleet dispatch
+coal,,21.91249234753832,0.8738195161041712,time-varying for VRE; 1.0 default thermal,0.0,10.0,0.0,,,,GAMSPy inputs_v4 / PyPSA harmonised,existing fleet dispatch
+lignite,,27.628778720835985,1.1470808393703271,time-varying for VRE; 1.0 default thermal,0.0,10.0,0.0,,,,GAMSPy inputs_v4 / PyPSA harmonised,existing fleet dispatch
+biomass,,20.0657337905105,0.0,time-varying for VRE; 1.0 default thermal,0.0,10.0,0.0,,,,GAMSPy inputs_v4 / PyPSA harmonised,existing fleet dispatch
+oil,,124.47411406853315,0.7297214905510195,time-varying for VRE; 1.0 default thermal,0.0,10.0,0.0,,,,GAMSPy inputs_v4 / PyPSA harmonised,existing fleet dispatch
+waste,,34.12364472211285,0.2571,time-varying for VRE; 1.0 default thermal,0.0,10.0,0.0,,,,GAMSPy inputs_v4 / PyPSA harmonised,existing fleet dispatch
+geothermal,,0.0099527185557395,0.12,time-varying for VRE; 1.0 default thermal,0.0,10.0,0.0,,,,GAMSPy inputs_v4 / PyPSA harmonised,existing fleet dispatch
+nuclear-smr,,12.09,0.0,time-varying for VRE; 1.0 default thermal,0.0,0.5,0.0,,,,GAMSPy inputs_v4 / PyPSA harmonised,existing fleet dispatch
+carrier,,generic-advanced-nuclear,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+investment_eur_per_kw,,6210.0,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+investment_eur_per_mw,,6210000.0,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+capital_cost_eur_per_mw_year,,493796.38672960945,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+fom_pct_per_year,,0.778,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+annual_fom_eur_per_mw_year,,48313.8,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+vom_eur_per_mwh,,3.2,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+fuel_eur_per_mwh_th,,2.8,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+marginal_cost_eur_per_mwh,,11.435294117647057,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+efficiency,,0.34,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+p_max_pu,,0.9,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+p_min_pu,,0.0,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+ramp_limit_per_hour_pu,,0.5,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+lifetime_years,,55.0,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+discount_rate,,0.07,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+annualisation_method,,calculate_annuity (PyPSA-EUR): CRF = r/(1-(1+r)^-n); capital_cost = (CRF + FOM/100) × investment [EUR/MW-year],0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+crf,,0.07173632636547657,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+co2_intensity_t_per_mwh_el,,0.0,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+p_min_pu_representation,,upper-flexibility representation without commitment binaries,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+dispatch_mode,,unconstrained operational dispatch,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+selected_buses,,"Grohnde→DE0 3, Brokdorf→DE0 8, Isar→DE0 4",0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+ramp_limit_per_snapshot_pu,,1.5,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions
+allocation,,equal per site: total/3,0.0,technology-specific,,,,,,,technology-data + custom_costs_nuclear.csv,nuclear technology assumptions

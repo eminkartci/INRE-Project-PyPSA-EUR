@@ -1,0 +1,6 @@
+Figures (png): 40
+Tables (csv): 15
+Captions: 40
+Validation passed: 13
+Validation failed: 0
+Warnings: 2

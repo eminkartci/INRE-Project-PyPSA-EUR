@@ -1,0 +1,1 @@
+Energy-ratio summary. Scenario: matched-base; severe. Key result: Severe VRE energy retention by window. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

@@ -1,0 +1,2 @@
+P1 matched-base-v4: load_shed marginal_cost=100000.0, expected 10000.0
+P1 stylised-df-severe-v4: load_shed marginal_cost=100000.0, expected 10000.0

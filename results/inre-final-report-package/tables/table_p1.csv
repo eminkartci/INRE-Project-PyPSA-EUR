@@ -1,0 +1,6 @@
+scenario,scenario_key,mean_EUR_per_MWh,median,P90,P95,P99,maximum,snapshots_above_100_EUR_per_MWh,snapshots_above_500_EUR_per_MWh,snapshots_near_VOLL,price_definition
+Matched Base,matched-base-v4,25.20325027718645,24.793026619573787,45.697629161972735,46.81186380192625,46.811863801926265,47.47082320818308,0,0,0,Demand-weighted national average nodal marginal price (3-hourly)
+Severe,stylised-df-severe-v4,31.645098872065397,27.079894256003442,47.62277020221083,48.45769963474136,49.134033085249,49.134033085249,0,0,0,Demand-weighted national average nodal marginal price (3-hourly)
+Severe + 4.5 GW SMR,stylised-df-severe-nuc-4.5-v4,29.08729879978985,27.07989425600344,46.81186380192626,47.47082320818307,47.68789034250846,48.45769963474135,0,0,0,Demand-weighted national average nodal marginal price (3-hourly)
+Decarbonised no nuclear,stylised-df-severe-decarb-v4,3121.1010357197074,58.946696477332544,10000.0,10000.000000000002,10000.000000000004,10000.000000000005,102,69,69,Demand-weighted national average nodal marginal price (3-hourly)
+Decarbonised + 4.5 GW SMR,stylised-df-severe-decarb-smr-4.5-v4,2362.1704279872674,53.825955487175236,10000.0,10000.000000000002,10000.000000000004,10000.000000000005,75,52,52,Demand-weighted national average nodal marginal price (3-hourly)

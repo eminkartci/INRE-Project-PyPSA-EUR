@@ -1,0 +1,1 @@
+Critical-hours dispatch comparison. Scenario: matched-base; severe. Key result: Objective critical snapshot decomposition. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

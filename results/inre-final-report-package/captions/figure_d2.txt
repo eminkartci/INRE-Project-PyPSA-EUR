@@ -1,0 +1,1 @@
+Base versus severe renewable availability. Scenario: matched-base; severe. Key result: Capacity-weighted aggregate availability by carrier class. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

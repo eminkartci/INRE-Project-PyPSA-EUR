@@ -1,0 +1,1 @@
+Cumulative EENS. Scenario: V4 final. Key result: SMR reduces EENS by 751 GWh (40.8%). Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

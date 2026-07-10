@@ -1,0 +1,1 @@
+Critical-event generation stack. Scenario: V4 final. Key result: 48–72 h window around worst event. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

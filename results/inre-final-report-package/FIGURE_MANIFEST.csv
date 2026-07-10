@@ -1,0 +1,41 @@
+figure_id,filename,title,report_section,main_text_or_appendix,source_scenarios,source_files,key_message,recommended_width,caption_file,validation_status
+FIGURE_I1,figure_i1,Electricity demand over the 28-day modelling window,Inputs,main,all V4,,28-day demand ≈ 42.74 TWh; 224 three-hour snapshots,\textwidth,captions/figure_i1.txt,generated
+FIGURE_I2,figure_i2,Installed generation capacity by carrier,Inputs,main,severe; decarb+SMR,,Reference vs decarbonised fleet capacities,\textwidth,captions/figure_i2.txt,generated
+FIGURE_I3,figure_i3,Spatial model structure,Inputs,main,severe,,"10 clusters, transmission corridors, nuclear sites DE0 3/8/4",\textwidth,captions/figure_i3.txt,generated
+FIGURE_I4,figure_i4,Technology and model-input architecture,Methods,main,V4 pipeline,,End-to-end workflow from raw data to validation KPIs,\textwidth,captions/figure_i4.txt,generated
+FIGURE_D1,figure_d1,Stylised stress envelope,Dunkelflaute,main,matched-base; severe,,Raised-cosine envelope with severe plateau ratios,\textwidth,captions/figure_d1.txt,generated
+FIGURE_D2,figure_d2,Base versus severe renewable availability,Dunkelflaute,main,matched-base; severe,,Capacity-weighted aggregate availability by carrier class,\textwidth,captions/figure_d2.txt,generated
+FIGURE_D3,figure_d3,"Demand, available VRE and residual load",Dunkelflaute,main,matched-base; severe,,Diagnostic residual load under Base vs severe availability,\textwidth,captions/figure_d3.txt,generated
+FIGURE_D4,figure_d4,Energy-ratio summary,Dunkelflaute,appendix,matched-base; severe,,Severe VRE energy retention by window,\textwidth,captions/figure_d4.txt,generated
+APP_D_moderate,app_d_moderate,Moderate stylised profile,Appendix,appendix,matched-base; severe,,moderate profile energy ratio,\textwidth,captions/app_d_moderate.txt,generated
+APP_D_severe,app_d_severe,Severe stylised profile,Appendix,appendix,matched-base; severe,,severe profile energy ratio,\textwidth,captions/app_d_severe.txt,generated
+APP_D_extreme,app_d_extreme,Extreme stylised profile,Appendix,appendix,matched-base; severe,,extreme profile energy ratio,\textwidth,captions/app_d_extreme.txt,generated
+APP_D_cutout,app_d_cutout,Cutout versus Base pre-overwrite comparison,Appendix,appendix,matched-base; severe,,Buffer/core stitch validation,\textwidth,captions/app_d_cutout.txt,generated
+APP_D_stitch_in,app_d_stitch_in,Buffer-to-core stitch entry zoom,Appendix,appendix,matched-base; severe,,Stitch diagnostic zoom,\textwidth,captions/app_d_stitch_in.txt,generated
+APP_D_stitch_out,app_d_stitch_out,Core-to-buffer stitch exit zoom,Appendix,appendix,matched-base; severe,,Stitch diagnostic zoom,\textwidth,captions/app_d_stitch_out.txt,generated
+APP_D_phase_validation,app_d_phase_validation,Phase-count validation,Appendix,appendix,matched-base; severe,,Profile phase validation,\textwidth,captions/app_d_phase_validation.txt,generated
+FIGURE_R1,figure_r1,Generation mix comparison,Results,main,matched-base; severe,,Stacked generation by carrier vs total demand,\textwidth,captions/figure_r1.txt,generated
+FIGURE_R2,figure_r2,Dispatch time series during the full core event,Results,appendix,matched-base; severe,,Core-period stacked dispatch,\textwidth,captions/figure_r2.txt,generated
+FIGURE_R3,figure_r3,Critical-hours dispatch comparison,Results,appendix,matched-base; severe,,Objective critical snapshot decomposition,\textwidth,captions/figure_r3.txt,generated
+FIGURE_R4,figure_r4,Severe-event system consequences,Results,main,matched-base; severe,,"Delta KPIs: VRE −6.33 TWh, CO₂ +4.55 Mt, OPEX +197.61 M EUR",\textwidth,captions/figure_r4.txt,generated
+FIGURE_P1,figure_p1,Matched Base versus severe price time series,Prices,main,matched-base-v4;stylised-df-severe-v4;stylised-df-severe-nuc-4.5-v4,,Demand-weighted nodal marginal price with min–max band,\textwidth,captions/figure_p1.txt,generated
+FIGURE_P2,figure_p2,Price-duration curve,Prices,appendix,matched-base-v4;stylised-df-severe-v4;stylised-df-severe-nuc-4.5-v4,,Five-scenario price duration curves,\textwidth,captions/figure_p2.txt,generated
+FIGURE_P3,figure_p3,Price distribution and summary,Prices,appendix,matched-base-v4;stylised-df-severe-v4;stylised-df-severe-nuc-4.5-v4,,"Box plot for Base, Severe, Severe+SMR",\textwidth,captions/figure_p3.txt,generated
+FIGURE_N1,figure_n1,Nuclear capacity and generation,Nuclear,main,,,Generation and CF across 0–7.5 GW sweep,\textwidth,captions/figure_n1.txt,generated
+FIGURE_N2,figure_n2,Fossil displacement by fuel,Nuclear,appendix,,,Displacement vs severe no-nuclear,\textwidth,captions/figure_n2.txt,generated
+FIGURE_N3,figure_n3,CO₂ and operational benefit,Nuclear,main,,,Emissions and OPEX across sweep,\textwidth,captions/figure_n3.txt,generated
+FIGURE_N4,figure_n4,Marginal benefit,Nuclear,appendix,,,No clear knee point,\textwidth,captions/figure_n4.txt,generated
+FIGURE_N5,figure_n5,Indicative economic comparison,Nuclear,appendix,,,Period-equivalent costs,\textwidth,captions/figure_n5.txt,generated
+FIGURE_T1,figure_t1,Reactor technology cost comparison,Nuclear,main,,,SMR/MSR/LFR stacked costs,\textwidth,captions/figure_t1.txt,generated
+FIGURE_T2,figure_t2,Reactor operational comparison,Nuclear,appendix,,,Near-identical dispatch under harmonised assumptions,\textwidth,captions/figure_t2.txt,generated
+FIGURE_A1,figure_a1,Load shedding time series,Adequacy,appendix,,,28-day decarbonised comparison,\textwidth,captions/figure_a1.txt,generated
+FIGURE_A2,figure_a2,Cumulative EENS,Adequacy,main,,,SMR reduces EENS by 751 GWh (40.8%),\textwidth,captions/figure_a2.txt,generated
+FIGURE_A3,figure_a3,Adequacy headline comparison,Adequacy,main,,,EENS −40.8%; peak shedding −4.05 GW,\textwidth,captions/figure_a3.txt,generated
+FIGURE_A4,figure_a4,Critical-event generation stack,Adequacy,appendix,,,48–72 h window around worst event,\textwidth,captions/figure_a4.txt,generated
+FIGURE_F1,figure_f1,Flexible versus limited-flexibility SMR dispatch,Sensitivity,appendix,,,Core-event nuclear dispatch,\textwidth,captions/figure_f1.txt,generated
+FIGURE_F2,figure_f2,Flexibility impacts,Sensitivity,main,,,EENS unchanged; curtailment increased,\textwidth,captions/figure_f2.txt,generated
+FIGURE_F3,figure_f3,Constraint activity,Sensitivity,appendix,,,Binding min-output and ramp constraints,\textwidth,captions/figure_f3.txt,generated
+FIGURE_V1,figure_v1,VOLL sensitivity,Appendix,appendix,,,VOLL changes monetisation not physical adequacy,\textwidth,captions/figure_v1.txt,generated
+FIGURE_G1,figure_g1,Adequacy comparison,Validation,main,,,Matching EENS for decarbonised cases,\textwidth,captions/figure_g1.txt,generated
+FIGURE_G2,figure_g2,KPI parity plot,Validation,appendix,,,Near 1:1 for harmonised KPIs,\textwidth,captions/figure_g2.txt,generated
+FIGURE_G3,figure_g3,CO₂ comparison,Validation,appendix,,,Small cross-model CO₂ differences,\textwidth,captions/figure_g3.txt,generated

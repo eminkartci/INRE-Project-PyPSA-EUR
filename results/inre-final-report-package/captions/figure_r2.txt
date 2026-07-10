@@ -1,0 +1,1 @@
+Dispatch time series during the full core event. Scenario: matched-base; severe. Key result: Core-period stacked dispatch. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

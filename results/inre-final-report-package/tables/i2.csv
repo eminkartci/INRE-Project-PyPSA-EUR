@@ -1,0 +1,14 @@
+carrier,capacity_MW_reference,capacity_MW_decarbonised,capacity_MW_decarbonised_SMR,data_source,model_component,notes
+CCGT,30783.1,30783.1,30783.1,PyPSA solved network generators.p_nom,generators,Fixed installed capacity; no expansion
+OCGT,6112.7,6112.7,6112.7,PyPSA solved network generators.p_nom,generators,Fixed installed capacity; no expansion
+biomass,8020.0,8020.0,8020.0,PyPSA solved network generators.p_nom,generators,Fixed installed capacity; no expansion
+coal,20351.9,0.0,0.0,PyPSA solved network generators.p_nom,generators,Fixed installed capacity; no expansion
+geothermal,26.9,26.9,26.9,PyPSA solved network generators.p_nom,generators,Fixed installed capacity; no expansion
+lignite,19457.0,0.0,0.0,PyPSA solved network generators.p_nom,generators,Fixed installed capacity; no expansion
+load_shed,20000000.0,20000000.0,20000000.0,PyPSA solved network generators.p_nom,generators,Fixed installed capacity; no expansion
+nuclear,0.0,0.0,4500.0,PyPSA solved network generators.p_nom,generators,Fixed installed capacity; no expansion
+offshore wind,11163.7,11163.7,11163.7,PyPSA solved network generators.p_nom,generators,Fixed installed capacity; no expansion
+oil,5684.3,5684.3,5684.3,PyPSA solved network generators.p_nom,generators,Fixed installed capacity; no expansion
+onshore wind,73332.1,73332.1,73332.1,PyPSA solved network generators.p_nom,generators,Fixed installed capacity; no expansion
+solar,48771.3,48771.3,48771.3,PyPSA solved network generators.p_nom,generators,Fixed installed capacity; no expansion
+waste,3127.7,3127.7,3127.7,PyPSA solved network generators.p_nom,generators,Fixed installed capacity; no expansion

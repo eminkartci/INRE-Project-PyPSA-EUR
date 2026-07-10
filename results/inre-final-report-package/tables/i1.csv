@@ -1,0 +1,17 @@
+parameter,value
+Geographic scope,Germany (10 PyPSA clusters)
+Number of buses/clusters,10
+Temporal horizon,28 days (7 pre-buffer + 14 core + 7 post-buffer)
+Number of snapshots,224
+Snapshot duration,3 hours
+Demand source,PyPSA-Eur ENTSO-E load (clustered)
+Renewable profile source,Matched Base + stylised Dunkelflaute V4 (Atlite buffers)
+Installed capacity source,powerplantmatching 2024 (fixed)
+Transmission representation,"Linearised DC, frozen capacities"
+Storage assumption,No storage capacity (p_nom = 0)
+Fixed-capacity assumption,Yes — no expansion
+VOLL,"10,000 EUR/MWh"
+CO2 treatment,Reported outcome; no enforced CO2Limit in main scenarios
+Solver,HiGHS
+Primary model,PyPSA-Eur zonal dispatch (10 clusters)
+Validation model,GAMSPy reduced-form national adequacy (8 blocks)

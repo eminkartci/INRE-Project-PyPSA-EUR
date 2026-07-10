@@ -1,0 +1,4 @@
+scenario,onshore_remaining_ratio,offshore_remaining_ratio,solar_remaining_ratio,pre_buffer_days,transition_in_days,plateau_days,transition_out_days,post_buffer_days,core_days,total_days,status
+moderate,0.35,0.4,0.3,7,2,10,2,7,14,28,profile / sensitivity
+severe,0.2,0.25,0.15,7,2,10,2,7,14,28,principal case
+extreme,0.1,0.15,0.1,7,2,10,2,7,14,28,profile / sensitivity

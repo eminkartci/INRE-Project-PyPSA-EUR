@@ -1,0 +1,1 @@
+Flexibility impacts. Scenario: V4 final. Key result: EENS unchanged; curtailment increased. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

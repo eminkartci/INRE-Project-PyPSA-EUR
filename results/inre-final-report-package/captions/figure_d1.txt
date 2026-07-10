@@ -1,0 +1,1 @@
+Stylised stress envelope. Scenario: matched-base; severe. Key result: Raised-cosine envelope with severe plateau ratios. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

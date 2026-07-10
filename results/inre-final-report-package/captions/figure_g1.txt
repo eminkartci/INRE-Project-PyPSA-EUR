@@ -1,0 +1,1 @@
+Adequacy comparison. Scenario: V4 final. Key result: Matching EENS for decarbonised cases. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

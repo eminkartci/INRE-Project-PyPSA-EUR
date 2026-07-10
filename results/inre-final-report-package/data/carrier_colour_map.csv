@@ -1,0 +1,16 @@
+carrier_group,hex_colour,pypsa_carriers
+onshore wind,#235ebc,onwind
+offshore wind,#6895d1,offwind-ac;offwind-dc;offwind-float
+solar,#f9d002,solar;solar-hsat
+biomass,#baa741,biomass
+coal,#545454,coal
+lignite,#826837,lignite
+CCGT,#a85522,CCGT
+OCGT / oil / peaker,#c44e52,OCGT;oil
+nuclear,#ff8c00,generic-advanced-nuclear;nuclear-lfr;nuclear-msr;nuclear-smr
+load shedding,#8b0000,load_shed
+demand,#000000,
+other firm,#6b7280,ror
+waste,#9ca3af,waste
+geothermal,#059669,geothermal
+curtailment,#d1d5db,

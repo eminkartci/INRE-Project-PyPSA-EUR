@@ -1,0 +1,1 @@
+Installed generation capacity by carrier. Model scope: Germany, 10 PyPSA clusters, 224 three-hour snapshots, fixed-capacity dispatch. Limitation: stylised inputs, not historical reconstruction.

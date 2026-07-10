@@ -1,0 +1,1 @@
+Adequacy headline comparison. Scenario: V4 final. Key result: EENS −40.8%; peak shedding −4.05 GW. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

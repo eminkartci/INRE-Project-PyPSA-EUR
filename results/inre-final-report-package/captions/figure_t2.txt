@@ -1,0 +1,1 @@
+Reactor operational comparison. Scenario: V4 final. Key result: Near-identical dispatch under harmonised assumptions. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

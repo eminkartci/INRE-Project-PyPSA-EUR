@@ -1,0 +1,19 @@
+scenario_id,short_name,model,renewable_profile,coal_capacity,lignite_capacity,nuclear_technology,nuclear_capacity_GW,p_min_pu,ramp_pu_per_hour,VOLL_EUR_per_MWh,CO2_cap_enforced,storage,capacity_expansion,solved,used_in_main_text,purpose,result_folder
+matched-base-v4,Matched Base,PyPSA,matched_base,yes,yes,none,0.0,0.0,carrier-specific,10000.0,False,False,False,True,True,Reference dispatch under matched Base VRE,results/inre-de-matched-base-v4
+stylised-df-moderate-v4,Moderate DF,PyPSA,moderate,,,,,,,,,,,False,False,Profile-only sensitivity (not solved dispatch),data/inre/profiles/stylised_dunkelflaute_v4
+stylised-df-severe-v4,Severe,PyPSA,severe,yes,yes,,0.0,,,10000.0,False,False,False,True,True,Principal stylised Dunkelflaute stress case,results/inre-de-stylised-df-severe-v4
+stylised-df-extreme-v4,Extreme DF,PyPSA,extreme,,,,,,,,,,,False,False,Profile-only extreme sensitivity,data/inre/profiles/stylised_dunkelflaute_v4
+stylised-df-severe-nuc-1.5-v4,Severe + 1.5 GW generic nuclear,PyPSA,severe,,,generic-advanced-nuclear,1.5,,,10000.0,False,,,True,False,Generic nuclear capacity sweep,results/inre-de-stylised-df-severe-nuc-1.5-v4
+stylised-df-severe-nuc-3.0-v4,Severe + 3.0 GW generic nuclear,PyPSA,severe,,,generic-advanced-nuclear,3.0,,,10000.0,False,,,True,False,Generic nuclear capacity sweep,results/inre-de-stylised-df-severe-nuc-3.0-v4
+stylised-df-severe-nuc-4.5-v4,Severe + 4.5 GW generic nuclear,PyPSA,severe,,,generic-advanced-nuclear,4.5,,,10000.0,False,,,True,True,Generic nuclear capacity sweep,results/inre-de-stylised-df-severe-nuc-4.5-v4
+stylised-df-severe-nuc-7.5-v4,Severe + 7.5 GW generic nuclear,PyPSA,severe,,,generic-advanced-nuclear,7.5,,,10000.0,False,,,True,False,Generic nuclear capacity sweep,results/inre-de-stylised-df-severe-nuc-7.5-v4
+stylised-df-severe-smr-v4,Severe + SMR 4.5 GW,PyPSA,severe,,,smr,4.5,,,10000.0,,,,True,True,Reactor technology comparison,results/inre-de-stylised-df-severe-smr-v4
+stylised-df-severe-msr-v4,Severe + MSR 4.5 GW,PyPSA,severe,,,msr,4.5,,,10000.0,,,,True,False,Reactor technology comparison,results/inre-de-stylised-df-severe-msr-v4
+stylised-df-severe-lfr-v4,Severe + LFR 4.5 GW,PyPSA,severe,,,lfr,4.5,,,10000.0,,,,True,False,Reactor technology comparison,results/inre-de-stylised-df-severe-lfr-v4
+stylised-df-severe-decarb-v4,Decarb no nuclear,PyPSA,severe,0,0,,0.0,,,10000.0,,,,True,True,Decarbonised adequacy sensitivity,results/inre-de-stylised-df-severe-decarb-v4
+stylised-df-severe-decarb-smr-4.5-v4,Decarb + SMR 4.5 GW,PyPSA,severe,,,SMR,4.5,,,10000.0,,,,True,True,Decarbonised adequacy with SMR,results/inre-de-stylised-df-severe-decarb-smr-4.5-v4
+stylised-df-severe-decarb-smr-4.5-limited-flex-v4,Decarb + SMR limited flex,PyPSA,severe,,,SMR,4.5,0.3,0.05,10000.0,,,,True,True,Operational flexibility sensitivity,results/inre-de-stylised-df-severe-decarb-smr-4.5-limited-flex-v4
+v4-severe-no-nuclear,severe-no-nuclear,GAMSPy RF,severe,,,,,,,10000.0,,,,True,False,Reduced-form cross-model validation,gamspy-de/results_rf/v4-severe-no-nuclear
+v4-severe-smr-4.5,severe-smr-4.5,GAMSPy RF,severe,,,,,,,10000.0,,,,True,False,Reduced-form cross-model validation,gamspy-de/results_rf/v4-severe-smr-4.5
+v4-severe-decarbonised-no-nuclear,severe-decarbonised-no-nuclear,GAMSPy RF,severe,,,,,,,10000.0,,,,True,True,Reduced-form cross-model validation,gamspy-de/results_rf/v4-severe-decarbonised-no-nuclear
+v4-severe-decarbonised-smr-4.5,severe-decarbonised-smr-4.5,GAMSPy RF,severe,,,,,,,10000.0,,,,True,True,Reduced-form cross-model validation,gamspy-de/results_rf/v4-severe-decarbonised-smr-4.5

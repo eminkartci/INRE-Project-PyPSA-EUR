@@ -1,0 +1,1 @@
+Price distribution and summary. These are optimisation shadow prices from a fixed-capacity dispatch model, not observed or forecast day-ahead market prices.

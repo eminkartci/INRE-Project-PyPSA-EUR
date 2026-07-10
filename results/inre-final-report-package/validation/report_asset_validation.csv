@@ -1,0 +1,14 @@
+asset_id,metric,plotted_value,source_value,absolute_difference,relative_difference,tolerance,passed,source_file
+FIGURE_I1,demand_TWh,42.7419,42.74,0.0018999999999991246,4.445484323816389e-05,abs<=0.1 or rel<=0.005,True,
+FIGURE_R4,severe_VRE_reduction_TWh,-6.328999999999999,-6.33,0.0010000000000012221,0.00015797788309655956,abs<=0.1 or rel<=0.005,True,
+FIGURE_R4,severe_CO2_increase_Mt,4.5457,4.55,0.0042999999999997485,0.0009450549450548898,abs<=0.1 or rel<=0.005,True,
+FIGURE_R4,severe_OPEX_increase_MEUR,197.61,197.61,0.0,0.0,abs<=5 or rel<=0.005,True,
+FIGURE_N1,nuclear_generation_TWh,2.4629,2.46,0.0028999999999999027,0.0011788617886178466,abs<=0.05 or rel<=0.005,True,
+FIGURE_A2,decarb_EENS_GWh,1840.0048,1840.0,0.00479999999993197,2.6086956521369403e-06,abs<=20 or rel<=0.005,True,
+FIGURE_A2,decarb_SMR_EENS_GWh,1088.6964,1088.7,0.0036000000000058208,3.3066960595258756e-06,abs<=20 or rel<=0.005,True,
+FIGURE_A3,EENS_reduction_pct,40.83,40.8,0.030000000000001137,0.0007352941176470868,abs<=1 or rel<=0.005,True,
+FIGURE_A3,peak_shedding_reduction_GW,4.05,4.05,0.0,0.0,abs<=0.2 or rel<=0.005,True,
+FIGURE_D4,core_total_VRE_ratio,0.3562194068596112,0.356,0.0002194068596111931,0.0006163114034022279,abs<=0.02 or rel<=0.005,True,
+FIGURE_G1,EENS_diff_severe-decarbonised-no-nuclear,0.0,0.0,0.0,0.0,0%,True,adequacy_comparison.csv
+FIGURE_G1,EENS_diff_severe-decarbonised-smr-4.5,0.0,0.0,0.0,0.0,0%,True,adequacy_comparison.csv
+TABLE_I1,VOLL_EUR_per_MWh,10000.0,10000.0,0.0,0.0,exact,True,model_v4.yaml

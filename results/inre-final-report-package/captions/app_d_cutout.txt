@@ -1,0 +1,1 @@
+Cutout versus Base pre-overwrite comparison. Scenario: matched-base; severe. Key result: Buffer/core stitch validation. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

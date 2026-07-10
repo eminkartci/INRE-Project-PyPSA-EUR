@@ -1,0 +1,1 @@
+Severe-event system consequences. Scenario: matched-base; severe. Key result: Delta KPIs: VRE −6.33 TWh, CO₂ +4.55 Mt, OPEX +197.61 M EUR. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.

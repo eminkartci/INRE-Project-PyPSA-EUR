@@ -1,0 +1,1 @@
+Technology and model-input architecture. Model scope: Germany, 10 PyPSA clusters, 224 three-hour snapshots, fixed-capacity dispatch. Limitation: stylised inputs, not historical reconstruction.

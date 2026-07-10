@@ -1,0 +1,1 @@
+Constraint activity. Scenario: V4 final. Key result: Binding min-output and ramp constraints. Limitation: fixed-capacity stylised Dunkelflaute model; not historical reconstruction or market forecast.
