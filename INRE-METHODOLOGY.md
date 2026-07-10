@@ -450,9 +450,54 @@ python scripts/inre/compare_scenarios.py --output-dir results/inre-comparison
 | Script | Function |
 |--------|----------|
 | `scripts/inre/apply_inre_network.py` | Orchestrator (Snakemake entry point) |
-| `scripts/inre/apply_dunkelflaute.py` | VRE profile derating |
+| `scripts/inre/apply_dunkelflaute.py` | Legacy synthetic VRE profile derating |
+| `scripts/inre/apply_historical_dunkelflaute.py` | Direct historical / matched-reference CF import |
+| `scripts/inre/historical_event_selection.py` | High-residual-load event ranking |
+| `scripts/inre/freeze_transmission.py` | Freeze AC/DC transmission expansion |
+| `scripts/inre/verify_co2_accounting.py` | CO₂ unit verification |
+| `scripts/inre/run_v3_operational_stress.py` | v3 fixed-capacity re-solve helper |
 | `scripts/inre/add_nuclear_technologies.py` | Extendable nuclear generator addition |
 | `scripts/inre/compare_scenarios.py` | Cross-scenario KPI comparison |
+
+---
+
+## 8. Severe Dunkelflaute Event Construction (v3)
+
+Three stress types are distinguished:
+
+1. **Legacy synthetic Dunkelflaute** — a synthetic low-renewable profile generated using parameterised stochastic draws with a fixed random seed, applied as multipliers on the simulation-year Atlite baseline. Retained for backward comparison only (`data/inre/dunkelflaute.yaml`).
+
+2. **Historical severe Dunkelflaute** — the main evidence-based scenario. Actual event-year Atlite capacity factors are imported directly into `p_max_pu` at cluster and carrier resolution:
+
+\[
+\bar{p}^{Historical}_{n,k,t}=CF^{event}_{n,k,t}
+\]
+
+No synthetic edge ramp. Simulation includes historical buffer days before/after the 14-day core event. Config: `data/inre/dunkelflaute.historical.yaml`.
+
+3. **Extreme stress sensitivity** — optional anomaly-transfer transform, labelled separately from historical replay (`data/inre/dunkelflaute.extreme-sensitivity.yaml`).
+
+**Event-selection criterion** (ranking across candidate years with fixed 2024 brownfield capacities):
+
+\[
+RL_t^{+}=\max(D_t-W_t-S_t,0),\quad I_\tau=\frac{\sum_{t=\tau}^{\tau+H-1}RL_t^{+}}{\sum_{t=\tau}^{\tau+H-1}D_t},\quad H=336\ \text{h}
+\]
+
+Main severe scenario definition: **worst observed non-overlapping 14-day high-residual-load scarcity event** in the analysed dataset (see `data/inre/dunkelflaute.historical.metadata.yaml`).
+
+**Matched reference** shares the same demand, fixed fleet, transmission, and storage; renewable availability uses multi-year median CF at the event calendar position (`data/inre/dunkelflaute.matched-reference.yaml`).
+
+\[
+\Delta X = X_{\mathrm{Historical\ Severe}} - X_{\mathrm{Matched\ Reference}}
+\]
+
+**Operational adequacy defaults (v3):** fixed generation/storage capacities, `electricity.transmission_limit: v0`, load shedding enabled at VOLL = 100,000 EUR/MWh.
+
+**Nuclear comparison:** equal-site technology comparison uses Grohnde, Brokdorf, Isar at 1.5 GW each (4.5 GW total). Main operational analysis uses `generic-advanced-nuclear`; SMR/MSR/LFR are cost/technical sensitivities.
+
+**Data sources:** ERA5/SARAH via Atlite; ENTSO-E demand via PyPSA-Eur; event methodology informed by Kaspar et al. (2019), Mockert et al. (2023), Otero et al. (2022), Biewald et al. (2024).
+
+**Limitations:** Pilot event ranking currently uses 2021 hourly CF proxy until multi-year Atlite cluster CF is built; CO₂ cap binding status requires post-patch re-solve (`scripts/inre/verify_co2_accounting.py`).
 
 ---
 
@@ -471,3 +516,4 @@ python scripts/inre/compare_scenarios.py --output-dir results/inre-comparison
 | Version | Date | Notes |
 |---------|------|-------|
 | 1.0 | 2026-07-01 | Initial methodology document for report preparation |
+| 3.0 | 2026-07-10 | v3 historical severe Dunkelflaute, matched-reference, fixed-capacity defaults |

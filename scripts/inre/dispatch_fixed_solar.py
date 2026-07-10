@@ -90,7 +90,7 @@ def override_solar_from(n: pypsa.Network, solar_ref: pypsa.Network) -> None:
             p_nom=0.0,
             p_nom_extendable=True,
             p_nom_max=1e6,
-            marginal_cost=1e4,  # very high penalty
+            marginal_cost=1e5,  # VOLL aligned with config solving.options.load_shedding.default_cost
         )
 
 

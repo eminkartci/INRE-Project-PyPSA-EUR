@@ -1,0 +1,13 @@
+scenario,table,row_count,expected_row_count,missing_values,index_matches,status
+matched-base-v4,snapshot_weightings,224,224,0,True,ok
+matched-base-v4,loads_t.p_set,224,224,0,True,ok
+matched-base-v4,generators_t.p_max_pu,224,224,0,True,ok
+stylised-df-moderate-v4,snapshot_weightings,224,224,0,True,ok
+stylised-df-moderate-v4,loads_t.p_set,224,224,0,True,ok
+stylised-df-moderate-v4,generators_t.p_max_pu,224,224,0,True,ok
+stylised-df-severe-v4,snapshot_weightings,224,224,0,True,ok
+stylised-df-severe-v4,loads_t.p_set,224,224,0,True,ok
+stylised-df-severe-v4,generators_t.p_max_pu,224,224,0,True,ok
+stylised-df-extreme-v4,snapshot_weightings,224,224,0,True,ok
+stylised-df-extreme-v4,loads_t.p_set,224,224,0,True,ok
+stylised-df-extreme-v4,generators_t.p_max_pu,224,224,0,True,ok

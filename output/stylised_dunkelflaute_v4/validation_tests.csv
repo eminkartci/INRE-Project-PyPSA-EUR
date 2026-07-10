@@ -1,0 +1,27 @@
+test,passed,tolerance,detail
+phase_counts_224,True,,"counts={'pre-buffer': 56, 'transition-in': 16, 'plateau': 80, 'transition-out': 16, 'core': 112, 'post-buffer': 56, 'full-window': 224}"
+phase_partition,True,,
+dimensions_full_window,True,,n=224
+time_unique,True,,
+time_sorted,True,,
+columns_match_base,True,,
+bounds_moderate,True,,
+bounds_severe,True,,
+bounds_extreme,True,,
+scenario_ordering,True,,
+buffer_equality,True,,tol=1e-10
+plateau_ratio,True,,
+solar_night_preservation,True,,
+stress_starts_zero,True,,s[0]=0.0
+stress_reaches_one,True,,max=1.0
+stress_ends_zero,True,,s[-1]=0.0
+pre_overwrite_diagnostic,True,,max=0.11450000000000093
+post_overwrite_below_tol,True,1e-10,max=0.0
+stitch_diagnostics_exported,True,,n=39
+demand_unit_gw,True,,source=MW
+cutout_comparison_exported,True,,/Users/eminkartci/Desktop/codenv/INRE-Project-PyPSA-EUR/output/stylised_dunkelflaute_v4/cutout_base_comparison.csv
+stitch_csv_exported,True,,/Users/eminkartci/Desktop/codenv/INRE-Project-PyPSA-EUR/output/stylised_dunkelflaute_v4/profile_stitch_validation.csv
+demand_validation_exported,True,,/Users/eminkartci/Desktop/codenv/INRE-Project-PyPSA-EUR/output/stylised_dunkelflaute_v4/demand_unit_validation.csv
+network_timeseries_aligned,True,,tables=12
+fixed_capacity_zero_extendable,True,,
+scenario_only_renewable_pmu_differs,True,,unexpected=0

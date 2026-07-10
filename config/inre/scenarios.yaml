@@ -1,11 +1,342 @@
 # INRE scenario overrides (merged into config/inre/config.base.yaml).
 # Enable via config/inre/config.scenarios.yaml
 #
-# Shared policy (config.base.yaml): CO2 50 Mt/y; no new OCGT or H2 build; CCGT+VRE+battery extendable.
-# Dunkelflaute: 14-day profile stress (data/inre/dunkelflaute.yaml).
-# CAPEX sensitivity: dunkelflaute-smr-capex{70,85,115} scale SMR investment vs baseline (100% = dunkelflaute-smr).
-# Per-scenario costs are built by ``process_inre_scenario_costs`` (see rules/inre.smk) because shared
-# ``resources/costs_*_processed.csv`` ignores scenario ``costs.custom_cost_fn`` overrides.
+# Phase 3 (v3): fixed-capacity operational stress test by default (config.base.yaml).
+# Legacy expandable scenarios override extendable_carriers for v2 backward comparison.
+# Historical severe uses direct CF import (data/inre/dunkelflaute.historical.yaml).
+# Per-scenario costs: process_inre_scenario_costs (rules/inre.smk).
+
+# --- Legacy backward comparison (2021 window) ---
+
+legacy-2021-base:
+  run:
+    name: inre-de-legacy-base
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: false
+    nuclear:
+      extendable_carriers: []
+
+legacy-synthetic-df:
+  run:
+    name: inre-de-legacy-synthetic-df
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: legacy
+      config: data/inre/dunkelflaute.yaml
+    nuclear:
+      extendable_carriers: []
+
+# --- v3 historical severe family (snapshots from dunkelflaute.historical.metadata.yaml) ---
+
+matched-reference:
+  run:
+    name: inre-de-matched-reference
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: matched_reference
+      config: data/inre/dunkelflaute.matched-reference.yaml
+    nuclear:
+      extendable_carriers: []
+
+historical-severe:
+  run:
+    name: inre-de-historical-severe
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: historical
+      config: data/inre/dunkelflaute.historical.yaml
+    nuclear:
+      extendable_carriers: []
+
+historical-severe-gen-nuclear:
+  run:
+    name: inre-de-historical-severe-nuc
+  costs:
+    custom_cost_fn: data/inre/custom_costs_nuclear.csv
+  pypsa_eur:
+    Generator:
+    - onwind
+    - offwind-ac
+    - offwind-dc
+    - offwind-float
+    - solar-hsat
+    - solar
+    - ror
+    - nuclear
+    - generic-advanced-nuclear
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: historical
+      config: data/inre/dunkelflaute.historical.yaml
+    nuclear:
+      extendable_carriers: [generic-advanced-nuclear]
+      compare_mode: equal-site
+      site_names: [Grohnde, Brokdorf, Isar]
+      total_cap_mw: 4500
+
+extreme-stress-sensitivity:
+  run:
+    name: inre-de-extreme-stress
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: extreme_sensitivity
+      config: data/inre/dunkelflaute.extreme-sensitivity.yaml
+    nuclear:
+      extendable_carriers: []
+
+# Nuclear capacity sweep (equal-site generic advanced nuclear)
+historical-severe-nuc-1.5:
+  run:
+    name: inre-de-hist-severe-nuc1p5
+  costs:
+    custom_cost_fn: data/inre/custom_costs_nuclear.csv
+  pypsa_eur:
+    Generator:
+    - onwind
+    - offwind-ac
+    - offwind-dc
+    - offwind-float
+    - solar-hsat
+    - solar
+    - ror
+    - nuclear
+    - generic-advanced-nuclear
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: historical
+      config: data/inre/dunkelflaute.historical.yaml
+    nuclear:
+      extendable_carriers: [generic-advanced-nuclear]
+      compare_mode: equal-site
+      site_names: [Grohnde, Brokdorf, Isar]
+      total_cap_mw: 1500
+
+historical-severe-nuc-3.0:
+  run:
+    name: inre-de-hist-severe-nuc3
+  costs:
+    custom_cost_fn: data/inre/custom_costs_nuclear.csv
+  pypsa_eur:
+    Generator:
+    - onwind
+    - offwind-ac
+    - offwind-dc
+    - offwind-float
+    - solar-hsat
+    - solar
+    - ror
+    - nuclear
+    - generic-advanced-nuclear
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: historical
+      config: data/inre/dunkelflaute.historical.yaml
+    nuclear:
+      extendable_carriers: [generic-advanced-nuclear]
+      compare_mode: equal-site
+      site_names: [Grohnde, Brokdorf, Isar]
+      total_cap_mw: 3000
+
+historical-severe-nuc-7.5:
+  run:
+    name: inre-de-hist-severe-nuc7p5
+  costs:
+    custom_cost_fn: data/inre/custom_costs_nuclear.csv
+  pypsa_eur:
+    Generator:
+    - onwind
+    - offwind-ac
+    - offwind-dc
+    - offwind-float
+    - solar-hsat
+    - solar
+    - ror
+    - nuclear
+    - generic-advanced-nuclear
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: historical
+      config: data/inre/dunkelflaute.historical.yaml
+    nuclear:
+      extendable_carriers: [generic-advanced-nuclear]
+      compare_mode: equal-site
+      site_names: [Grohnde, Brokdorf, Isar]
+      total_cap_mw: 7500
+
+# Equal-capacity technology cost sensitivity (4.5 GW, same three sites)
+historical-severe-smr:
+  run:
+    name: inre-de-hist-severe-smr
+  costs:
+    custom_cost_fn: data/inre/custom_costs_nuclear.csv
+  pypsa_eur:
+    Generator:
+    - onwind
+    - offwind-ac
+    - offwind-dc
+    - offwind-float
+    - solar-hsat
+    - solar
+    - ror
+    - nuclear
+    - nuclear-smr
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: historical
+      config: data/inre/dunkelflaute.historical.yaml
+    nuclear:
+      extendable_carriers: [nuclear-smr]
+      compare_mode: equal-site
+      site_names: [Grohnde, Brokdorf, Isar]
+      total_cap_mw: 4500
+
+historical-severe-msr:
+  run:
+    name: inre-de-hist-severe-msr
+  costs:
+    custom_cost_fn: data/inre/custom_costs_nuclear.csv
+  pypsa_eur:
+    Generator:
+    - onwind
+    - offwind-ac
+    - offwind-dc
+    - offwind-float
+    - solar-hsat
+    - solar
+    - ror
+    - nuclear
+    - nuclear-msr
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: historical
+      config: data/inre/dunkelflaute.historical.yaml
+    nuclear:
+      extendable_carriers: [nuclear-msr]
+      compare_mode: equal-site
+      site_names: [Grohnde, Brokdorf, Isar]
+      total_cap_mw: 4500
+
+historical-severe-lfr:
+  run:
+    name: inre-de-hist-severe-lfr
+  costs:
+    custom_cost_fn: data/inre/custom_costs_nuclear.csv
+  pypsa_eur:
+    Generator:
+    - onwind
+    - offwind-ac
+    - offwind-dc
+    - offwind-float
+    - solar-hsat
+    - solar
+    - ror
+    - nuclear
+    - nuclear-lfr
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: historical
+      config: data/inre/dunkelflaute.historical.yaml
+    nuclear:
+      extendable_carriers: [nuclear-lfr]
+      compare_mode: equal-site
+      site_names: [Grohnde, Brokdorf, Isar]
+      total_cap_mw: 4500
+
+# --- Phase 2 legacy scenarios (expandable for v2 comparison) ---
 
 base:
   run:
@@ -34,10 +365,18 @@ base-fixedcap:
 dunkelflaute:
   run:
     name: inre-de-dunkelflaute
+  electricity:
+    extendable_carriers:
+      Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc, offwind-float, CCGT]
+      StorageUnit: [battery]
+      Store: []
+      Link: []
+    transmission_limit: vopt
   inre:
     enabled: true
     dunkelflaute:
       enabled: true
+      type: legacy
       config: data/inre/dunkelflaute.yaml
     nuclear:
       extendable_carriers: []
@@ -53,6 +392,7 @@ dunkelflaute-fixedcap:
     enabled: true
     dunkelflaute:
       enabled: true
+      type: legacy
       config: data/inre/dunkelflaute.yaml
     nuclear:
       extendable_carriers: []
@@ -77,6 +417,7 @@ dunkelflaute-smr:
     enabled: true
     dunkelflaute:
       enabled: true
+      type: legacy
       config: data/inre/dunkelflaute.yaml
     nuclear:
       extendable_carriers: [nuclear-smr]
@@ -102,6 +443,7 @@ dunkelflaute-msr:
     enabled: true
     dunkelflaute:
       enabled: true
+      type: legacy
       config: data/inre/dunkelflaute.yaml
     nuclear:
       extendable_carriers: [nuclear-msr]
@@ -127,6 +469,7 @@ dunkelflaute-lfr:
     enabled: true
     dunkelflaute:
       enabled: true
+      type: legacy
       config: data/inre/dunkelflaute.yaml
     nuclear:
       extendable_carriers: [nuclear-lfr]
@@ -153,6 +496,7 @@ dunkelflaute-smr-capex70:
     enabled: true
     dunkelflaute:
       enabled: true
+      type: legacy
       config: data/inre/dunkelflaute.yaml
     nuclear:
       extendable_carriers: [nuclear-smr]
@@ -178,6 +522,7 @@ dunkelflaute-smr-capex85:
     enabled: true
     dunkelflaute:
       enabled: true
+      type: legacy
       config: data/inre/dunkelflaute.yaml
     nuclear:
       extendable_carriers: [nuclear-smr]
@@ -203,6 +548,7 @@ dunkelflaute-smr-capex115:
     enabled: true
     dunkelflaute:
       enabled: true
+      type: legacy
       config: data/inre/dunkelflaute.yaml
     nuclear:
       extendable_carriers: [nuclear-smr]

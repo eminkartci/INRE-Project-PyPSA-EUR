@@ -1,0 +1,13 @@
+year,weather_available,demand_available,missing_hours,demand_type,included_in_ranking,weather_hours,demand_hours
+2015,False,True,8760,ENTSO-E observed (DE),False,0,8760
+2016,False,True,8784,ENTSO-E observed (DE),False,0,8784
+2017,False,True,8760,ENTSO-E observed (DE),False,0,8760
+2018,False,True,8760,ENTSO-E observed (DE),False,0,8760
+2019,False,True,8760,ENTSO-E observed (DE),False,0,8760
+2020,False,True,8784,ENTSO-E observed (DE),False,0,8784
+2021,True,True,0,ENTSO-E observed (DE),True,8760,8760
+2022,False,True,8760,ENTSO-E observed (DE),False,0,8760
+2023,False,True,8760,ENTSO-E observed (DE),False,0,8760
+2024,False,True,8784,ENTSO-E observed (DE),False,0,8784
+2025,False,True,8760,ENTSO-E observed (DE),False,0,8760
+2026,False,True,8760,ENTSO-E observed (DE),False,0,779

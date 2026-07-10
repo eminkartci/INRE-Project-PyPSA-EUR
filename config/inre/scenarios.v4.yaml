@@ -1,0 +1,188 @@
+# INRE V4 scenario overrides (do not overwrite V3 scenario keys).
+# 28-day simulation window: 7-day pre-buffer + 14-day core + 7-day post-buffer.
+# Snapshots and Atlite cutouts must cover simulation_start … simulation_end
+# from data/inre/dunkelflaute.historical.metadata.v4.yaml after event selection.
+
+matched-reference-v4:
+  run:
+    name: inre-de-matched-reference-v4
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: matched_reference
+      config: data/inre/dunkelflaute.matched-reference.v4.yaml
+    nuclear:
+      extendable_carriers: []
+
+matched-reference-historical-normal-v4:
+  run:
+    name: inre-de-matched-ref-histnorm-v4
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: historical_normal
+      config: data/inre/dunkelflaute.matched-reference-historical-normal.v4.yaml
+    nuclear:
+      extendable_carriers: []
+
+historical-severe-v4:
+  run:
+    name: inre-de-historical-severe-v4
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: historical
+      config: data/inre/dunkelflaute.historical.v4.yaml
+    nuclear:
+      extendable_carriers: []
+
+extreme-stress-sensitivity-v4:
+  run:
+    name: inre-de-extreme-stress-v4
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: extreme_sensitivity
+      config: data/inre/dunkelflaute.extreme-sensitivity.v4.yaml
+    nuclear:
+      extendable_carriers: []
+
+historical-severe-gen-nuclear-v4:
+  run:
+    name: inre-de-hist-severe-nuc-v4
+  costs:
+    custom_cost_fn: data/inre/custom_costs_nuclear.csv
+  pypsa_eur:
+    Generator:
+    - onwind
+    - offwind-ac
+    - offwind-dc
+    - offwind-float
+    - solar-hsat
+    - solar
+    - ror
+    - nuclear
+    - generic-advanced-nuclear
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: historical
+      config: data/inre/dunkelflaute.historical.v4.yaml
+    nuclear:
+      extendable_carriers: [generic-advanced-nuclear]
+      compare_mode: equal-site
+      site_names: [Grohnde, Brokdorf, Isar]
+      total_cap_mw: 4500
+
+# Stylised deterministic Dunkelflaute V4 (non-historical stress test).
+_stylised_v4_common: &stylised_v4_common
+  snapshots:
+    start: "2021-01-18"
+    end: "2021-02-15"
+  atlite:
+    cutouts:
+      europe-2021-sarah3-era5:
+        time: ["2021-01-18", "2021-02-15"]
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: stylised_v4
+    nuclear:
+      extendable_carriers: []
+
+matched-base-v4:
+  <<: *stylised_v4_common
+  run:
+    name: inre-de-matched-base-v4
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: stylised_v4
+      severity: matched_base
+      config: data/inre/dunkelflaute.stylised.v4.yaml
+    nuclear:
+      extendable_carriers: []
+
+stylised-df-moderate-v4:
+  <<: *stylised_v4_common
+  run:
+    name: inre-de-stylised-df-moderate-v4
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: stylised_v4
+      severity: moderate
+      config: data/inre/dunkelflaute.stylised.v4.yaml
+    nuclear:
+      extendable_carriers: []
+
+stylised-df-severe-v4:
+  <<: *stylised_v4_common
+  run:
+    name: inre-de-stylised-df-severe-v4
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: stylised_v4
+      severity: severe
+      config: data/inre/dunkelflaute.stylised.v4.yaml
+    nuclear:
+      extendable_carriers: []
+
+stylised-df-extreme-v4:
+  <<: *stylised_v4_common
+  run:
+    name: inre-de-stylised-df-extreme-v4
+  inre:
+    enabled: true
+    dunkelflaute:
+      enabled: true
+      type: stylised_v4
+      severity: extreme
+      config: data/inre/dunkelflaute.stylised.v4.yaml
+    nuclear:
+      extendable_carriers: []

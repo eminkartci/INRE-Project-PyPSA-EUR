@@ -3,8 +3,8 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 #
-# Germany electricity-only INRE base case (Phase 2: Jan 2021 winter Dunkelflaute window).
-# Full-year 2021 archive cutout; 2-week simulation snapshots; planning horizon 2050.
+# Germany electricity-only INRE base case (Phase 3: fixed-capacity operational stress test).
+# Default snapshots remain 2021 legacy window; historical-severe scenarios override via scenarios.yaml.
 
 tutorial: false
 
@@ -35,9 +35,13 @@ electricity:
   co2limit_enable: true
   co2limit: 50.e+6
 
+  transmission_limit: v0
+
   extendable_carriers:
-    Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc, offwind-float, CCGT]
-    StorageUnit: [battery]
+    Generator: []
+    StorageUnit: []
+    Store: []
+    Link: []
 
   renewable_carriers: [solar, solar-hsat, onwind, offwind-ac, offwind-dc, offwind-float]
   estimate_renewable_capacities:
@@ -56,7 +60,6 @@ atlite:
   default_cutout: europe-2021-sarah3-era5
   cutouts:
     europe-2021-sarah3-era5:
-      # Match simulation window — loads 2 weeks from the archive file, not the full year
       time: ["2021-01-25", "2021-02-08"]
 
 renewable:
@@ -84,13 +87,26 @@ solving:
     options: highs-default
   check_objective:
     enable: false
+  options:
+    load_shedding:
+      enable: true
+      default_cost: 100000
+      all_carriers: true
 
 inre:
   enabled: true
+  freeze_transmission: true
+  patch_co2_emissions: true
   dunkelflaute:
     enabled: false
+    type: legacy
     config: data/inre/dunkelflaute.yaml
   nuclear:
     extendable_carriers: []
     sites_file: data/inre/custom_powerplants_nuclear_DE.csv
     p_nom_max_per_site: 1500
+    p_min_pu: 0.0
+    ramp_limit_per_hour: 0.5
+    compare_mode: equal-site
+    site_names: [Grohnde, Brokdorf, Isar]
+    total_cap_mw: 4500

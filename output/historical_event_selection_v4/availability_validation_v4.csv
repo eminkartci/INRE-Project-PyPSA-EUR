@@ -1,0 +1,2 @@
+generator,bus,carrier,n_snapshots,min_p_max_pu,max_p_max_pu,n_negative,n_above_1,n_missing,night_mean_solar
+g1,DE0 0,onwind,112,0.0,1.0,0,0,0,

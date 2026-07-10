@@ -1,0 +1,17 @@
+test,passed,tolerance,detail
+phase_counts_224,True,,"counts={'pre-buffer': 56, 'transition-in': 16, 'plateau': 80, 'transition-out': 16, 'core': 112, 'post-buffer': 56, 'full-window': 224}"
+phase_partition,True,,
+dimensions_full_window,True,,n=224
+time_unique,True,,
+time_sorted,True,,
+columns_match_base,True,,
+bounds_moderate,True,,
+bounds_severe,True,,
+bounds_extreme,True,,
+scenario_ordering,True,,
+buffer_equality,True,,tol=1e-10
+plateau_ratio,True,,
+solar_night_preservation,True,,
+stress_starts_zero,True,,s[0]=0.0
+stress_reaches_one,True,,max=1.0
+stress_ends_zero,True,,s[-1]=0.0

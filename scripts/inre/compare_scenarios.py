@@ -34,6 +34,24 @@ SCENARIO_PRESETS = {
         "dunkelflaute-msr:dunkelflaute-msr",
         "dunkelflaute-lfr:dunkelflaute-lfr",
     ],
+    "v3-core": [
+        "matched-reference:inre-de-matched-reference",
+        "historical-severe:inre-de-historical-severe",
+        "extreme-stress:inre-de-extreme-stress",
+        "legacy-2021-base:base",
+        "legacy-synthetic-df:dunkelflaute",
+    ],
+    "v3-nuclear": [
+        "historical-severe-nuc-1.5:historical-severe-nuc-1.5",
+        "historical-severe-nuc-3.0:historical-severe-nuc-3.0",
+        "historical-severe-gen-nuclear:historical-severe-gen-nuclear",
+        "historical-severe-nuc-7.5:historical-severe-nuc-7.5",
+    ],
+    "v4-core": [
+        "matched-reference-v4:inre-de-matched-reference-v4",
+        "historical-severe-v4:inre-de-historical-severe-v4",
+        "extreme-stress-v4:inre-de-extreme-stress-v4",
+    ],
     "capex": [
         "smr-capex70:dunkelflaute-smr-capex70",
         "smr-capex85:dunkelflaute-smr-capex85",
@@ -43,7 +61,16 @@ SCENARIO_PRESETS = {
     "full": None,
 }
 
-NUCLEAR_CARRIERS = {"nuclear-smr", "nuclear-msr", "nuclear-lfr", "nuclear", "SMR", "MSR", "LFR"}
+NUCLEAR_CARRIERS = {
+    "nuclear-smr",
+    "nuclear-msr",
+    "nuclear-lfr",
+    "nuclear",
+    "generic-advanced-nuclear",
+    "SMR",
+    "MSR",
+    "LFR",
+}
 NON_GENERATION_CARRIERS = {
     "AC",
     "DC",
@@ -91,8 +118,10 @@ def _co2_emissions_t(n: pypsa.Network) -> float:
     gen_p = n.generators_t.p.fillna(0.0)
     total = 0.0
     for gen in gen_p.columns:
-        if gen in emissions.index:
-            total += (gen_p[gen] * weight * emissions[gen]).sum()
+        carrier = n.generators.at[gen, "carrier"]
+        co2 = emissions.get(gen, emissions.get(carrier, 0.0))
+        # carrier co2_emissions patched to MWh_el basis in apply_inre_network
+        total += (gen_p[gen] * weight * co2).sum()
     return float(total)
 
 
@@ -165,6 +194,51 @@ def _credible_capacity(n: pypsa.Network) -> dict[str, float]:
         "battery_storageunit_power_mw": battery_power_mw,
         "battery_storageunit_energy_mwh": battery_energy_mwh,
     }
+
+
+def _network_time_slice(n: pypsa.Network, start: pd.Timestamp, end: pd.Timestamp) -> pypsa.Network:
+    """Return a shallow copy restricted to [start, end] snapshots."""
+    ns = n.copy()
+    snap = pd.DatetimeIndex(pd.to_datetime(ns.snapshots))
+    keep = (snap >= start) & (snap <= end)
+    ns.snapshots = snap[keep]
+    return ns
+
+
+def load_event_metadata(path: Path | None = None) -> dict | None:
+    """Load V4 event metadata for core-event KPI boundaries."""
+    candidates = [
+        path,
+        REPO_ROOT / "data/inre/dunkelflaute.historical.metadata.v4.yaml",
+        REPO_ROOT / "data/inre/dunkelflaute.historical.metadata.yaml",
+    ]
+    for p in candidates:
+        if p and Path(p).exists():
+            import yaml
+
+            return yaml.safe_load(Path(p).read_text())
+    return None
+
+
+def extract_scoped_kpis(
+    n: pypsa.Network,
+    label: str,
+    metadata: dict | None = None,
+) -> dict:
+    """Extract full-window and core-event KPI scopes (V4)."""
+    meta = metadata or load_event_metadata()
+    full = extract_kpis(n, label)
+    result = {"full_window": full}
+    if meta and "main_event" in meta:
+        core_start = pd.Timestamp(meta["main_event"]["core_start"])
+        core_end = pd.Timestamp(meta["main_event"]["core_end"])
+        n_core = _network_time_slice(n, core_start, core_end)
+        result["core_event"] = extract_kpis(n_core, f"{label} [core]")
+        result["core_event_bounds"] = {
+            "start": core_start.isoformat(),
+            "end": core_end.isoformat(),
+        }
+    return result
 
 
 def extract_kpis(n: pypsa.Network, label: str) -> dict:
@@ -506,9 +580,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Compare INRE PyPSA-Eur scenarios")
     parser.add_argument(
         "--preset",
-        choices=["core", "capex", "full"],
+        choices=["core", "v3-core", "v3-nuclear", "capex", "full"],
         default="core",
-        help="Scenario group: core (5), capex (SMR sensitivity), full (all 8)",
+        help="Scenario group: core (5 legacy), v3-core, v3-nuclear, capex, full",
     )
     parser.add_argument(
         "--scenarios",

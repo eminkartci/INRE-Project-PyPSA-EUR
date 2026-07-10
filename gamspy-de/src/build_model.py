@@ -125,20 +125,23 @@ def build_model(data: PreparedData) -> BuiltModel:
     st_cap_p = gp.Parameter(m, name="st_cap_p", domain=[n], description="storage power capex")
     st_cap_e = gp.Parameter(m, name="st_cap_e", domain=[n], description="storage energy capex")
     st_marg = gp.Parameter(m, name="st_marg", domain=[n], description="storage marginal")
-    st_eta = gp.Parameter(m, name="st_eta", domain=[n], description="storage roundtrip eff")
+    st_eta_ch = gp.Parameter(m, name="st_eta_ch", domain=[n], description="storage charge eff")
+    st_eta_dis = gp.Parameter(m, name="st_eta_dis", domain=[n], description="storage discharge eff")
     st_loss = gp.Parameter(m, name="st_loss", domain=[n], description="storage hourly loss")
     st_hours = gp.Parameter(m, name="st_hours", domain=[n], description="max storage hours")
     st_records = []
     for bus in data.buses:
         row = data.storage_params.loc[bus]
-        eta = float(row["efficiency_store"]) * float(row["efficiency_dispatch"])
+        eta_ch = float(row["efficiency_store"])
+        eta_dis = float(row["efficiency_dispatch"])
         st_records.append(
             (
                 bus,
                 float(row["capital_cost_power_EUR_per_MWyr"]),
                 float(row["capital_cost_energy_EUR_per_MWhyr"]),
                 float(row["marginal_cost_EUR_per_MWh"]),
-                eta,
+                eta_ch,
+                eta_dis,
                 float(row["standing_loss_per_h"]),
                 float(row["max_hours"]),
             )
@@ -146,9 +149,10 @@ def build_model(data: PreparedData) -> BuiltModel:
     st_cap_p.setRecords([(r[0], r[1]) for r in st_records])
     st_cap_e.setRecords([(r[0], r[2]) for r in st_records])
     st_marg.setRecords([(r[0], r[3]) for r in st_records])
-    st_eta.setRecords([(r[0], r[4]) for r in st_records])
-    st_loss.setRecords([(r[0], r[5]) for r in st_records])
-    st_hours.setRecords([(r[0], r[6]) for r in st_records])
+    st_eta_ch.setRecords([(r[0], r[4]) for r in st_records])
+    st_eta_dis.setRecords([(r[0], r[5]) for r in st_records])
+    st_loss.setRecords([(r[0], r[6]) for r in st_records])
+    st_hours.setRecords([(r[0], r[7]) for r in st_records])
 
     p = gp.Variable(m, name="p", domain=[n, k, t], type="positive", description="dispatch MW")
     p_cap = gp.Variable(m, name="p_cap", domain=[n, k], type="positive", description="new gen MW")
@@ -212,8 +216,8 @@ def build_model(data: PreparedData) -> BuiltModel:
     st_dyn[n, t_ramp] = (
         soc[n, t_ramp]
         == (1 - st_loss[n] * snap_h) * soc[n, t_ramp.lag(1)]
-        + st_eta[n] * p_ch[n, t_ramp] * snap_h
-        - p_dis[n, t_ramp] / st_eta[n] * snap_h
+        + st_eta_ch[n] * p_ch[n, t_ramp] * snap_h
+        - p_dis[n, t_ramp] / st_eta_dis[n] * snap_h
     )
 
     st_init = gp.Equation(m, name="st_init", domain=[n])

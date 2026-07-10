@@ -1,0 +1,16 @@
+component,attribute,matched_vs_moderate_equal,matched_vs_severe_equal,matched_vs_extreme_equal,difference_expected,status
+snapshots,index,True,True,True,False,ok
+loads_t,p_set,True,True,True,False,ok
+generators,p_nom,True,True,True,False,ok
+generators,p_nom_extendable,True,True,True,False,ok
+generators,efficiency,True,True,True,False,ok
+generators,marginal_cost,True,True,True,False,ok
+storage_units,p_nom,True,True,True,False,ok
+stores,e_nom,True,True,True,False,ok
+lines,s_nom,True,True,True,False,ok
+lines,s_nom_extendable,True,True,True,False,ok
+links,p_nom,True,True,True,False,ok
+links,p_nom_extendable,True,True,True,False,ok
+carriers,co2_emissions,True,True,True,False,ok
+generators_t,p_max_pu_renewable,False,False,False,True,ok
+generators,p_max_pu_static_non_renewable,True,True,True,False,ok

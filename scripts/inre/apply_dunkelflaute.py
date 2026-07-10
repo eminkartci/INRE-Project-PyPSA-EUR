@@ -144,11 +144,25 @@ def _load_factor_profile(
     return pd.Series(aligned.values, index=snapshots)
 
 
-def _ramp_weights(mask: pd.Series | np.ndarray, ramp_hours: int) -> pd.Series:
+def _snapshot_step_hours(snapshots: pd.DatetimeIndex) -> float:
+    if len(snapshots) < 2:
+        return 1.0
+    delta_h = (snapshots[1] - snapshots[0]) / pd.Timedelta(hours=1)
+    return float(delta_h)
+
+
+def _ramp_weights(
+    mask: pd.Series | np.ndarray,
+    ramp_hours: int,
+    snapshot_step_hours: float = 1.0,
+) -> pd.Series:
+    """Linear edge ramp; ramp_hours is interpreted in clock hours (not snapshot count)."""
     if not ramp_hours or ramp_hours <= 0:
         if isinstance(mask, pd.Series):
             return mask.astype(float)
         return pd.Series(mask, dtype=float)
+
+    ramp_steps = max(1, int(round(ramp_hours / snapshot_step_hours)))
 
     if isinstance(mask, pd.Series):
         weights = mask.astype(float).copy()
@@ -164,12 +178,12 @@ def _ramp_weights(mask: pd.Series | np.ndarray, ramp_hours: int) -> pd.Series:
     for i in range(len(weights)):
         if i < start:
             dist = start - i
-            if dist < ramp_hours:
-                weights.iloc[i] = max(weights.iloc[i], 1.0 - dist / ramp_hours)
+            if dist < ramp_steps:
+                weights.iloc[i] = max(weights.iloc[i], 1.0 - dist / ramp_steps)
         elif i > end:
             dist = i - end
-            if dist < ramp_hours:
-                weights.iloc[i] = max(weights.iloc[i], 1.0 - dist / ramp_hours)
+            if dist < ramp_steps:
+                weights.iloc[i] = max(weights.iloc[i], 1.0 - dist / ramp_steps)
     return weights
 
 
@@ -190,7 +204,8 @@ def _apply_factor(
         logger.warning("No generators found for carriers %s", carriers)
         return
 
-    ramp = _ramp_weights(mask, ramp_hours)
+    step_h = _snapshot_step_hours(_snapshot_index(n))
+    ramp = _ramp_weights(mask, ramp_hours, snapshot_step_hours=step_h)
     # weight=1 inside stress window, ramps toward 1 outside; factor applied where weight>0
     if factor_profile is not None:
         target = factor_profile.reindex(mask.index).fillna(factor)

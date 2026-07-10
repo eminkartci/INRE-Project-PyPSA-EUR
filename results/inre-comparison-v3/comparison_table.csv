@@ -1,0 +1,6 @@
+scenario,period_hours,nyears,load_twh,total_supply_twh,opex_meur,capex_meur,capex_period_meur,objective_meur,co2_kt,nuclear_build_mw,battery_storageunit_power_mw,battery_storageunit_energy_mwh,operational_lcoe_eur_per_mwh,period_all_in_lcoe_eur_per_mwh,operational_lco2_eur_per_tco2,period_all_in_lco2_eur_per_tco2,delta_opex_meur_vs_base,delta_co2_kt_vs_base,total_capacity_gw
+matched-reference,336.0,0.038356,21.15,21.15,1348488.2,1658.8,63.6,1348488.2,1081.0,0.0,0.0,0.0,63752.7,63752.7,1247244.0,1247244.0,0.0,0.0,30410.768706310002
+historical-severe,336.0,0.038356,21.15,21.15,619120.0,1658.8,63.6,619120.0,1080.0,0.0,0.0,0.0,29270.2,29270.2,573143.0,573143.0,-729368.2,-1.0,30410.768706310002
+extreme-stress,336.0,0.038356,21.15,21.15,82.9,1658.8,63.6,82.9,865.0,0.0,0.0,0.0,3.9,3.9,96.0,96.0,-1348405.3,-216.0,30410.768706310002
+legacy-2021-base,336.0,0.038356,21.15,21.21,266.9,1935.7,74.2,543.8,1020.0,0.0,35.194,211.162,12.6,25.7,262.0,533.0,-1348221.3,-61.0,516.58796251
+legacy-synthetic-df,336.0,0.038356,21.15,21.24,308.4,5287.9,202.8,3937.5,1082.0,0.0,29315.968,175895.805,14.6,186.2,285.0,3638.0,-1348179.8,1.0,2191.14636041

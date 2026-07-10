@@ -1,0 +1,2 @@
+source_file,source_unit,converted_unit,minimum,maximum,mean,missing_timestamps,snapshot_count,status
+/Users/eminkartci/Desktop/codenv/INRE-Project-PyPSA-EUR/data/entsoe_electricity_demand/archive/2026-02-02/electricity_demand_entsoe_raw.csv,MW,GW,44.99865833333333,77.32319,63.604013206845245,0,224,ok

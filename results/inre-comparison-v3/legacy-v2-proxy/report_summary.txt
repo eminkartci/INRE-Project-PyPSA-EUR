@@ -1,0 +1,40 @@
+INRE Germany — Scenario comparison (simulation period)
+============================================================
+
+Window: Jan 2021 winter (112 snapshots, 3-hour resolution).
+Energy and OPEX are integrated over the simulation period.
+CAPEX is annuitised cost of the installed fleet (EUR/year).
+
+System summary
+----------------------------------------
+base: load 21.15 TWh, OPEX 266.9 M EUR, CO2 1020 kt
+dunkelflaute: load 21.15 TWh, OPEX 308.4 M EUR, CO2 1082 kt
+dunkelflaute-smr: load 21.15 TWh, OPEX 335.8 M EUR, CO2 1077 kt
+dunkelflaute-msr: load 21.15 TWh, OPEX 322.9 M EUR, CO2 1080 kt
+dunkelflaute-lfr: load 21.15 TWh, OPEX 323.9 M EUR, CO2 1082 kt
+
+Generation mix by group (TWh, simulation period)
+----------------------------------------
+Wind (all): base=13.63, dunkelflaute=9.29, dunkelflaute-smr=7.99, dunkelflaute-msr=8.40, dunkelflaute-lfr=8.39
+Solar (all): base=0.70, dunkelflaute=3.78, dunkelflaute-smr=2.82, dunkelflaute-msr=3.31, dunkelflaute-lfr=3.31
+Combined-Cycle Gas: base=4.55, dunkelflaute=5.46, dunkelflaute-smr=5.43, dunkelflaute-msr=5.45, dunkelflaute-lfr=5.46
+LFR: base=0.00, dunkelflaute=0.00, dunkelflaute-smr=0.00, dunkelflaute-msr=0.00, dunkelflaute-lfr=1.36
+MSR: base=0.00, dunkelflaute=0.00, dunkelflaute-smr=0.00, dunkelflaute-msr=1.36, dunkelflaute-lfr=0.00
+Open-Cycle Gas: base=0.05, dunkelflaute=0.00, dunkelflaute-smr=0.01, dunkelflaute-msr=0.00, dunkelflaute-lfr=0.00
+SMR: base=0.00, dunkelflaute=0.00, dunkelflaute-smr=2.27, dunkelflaute-msr=0.00, dunkelflaute-lfr=0.00
+biomass: base=1.94, dunkelflaute=2.69, dunkelflaute-smr=2.69, dunkelflaute-msr=2.69, dunkelflaute-lfr=2.69
+coal: base=0.32, dunkelflaute=0.00, dunkelflaute-smr=0.00, dunkelflaute-msr=0.00, dunkelflaute-lfr=0.00
+geothermal: base=0.01, dunkelflaute=0.01, dunkelflaute-smr=0.01, dunkelflaute-msr=0.01, dunkelflaute-lfr=0.01
+lignite: base=0.00, dunkelflaute=0.00, dunkelflaute-smr=0.00, dunkelflaute-msr=0.00, dunkelflaute-lfr=0.00
+oil: base=0.00, dunkelflaute=0.00, dunkelflaute-smr=0.00, dunkelflaute-msr=0.00, dunkelflaute-lfr=0.00
+waste: base=0.00, dunkelflaute=0.00, dunkelflaute-smr=0.00, dunkelflaute-msr=0.00, dunkelflaute-lfr=0.00
+
+Key shift base → dunkelflaute
+----------------------------------------
+  Wind (all): -4.34 TWh (-32%)
+  Solar (all): +3.08 TWh (+438%)
+  Combined-Cycle Gas: +0.91 TWh (+20%)
+  Open-Cycle Gas: -0.05 TWh (-98%)
+  biomass: +0.75 TWh (+39%)
+  coal: -0.32 TWh (-100%)
+  geothermal: +0.00 TWh (+29%)

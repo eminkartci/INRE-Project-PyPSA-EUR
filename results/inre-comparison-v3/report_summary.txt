@@ -1,0 +1,28 @@
+INRE Germany — Scenario comparison (simulation period)
+============================================================
+
+Window: Jan 2021 winter (112 snapshots, 3-hour resolution).
+Energy and OPEX are integrated over the simulation period.
+CAPEX is annuitised cost of the installed fleet (EUR/year).
+
+System summary
+----------------------------------------
+matched-reference: load 21.15 TWh, OPEX 1348488.2 M EUR, CO2 1081 kt
+historical-severe: load 21.15 TWh, OPEX 619120.0 M EUR, CO2 1080 kt
+extreme-stress: load 21.15 TWh, OPEX 82.9 M EUR, CO2 865 kt
+legacy-2021-base: load 21.15 TWh, OPEX 266.9 M EUR, CO2 1020 kt
+legacy-synthetic-df: load 21.15 TWh, OPEX 308.4 M EUR, CO2 1082 kt
+
+Generation mix by group (TWh, simulation period)
+----------------------------------------
+Wind (all): matched-reference=1.80, historical-severe=8.81, extreme-stress=16.23, legacy-2021-base=13.63, legacy-synthetic-df=9.29
+Solar (all): matched-reference=0.15, historical-severe=0.70, extreme-stress=2.38, legacy-2021-base=0.70, legacy-synthetic-df=3.78
+Combined-Cycle Gas: matched-reference=3.02, historical-severe=3.02, extreme-stress=1.04, legacy-2021-base=4.55, legacy-synthetic-df=5.46
+Open-Cycle Gas: matched-reference=0.00, historical-severe=0.00, extreme-stress=0.00, legacy-2021-base=0.05, legacy-synthetic-df=0.00
+biomass: matched-reference=2.69, historical-severe=2.42, extreme-stress=0.69, legacy-2021-base=1.94, legacy-synthetic-df=2.69
+coal: matched-reference=0.00, historical-severe=0.00, extreme-stress=0.59, legacy-2021-base=0.32, legacy-synthetic-df=0.00
+geothermal: matched-reference=0.01, historical-severe=0.01, extreme-stress=0.00, legacy-2021-base=0.01, legacy-synthetic-df=0.01
+lignite: matched-reference=0.00, historical-severe=0.00, extreme-stress=0.00, legacy-2021-base=0.00, legacy-synthetic-df=0.00
+load_shed: matched-reference=13.48, historical-severe=6.19, extreme-stress=0.00, legacy-2021-base=0.00, legacy-synthetic-df=0.00
+oil: matched-reference=0.00, historical-severe=0.00, extreme-stress=0.00, legacy-2021-base=0.00, legacy-synthetic-df=0.00
+waste: matched-reference=0.00, historical-severe=0.00, extreme-stress=0.21, legacy-2021-base=0.00, legacy-synthetic-df=0.00
