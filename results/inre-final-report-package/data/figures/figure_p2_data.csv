@@ -1,0 +1,897 @@
+scenario,rank,modelled_marginal_price_EUR_per_MWh,near_VOLL
+Matched reference,0,47.47082320818308,False
+Matched reference,1,47.47082320818307,False
+Matched reference,2,46.811863801926265,False
+Matched reference,3,46.811863801926265,False
+Matched reference,4,46.811863801926265,False
+Matched reference,5,46.81186380192626,False
+Matched reference,6,46.81186380192626,False
+Matched reference,7,46.81186380192625,False
+Matched reference,8,46.81186380192625,False
+Matched reference,9,46.81186380192625,False
+Matched reference,10,46.81186380192625,False
+Matched reference,11,46.81186380192625,False
+Matched reference,12,46.81186380192625,False
+Matched reference,13,46.81186380192625,False
+Matched reference,14,46.81186380192625,False
+Matched reference,15,46.81186380192625,False
+Matched reference,16,46.81186380192625,False
+Matched reference,17,46.81186380192625,False
+Matched reference,18,46.81186380192624,False
+Matched reference,19,46.81186380192624,False
+Matched reference,20,46.81186380192624,False
+Matched reference,21,46.811863801926236,False
+Matched reference,22,45.697629161972735,False
+Matched reference,23,45.697629161972735,False
+Matched reference,24,45.697629161972735,False
+Matched reference,25,45.69762916197273,False
+Matched reference,26,45.69762916197273,False
+Matched reference,27,45.69762916197273,False
+Matched reference,28,45.69762916197273,False
+Matched reference,29,45.69762916197273,False
+Matched reference,30,45.69762916197272,False
+Matched reference,31,34.12394488676513,False
+Matched reference,32,34.12393893793955,False
+Matched reference,33,34.12374790590357,False
+Matched reference,34,34.12372578905152,False
+Matched reference,35,34.12356365517418,False
+Matched reference,36,34.12329608851067,False
+Matched reference,37,34.12329608851066,False
+Matched reference,38,34.12329608851066,False
+Matched reference,39,34.12329608851066,False
+Matched reference,40,34.123296088510656,False
+Matched reference,41,34.12328423503639,False
+Matched reference,42,34.12328423503638,False
+Matched reference,43,27.079894256003445,False
+Matched reference,44,27.079894256003445,False
+Matched reference,45,27.079894256003442,False
+Matched reference,46,27.079894256003442,False
+Matched reference,47,27.079894256003442,False
+Matched reference,48,27.079894256003442,False
+Matched reference,49,27.079894256003442,False
+Matched reference,50,27.079894256003442,False
+Matched reference,51,27.079894256003442,False
+Matched reference,52,27.079894256003442,False
+Matched reference,53,27.079894256003442,False
+Matched reference,54,27.079894256003442,False
+Matched reference,55,27.079894256003442,False
+Matched reference,56,27.079894256003442,False
+Matched reference,57,27.079894256003442,False
+Matched reference,58,27.079894256003442,False
+Matched reference,59,27.079894256003442,False
+Matched reference,60,27.079894256003442,False
+Matched reference,61,27.079894256003442,False
+Matched reference,62,27.079894256003442,False
+Matched reference,63,27.079894256003442,False
+Matched reference,64,27.079894256003442,False
+Matched reference,65,27.07989425600344,False
+Matched reference,66,27.07989425600344,False
+Matched reference,67,27.07989425600344,False
+Matched reference,68,27.07989425600344,False
+Matched reference,69,27.07989425600344,False
+Matched reference,70,27.07989425600344,False
+Matched reference,71,27.07989425600344,False
+Matched reference,72,27.07989425600344,False
+Matched reference,73,27.07989425600344,False
+Matched reference,74,27.07989425600344,False
+Matched reference,75,27.07989425600344,False
+Matched reference,76,27.07989425600344,False
+Matched reference,77,27.07989425600344,False
+Matched reference,78,27.07989425600344,False
+Matched reference,79,27.07989425600344,False
+Matched reference,80,27.07989425600344,False
+Matched reference,81,27.07989425600344,False
+Matched reference,82,27.079894256003435,False
+Matched reference,83,27.079894256003435,False
+Matched reference,84,27.079894256003435,False
+Matched reference,85,27.079894256003435,False
+Matched reference,86,27.079894256003435,False
+Matched reference,87,27.079894256003435,False
+Matched reference,88,27.079894256003435,False
+Matched reference,89,27.079894256003435,False
+Matched reference,90,27.079894256003435,False
+Matched reference,91,27.079894256003435,False
+Matched reference,92,27.079894256003435,False
+Matched reference,93,27.079894256003435,False
+Matched reference,94,27.079894256003435,False
+Matched reference,95,27.07989425600343,False
+Matched reference,96,24.793026619573798,False
+Matched reference,97,24.793026619573794,False
+Matched reference,98,24.793026619573794,False
+Matched reference,99,24.793026619573794,False
+Matched reference,100,24.793026619573794,False
+Matched reference,101,24.793026619573794,False
+Matched reference,102,24.79302661957379,False
+Matched reference,103,24.79302661957379,False
+Matched reference,104,24.79302661957379,False
+Matched reference,105,24.79302661957379,False
+Matched reference,106,24.79302661957379,False
+Matched reference,107,24.793026619573787,False
+Matched reference,108,24.793026619573787,False
+Matched reference,109,24.793026619573787,False
+Matched reference,110,24.793026619573787,False
+Matched reference,111,24.793026619573787,False
+Matched reference,112,24.793026619573787,False
+Matched reference,113,24.793026619573787,False
+Matched reference,114,24.793026619573784,False
+Matched reference,115,24.793026619573784,False
+Matched reference,116,24.79302661957378,False
+Matched reference,117,24.11235378440036,False
+Matched reference,118,24.11235378440035,False
+Matched reference,119,24.11235378440035,False
+Matched reference,120,24.112353784400348,False
+Matched reference,121,24.112353784400348,False
+Matched reference,122,24.112353784400348,False
+Matched reference,123,24.112353784400348,False
+Matched reference,124,24.112353784400348,False
+Matched reference,125,24.112353784400348,False
+Matched reference,126,24.112353784400348,False
+Matched reference,127,24.112353784400348,False
+Matched reference,128,24.112353784400348,False
+Matched reference,129,24.112353784400348,False
+Matched reference,130,24.112353784400348,False
+Matched reference,131,24.112353784400348,False
+Matched reference,132,24.112353784400344,False
+Matched reference,133,24.112353784400344,False
+Matched reference,134,24.112353784400344,False
+Matched reference,135,24.112353784400344,False
+Matched reference,136,24.112353784400344,False
+Matched reference,137,24.112353784400344,False
+Matched reference,138,24.112353784400344,False
+Matched reference,139,24.112353784400344,False
+Matched reference,140,24.112353784400344,False
+Matched reference,141,24.112353784400344,False
+Matched reference,142,24.11235378440034,False
+Matched reference,143,24.11235378440034,False
+Matched reference,144,24.11235378440034,False
+Matched reference,145,24.11235378440034,False
+Matched reference,146,24.11235378440034,False
+Matched reference,147,24.11235378440034,False
+Matched reference,148,24.112353784400337,False
+Matched reference,149,24.112353784400337,False
+Matched reference,150,24.02259266766013,False
+Matched reference,151,23.896317859084746,False
+Matched reference,152,23.896317859084746,False
+Matched reference,153,22.988794178891446,False
+Matched reference,154,22.988794178891442,False
+Matched reference,155,22.988794178891442,False
+Matched reference,156,22.988794178891442,False
+Matched reference,157,22.988794178891442,False
+Matched reference,158,22.98879417889144,False
+Matched reference,159,22.98879417889144,False
+Matched reference,160,22.987936098731975,False
+Matched reference,161,22.98793609873197,False
+Matched reference,162,22.987936098731968,False
+Matched reference,163,22.987936098731968,False
+Matched reference,164,22.987936098731964,False
+Matched reference,165,22.958125943853943,False
+Matched reference,166,22.813277633309234,False
+Matched reference,167,22.523207476121563,False
+Matched reference,168,22.116499673395882,False
+Matched reference,169,22.094360545738162,False
+Matched reference,170,21.912492347538315,False
+Matched reference,171,21.68034507571951,False
+Matched reference,172,21.680345075719504,False
+Matched reference,173,21.54785047582186,False
+Matched reference,174,21.547850475821857,False
+Matched reference,175,21.54785047582185,False
+Matched reference,176,21.10995629685082,False
+Matched reference,177,20.909913755690038,False
+Matched reference,178,20.601766473853363,False
+Matched reference,179,20.316373403288484,False
+Matched reference,180,20.31637340328848,False
+Matched reference,181,20.31637340328848,False
+Matched reference,182,20.17447194526682,False
+Matched reference,183,19.99087605831129,False
+Matched reference,184,19.99087605831129,False
+Matched reference,185,19.99087605831129,False
+Matched reference,186,19.990701308240766,False
+Matched reference,187,19.99070130824076,False
+Matched reference,188,19.989717140942748,False
+Matched reference,189,19.989549100878172,False
+Matched reference,190,19.989549100878165,False
+Matched reference,191,19.946680303216628,False
+Matched reference,192,19.108529137082886,False
+Matched reference,193,19.108529137082883,False
+Matched reference,194,19.068788765704813,False
+Matched reference,195,9.64072253011277,False
+Matched reference,196,9.640722530112768,False
+Matched reference,197,8.495355051016729,False
+Matched reference,198,6.535332130430669,False
+Matched reference,199,6.2947195946482895,False
+Matched reference,200,4.152604147883793,False
+Matched reference,201,3.8370765916754532,False
+Matched reference,202,3.7256582492533843,False
+Matched reference,203,3.696071711732883,False
+Matched reference,204,3.696071709492472,False
+Matched reference,205,3.692313851162629,False
+Matched reference,206,3.640595308058828,False
+Matched reference,207,3.5068436497639945,False
+Matched reference,208,0.03794967261336858,False
+Matched reference,209,0.02940279074179373,False
+Matched reference,210,0.029402790741793722,False
+Matched reference,211,0.02940279074179372,False
+Matched reference,212,0.02940279074179371,False
+Matched reference,213,0.026776355615092767,False
+Matched reference,214,0.02677635561494008,False
+Matched reference,215,0.026776355614461938,False
+Matched reference,216,0.025713385949466025,False
+Matched reference,217,0.025713385949466025,False
+Matched reference,218,0.02571338594946602,False
+Matched reference,219,0.025438582499253702,False
+Matched reference,220,0.0254385824992537,False
+Matched reference,221,0.0254385824992537,False
+Matched reference,222,0.02508463639046457,False
+Matched reference,223,0.025084636390464564,False
+Severe fossil-rich,0,49.134033085249,False
+Severe fossil-rich,1,49.134033085249,False
+Severe fossil-rich,2,49.134033085249,False
+Severe fossil-rich,3,49.134033085249,False
+Severe fossil-rich,4,49.134033085248994,False
+Severe fossil-rich,5,49.134033085248994,False
+Severe fossil-rich,6,49.134033085248994,False
+Severe fossil-rich,7,49.134033085248994,False
+Severe fossil-rich,8,49.13403308524899,False
+Severe fossil-rich,9,49.13403308524899,False
+Severe fossil-rich,10,49.13403308524899,False
+Severe fossil-rich,11,48.45769963474136,False
+Severe fossil-rich,12,48.45769963474136,False
+Severe fossil-rich,13,48.45769963474135,False
+Severe fossil-rich,14,48.45769963474135,False
+Severe fossil-rich,15,48.45769963474135,False
+Severe fossil-rich,16,47.68789034250846,False
+Severe fossil-rich,17,47.68789034250845,False
+Severe fossil-rich,18,47.687890342508446,False
+Severe fossil-rich,19,47.687890342508446,False
+Severe fossil-rich,20,47.68789034250844,False
+Severe fossil-rich,21,47.68789034250844,False
+Severe fossil-rich,22,47.687890342508425,False
+Severe fossil-rich,23,47.47082320818309,False
+Severe fossil-rich,24,47.470823208183084,False
+Severe fossil-rich,25,47.470823208183084,False
+Severe fossil-rich,26,47.470823208183084,False
+Severe fossil-rich,27,47.470823208183084,False
+Severe fossil-rich,28,47.47082320818308,False
+Severe fossil-rich,29,47.47082320818308,False
+Severe fossil-rich,30,47.47082320818308,False
+Severe fossil-rich,31,47.47082320818308,False
+Severe fossil-rich,32,47.47082320818307,False
+Severe fossil-rich,33,47.47082320818307,False
+Severe fossil-rich,34,47.47082320818307,False
+Severe fossil-rich,35,47.47082320818307,False
+Severe fossil-rich,36,47.47082320818307,False
+Severe fossil-rich,37,47.47082320818307,False
+Severe fossil-rich,38,47.47082320818306,False
+Severe fossil-rich,39,46.811863801926265,False
+Severe fossil-rich,40,46.811863801926265,False
+Severe fossil-rich,41,46.811863801926265,False
+Severe fossil-rich,42,46.811863801926265,False
+Severe fossil-rich,43,46.81186380192626,False
+Severe fossil-rich,44,46.81186380192626,False
+Severe fossil-rich,45,46.81186380192626,False
+Severe fossil-rich,46,46.81186380192626,False
+Severe fossil-rich,47,46.81186380192626,False
+Severe fossil-rich,48,46.81186380192626,False
+Severe fossil-rich,49,46.81186380192626,False
+Severe fossil-rich,50,46.81186380192626,False
+Severe fossil-rich,51,46.81186380192625,False
+Severe fossil-rich,52,46.81186380192625,False
+Severe fossil-rich,53,46.81186380192625,False
+Severe fossil-rich,54,46.81186380192625,False
+Severe fossil-rich,55,46.81186380192625,False
+Severe fossil-rich,56,46.81186380192625,False
+Severe fossil-rich,57,46.81186380192625,False
+Severe fossil-rich,58,46.81186380192625,False
+Severe fossil-rich,59,46.81186380192625,False
+Severe fossil-rich,60,46.81186380192625,False
+Severe fossil-rich,61,46.81186380192625,False
+Severe fossil-rich,62,46.81186380192625,False
+Severe fossil-rich,63,46.81186380192625,False
+Severe fossil-rich,64,46.81186380192624,False
+Severe fossil-rich,65,46.81186380192624,False
+Severe fossil-rich,66,46.81186380192624,False
+Severe fossil-rich,67,46.81186380192624,False
+Severe fossil-rich,68,46.81186380192624,False
+Severe fossil-rich,69,45.69762916197274,False
+Severe fossil-rich,70,45.69762916197274,False
+Severe fossil-rich,71,45.697629161972735,False
+Severe fossil-rich,72,45.697629161972735,False
+Severe fossil-rich,73,45.697629161972735,False
+Severe fossil-rich,74,45.69762916197273,False
+Severe fossil-rich,75,45.69762916197273,False
+Severe fossil-rich,76,45.69762916197273,False
+Severe fossil-rich,77,45.69762916197273,False
+Severe fossil-rich,78,45.69762916197273,False
+Severe fossil-rich,79,45.69762916197272,False
+Severe fossil-rich,80,45.69762916197272,False
+Severe fossil-rich,81,45.69762916197272,False
+Severe fossil-rich,82,34.12394488676513,False
+Severe fossil-rich,83,34.123938937939585,False
+Severe fossil-rich,84,34.12393893793957,False
+Severe fossil-rich,85,34.12393893793955,False
+Severe fossil-rich,86,34.123747905903585,False
+Severe fossil-rich,87,34.123747905903585,False
+Severe fossil-rich,88,34.12372578905152,False
+Severe fossil-rich,89,34.12329608851067,False
+Severe fossil-rich,90,34.12329608851066,False
+Severe fossil-rich,91,34.12329608851066,False
+Severe fossil-rich,92,34.12329608851066,False
+Severe fossil-rich,93,34.12329608851066,False
+Severe fossil-rich,94,34.123296088510656,False
+Severe fossil-rich,95,34.123296088510656,False
+Severe fossil-rich,96,34.12328423503639,False
+Severe fossil-rich,97,34.12328423503638,False
+Severe fossil-rich,98,34.12328423503638,False
+Severe fossil-rich,99,34.12328423503638,False
+Severe fossil-rich,100,34.12328423503638,False
+Severe fossil-rich,101,34.1226842098799,False
+Severe fossil-rich,102,34.12268420987989,False
+Severe fossil-rich,103,27.07989425600345,False
+Severe fossil-rich,104,27.079894256003445,False
+Severe fossil-rich,105,27.079894256003445,False
+Severe fossil-rich,106,27.079894256003445,False
+Severe fossil-rich,107,27.079894256003445,False
+Severe fossil-rich,108,27.079894256003445,False
+Severe fossil-rich,109,27.079894256003442,False
+Severe fossil-rich,110,27.079894256003442,False
+Severe fossil-rich,111,27.079894256003442,False
+Severe fossil-rich,112,27.079894256003442,False
+Severe fossil-rich,113,27.079894256003442,False
+Severe fossil-rich,114,27.079894256003442,False
+Severe fossil-rich,115,27.079894256003442,False
+Severe fossil-rich,116,27.079894256003442,False
+Severe fossil-rich,117,27.079894256003442,False
+Severe fossil-rich,118,27.079894256003442,False
+Severe fossil-rich,119,27.079894256003442,False
+Severe fossil-rich,120,27.079894256003442,False
+Severe fossil-rich,121,27.07989425600344,False
+Severe fossil-rich,122,27.07989425600344,False
+Severe fossil-rich,123,27.07989425600344,False
+Severe fossil-rich,124,27.07989425600344,False
+Severe fossil-rich,125,27.07989425600344,False
+Severe fossil-rich,126,27.07989425600344,False
+Severe fossil-rich,127,27.07989425600344,False
+Severe fossil-rich,128,27.07989425600344,False
+Severe fossil-rich,129,27.07989425600344,False
+Severe fossil-rich,130,27.07989425600344,False
+Severe fossil-rich,131,27.07989425600344,False
+Severe fossil-rich,132,27.07989425600344,False
+Severe fossil-rich,133,27.07989425600344,False
+Severe fossil-rich,134,27.079894256003435,False
+Severe fossil-rich,135,27.079894256003435,False
+Severe fossil-rich,136,27.079894256003435,False
+Severe fossil-rich,137,27.079894256003435,False
+Severe fossil-rich,138,27.079894256003435,False
+Severe fossil-rich,139,27.079894256003435,False
+Severe fossil-rich,140,27.079894256003435,False
+Severe fossil-rich,141,27.079894256003435,False
+Severe fossil-rich,142,27.079894256003435,False
+Severe fossil-rich,143,27.079894256003435,False
+Severe fossil-rich,144,27.07989425600343,False
+Severe fossil-rich,145,24.793026619573798,False
+Severe fossil-rich,146,24.793026619573794,False
+Severe fossil-rich,147,24.793026619573794,False
+Severe fossil-rich,148,24.793026619573794,False
+Severe fossil-rich,149,24.79302661957379,False
+Severe fossil-rich,150,24.79302661957379,False
+Severe fossil-rich,151,24.79302661957379,False
+Severe fossil-rich,152,24.79302661957379,False
+Severe fossil-rich,153,24.793026619573787,False
+Severe fossil-rich,154,24.79302661957378,False
+Severe fossil-rich,155,24.793026619573777,False
+Severe fossil-rich,156,24.11235378440036,False
+Severe fossil-rich,157,24.11235378440035,False
+Severe fossil-rich,158,24.11235378440035,False
+Severe fossil-rich,159,24.112353784400348,False
+Severe fossil-rich,160,24.112353784400348,False
+Severe fossil-rich,161,24.112353784400348,False
+Severe fossil-rich,162,24.112353784400348,False
+Severe fossil-rich,163,24.112353784400348,False
+Severe fossil-rich,164,24.112353784400348,False
+Severe fossil-rich,165,24.112353784400348,False
+Severe fossil-rich,166,24.112353784400348,False
+Severe fossil-rich,167,24.112353784400344,False
+Severe fossil-rich,168,24.112353784400344,False
+Severe fossil-rich,169,24.11235378440034,False
+Severe fossil-rich,170,24.11235378440034,False
+Severe fossil-rich,171,24.11235378440034,False
+Severe fossil-rich,172,24.02259266766013,False
+Severe fossil-rich,173,23.896317859084746,False
+Severe fossil-rich,174,23.896317859084746,False
+Severe fossil-rich,175,22.988794178891442,False
+Severe fossil-rich,176,22.98879417889144,False
+Severe fossil-rich,177,22.987936098731975,False
+Severe fossil-rich,178,22.958125943853943,False
+Severe fossil-rich,179,22.813277633309234,False
+Severe fossil-rich,180,22.523207476121563,False
+Severe fossil-rich,181,22.116499673395882,False
+Severe fossil-rich,182,22.094360545738162,False
+Severe fossil-rich,183,21.91249234753832,False
+Severe fossil-rich,184,21.68034507571951,False
+Severe fossil-rich,185,21.680345075719504,False
+Severe fossil-rich,186,21.547850475821857,False
+Severe fossil-rich,187,21.10995629685082,False
+Severe fossil-rich,188,20.601766473853363,False
+Severe fossil-rich,189,20.31637340328848,False
+Severe fossil-rich,190,19.99087605831129,False
+Severe fossil-rich,191,19.99087605831129,False
+Severe fossil-rich,192,19.99070130824076,False
+Severe fossil-rich,193,19.99061339350269,False
+Severe fossil-rich,194,19.989717140942748,False
+Severe fossil-rich,195,19.989549100878172,False
+Severe fossil-rich,196,19.989549100878165,False
+Severe fossil-rich,197,19.94668030321662,False
+Severe fossil-rich,198,19.108529137082886,False
+Severe fossil-rich,199,19.068936283788474,False
+Severe fossil-rich,200,18.998577687091494,False
+Severe fossil-rich,201,18.961453964514288,False
+Severe fossil-rich,202,9.64072253011277,False
+Severe fossil-rich,203,9.640722530112768,False
+Severe fossil-rich,204,8.495355051016729,False
+Severe fossil-rich,205,6.535332130430669,False
+Severe fossil-rich,206,6.2947195946482895,False
+Severe fossil-rich,207,3.8370765938521996,False
+Severe fossil-rich,208,3.8370765916754532,False
+Severe fossil-rich,209,3.7256582492533843,False
+Severe fossil-rich,210,3.696071709492472,False
+Severe fossil-rich,211,3.692313851162629,False
+Severe fossil-rich,212,3.640595308058828,False
+Severe fossil-rich,213,0.03794967261336858,False
+Severe fossil-rich,214,0.02940279074179373,False
+Severe fossil-rich,215,0.029402790741793722,False
+Severe fossil-rich,216,0.02940279074179372,False
+Severe fossil-rich,217,0.02940279074179371,False
+Severe fossil-rich,218,0.026776355615092767,False
+Severe fossil-rich,219,0.025732637237826504,False
+Severe fossil-rich,220,0.025713385949466025,False
+Severe fossil-rich,221,0.02571338594946602,False
+Severe fossil-rich,222,0.0254385824992537,False
+Severe fossil-rich,223,0.0254385824992537,False
+Decarbonised no nuclear,0,10000.000000000005,True
+Decarbonised no nuclear,1,10000.000000000005,True
+Decarbonised no nuclear,2,10000.000000000004,True
+Decarbonised no nuclear,3,10000.000000000004,True
+Decarbonised no nuclear,4,10000.000000000004,True
+Decarbonised no nuclear,5,10000.000000000004,True
+Decarbonised no nuclear,6,10000.000000000004,True
+Decarbonised no nuclear,7,10000.000000000004,True
+Decarbonised no nuclear,8,10000.000000000002,True
+Decarbonised no nuclear,9,10000.000000000002,True
+Decarbonised no nuclear,10,10000.000000000002,True
+Decarbonised no nuclear,11,10000.000000000002,True
+Decarbonised no nuclear,12,10000.000000000002,True
+Decarbonised no nuclear,13,10000.000000000002,True
+Decarbonised no nuclear,14,10000.000000000002,True
+Decarbonised no nuclear,15,10000.000000000002,True
+Decarbonised no nuclear,16,10000.000000000002,True
+Decarbonised no nuclear,17,10000.000000000002,True
+Decarbonised no nuclear,18,10000.000000000002,True
+Decarbonised no nuclear,19,10000.000000000002,True
+Decarbonised no nuclear,20,10000.0,True
+Decarbonised no nuclear,21,10000.0,True
+Decarbonised no nuclear,22,10000.0,True
+Decarbonised no nuclear,23,10000.0,True
+Decarbonised no nuclear,24,10000.0,True
+Decarbonised no nuclear,25,10000.0,True
+Decarbonised no nuclear,26,10000.0,True
+Decarbonised no nuclear,27,10000.0,True
+Decarbonised no nuclear,28,10000.0,True
+Decarbonised no nuclear,29,10000.0,True
+Decarbonised no nuclear,30,10000.0,True
+Decarbonised no nuclear,31,10000.0,True
+Decarbonised no nuclear,32,10000.0,True
+Decarbonised no nuclear,33,10000.0,True
+Decarbonised no nuclear,34,10000.0,True
+Decarbonised no nuclear,35,10000.0,True
+Decarbonised no nuclear,36,10000.0,True
+Decarbonised no nuclear,37,10000.0,True
+Decarbonised no nuclear,38,10000.0,True
+Decarbonised no nuclear,39,10000.0,True
+Decarbonised no nuclear,40,10000.0,True
+Decarbonised no nuclear,41,10000.0,True
+Decarbonised no nuclear,42,9999.999999999998,True
+Decarbonised no nuclear,43,9999.999999999998,True
+Decarbonised no nuclear,44,9999.999999999998,True
+Decarbonised no nuclear,45,9999.999999999998,True
+Decarbonised no nuclear,46,9999.999999999998,True
+Decarbonised no nuclear,47,9999.999999999998,True
+Decarbonised no nuclear,48,9999.999999999998,True
+Decarbonised no nuclear,49,9999.999999999998,True
+Decarbonised no nuclear,50,9999.999999999998,True
+Decarbonised no nuclear,51,9999.999999999998,True
+Decarbonised no nuclear,52,9999.999999999998,True
+Decarbonised no nuclear,53,9999.999999999998,True
+Decarbonised no nuclear,54,9999.999999999998,True
+Decarbonised no nuclear,55,9999.999999999996,True
+Decarbonised no nuclear,56,9999.999999999996,True
+Decarbonised no nuclear,57,9999.999999999996,True
+Decarbonised no nuclear,58,9999.999999999996,True
+Decarbonised no nuclear,59,9999.999999999996,True
+Decarbonised no nuclear,60,9999.999999999996,True
+Decarbonised no nuclear,61,9999.999999999996,True
+Decarbonised no nuclear,62,9999.999999999996,True
+Decarbonised no nuclear,63,9999.999999999996,True
+Decarbonised no nuclear,64,9999.999999999996,True
+Decarbonised no nuclear,65,9999.999999999996,True
+Decarbonised no nuclear,66,9999.999999999996,True
+Decarbonised no nuclear,67,9999.999999999995,True
+Decarbonised no nuclear,68,9999.999999999995,True
+Decarbonised no nuclear,69,124.77743453131909,False
+Decarbonised no nuclear,70,124.77733329237441,False
+Decarbonised no nuclear,71,124.77722308915202,False
+Decarbonised no nuclear,72,124.77720108099533,False
+Decarbonised no nuclear,73,124.171027056071,False
+Decarbonised no nuclear,74,124.17102705607098,False
+Decarbonised no nuclear,75,124.17102705607098,False
+Decarbonised no nuclear,76,124.17102705607098,False
+Decarbonised no nuclear,77,124.17102705607098,False
+Decarbonised no nuclear,78,124.17102705607098,False
+Decarbonised no nuclear,79,124.17102705607098,False
+Decarbonised no nuclear,80,124.17102705607097,False
+Decarbonised no nuclear,81,124.17102705607095,False
+Decarbonised no nuclear,82,124.12654154850787,False
+Decarbonised no nuclear,83,124.12654154850787,False
+Decarbonised no nuclear,84,124.12654154850787,False
+Decarbonised no nuclear,85,124.12654154850786,False
+Decarbonised no nuclear,86,124.12654154850786,False
+Decarbonised no nuclear,87,124.12654154850786,False
+Decarbonised no nuclear,88,124.12654154850786,False
+Decarbonised no nuclear,89,124.0856795964856,False
+Decarbonised no nuclear,90,124.0856795964856,False
+Decarbonised no nuclear,91,124.0856795964856,False
+Decarbonised no nuclear,92,124.08567959648559,False
+Decarbonised no nuclear,93,124.08567959648559,False
+Decarbonised no nuclear,94,124.08567959648556,False
+Decarbonised no nuclear,95,122.74256655771869,False
+Decarbonised no nuclear,96,122.74256655771869,False
+Decarbonised no nuclear,97,122.74256655771867,False
+Decarbonised no nuclear,98,122.74256655771866,False
+Decarbonised no nuclear,99,122.74256655771866,False
+Decarbonised no nuclear,100,122.74256655771865,False
+Decarbonised no nuclear,101,121.61355425784309,False
+Decarbonised no nuclear,102,77.67749182669206,False
+Decarbonised no nuclear,103,68.47458246183793,False
+Decarbonised no nuclear,104,63.547788749257876,False
+Decarbonised no nuclear,105,63.547788749257876,False
+Decarbonised no nuclear,106,61.01783758118529,False
+Decarbonised no nuclear,107,58.947059454733896,False
+Decarbonised no nuclear,108,58.947025529878616,False
+Decarbonised no nuclear,109,58.94683379381083,False
+Decarbonised no nuclear,110,58.94674654913856,False
+Decarbonised no nuclear,111,58.94674647126025,False
+Decarbonised no nuclear,112,58.94664648340484,False
+Decarbonised no nuclear,113,58.94663557009501,False
+Decarbonised no nuclear,114,58.94660021966082,False
+Decarbonised no nuclear,115,58.94659013671203,False
+Decarbonised no nuclear,116,58.946420684177575,False
+Decarbonised no nuclear,117,58.9463250455692,False
+Decarbonised no nuclear,118,58.9463250455692,False
+Decarbonised no nuclear,119,58.9463250455692,False
+Decarbonised no nuclear,120,58.946325045569196,False
+Decarbonised no nuclear,121,58.94632504556919,False
+Decarbonised no nuclear,122,58.94632464922672,False
+Decarbonised no nuclear,123,58.946245513715326,False
+Decarbonised no nuclear,124,58.946075409133414,False
+Decarbonised no nuclear,125,58.94604224839922,False
+Decarbonised no nuclear,126,58.945969120480726,False
+Decarbonised no nuclear,127,58.94572531789604,False
+Decarbonised no nuclear,128,58.945592344074576,False
+Decarbonised no nuclear,129,58.945410598281185,False
+Decarbonised no nuclear,130,58.945348604041314,False
+Decarbonised no nuclear,131,58.945303781124146,False
+Decarbonised no nuclear,132,58.945277970856374,False
+Decarbonised no nuclear,133,58.94524977961389,False
+Decarbonised no nuclear,134,58.945223301313874,False
+Decarbonised no nuclear,135,56.09365827577921,False
+Decarbonised no nuclear,136,53.825955487175236,False
+Decarbonised no nuclear,137,53.82595548717523,False
+Decarbonised no nuclear,138,53.82595548717523,False
+Decarbonised no nuclear,139,53.82595548717523,False
+Decarbonised no nuclear,140,53.82595548717523,False
+Decarbonised no nuclear,141,53.82595548717523,False
+Decarbonised no nuclear,142,52.11348526127565,False
+Decarbonised no nuclear,143,52.113485261275635,False
+Decarbonised no nuclear,144,52.11348526127562,False
+Decarbonised no nuclear,145,51.095987401608305,False
+Decarbonised no nuclear,146,51.095987401608305,False
+Decarbonised no nuclear,147,51.095987401608305,False
+Decarbonised no nuclear,148,51.0959874016083,False
+Decarbonised no nuclear,149,51.0959874016083,False
+Decarbonised no nuclear,150,51.0959874016083,False
+Decarbonised no nuclear,151,51.09598740160829,False
+Decarbonised no nuclear,152,51.095987401608284,False
+Decarbonised no nuclear,153,51.095987401608284,False
+Decarbonised no nuclear,154,51.095987401608284,False
+Decarbonised no nuclear,155,51.095987401608284,False
+Decarbonised no nuclear,156,51.095987401608284,False
+Decarbonised no nuclear,157,51.095987401608284,False
+Decarbonised no nuclear,158,51.09598740160828,False
+Decarbonised no nuclear,159,50.34200106368444,False
+Decarbonised no nuclear,160,49.98203852934791,False
+Decarbonised no nuclear,161,49.73388512177941,False
+Decarbonised no nuclear,162,49.7338851217794,False
+Decarbonised no nuclear,163,49.134033085249015,False
+Decarbonised no nuclear,164,49.13403308524901,False
+Decarbonised no nuclear,165,49.13403308524901,False
+Decarbonised no nuclear,166,49.13403308524901,False
+Decarbonised no nuclear,167,49.13403308524901,False
+Decarbonised no nuclear,168,49.134033085249,False
+Decarbonised no nuclear,169,49.134033085249,False
+Decarbonised no nuclear,170,49.134033085249,False
+Decarbonised no nuclear,171,49.13403308524897,False
+Decarbonised no nuclear,172,49.11346679493578,False
+Decarbonised no nuclear,173,49.113466794935775,False
+Decarbonised no nuclear,174,48.93237582107421,False
+Decarbonised no nuclear,175,48.45769963474137,False
+Decarbonised no nuclear,176,47.687890342508425,False
+Decarbonised no nuclear,177,47.43218887232623,False
+Decarbonised no nuclear,178,46.81186380192627,False
+Decarbonised no nuclear,179,46.811863801926265,False
+Decarbonised no nuclear,180,46.81186380192626,False
+Decarbonised no nuclear,181,46.81186380192626,False
+Decarbonised no nuclear,182,46.81186380192625,False
+Decarbonised no nuclear,183,46.81186380192625,False
+Decarbonised no nuclear,184,46.81186380192624,False
+Decarbonised no nuclear,185,46.81186380192624,False
+Decarbonised no nuclear,186,46.81186380192624,False
+Decarbonised no nuclear,187,45.69762916197273,False
+Decarbonised no nuclear,188,34.1233734359275,False
+Decarbonised no nuclear,189,34.12329608851066,False
+Decarbonised no nuclear,190,25.402574716232802,False
+Decarbonised no nuclear,191,24.958180616270237,False
+Decarbonised no nuclear,192,24.722899708498357,False
+Decarbonised no nuclear,193,24.048571341599644,False
+Decarbonised no nuclear,194,21.80763710210603,False
+Decarbonised no nuclear,195,20.638900277394846,False
+Decarbonised no nuclear,196,20.15662531974376,False
+Decarbonised no nuclear,197,20.1405915227097,False
+Decarbonised no nuclear,198,19.990701308240762,False
+Decarbonised no nuclear,199,19.990701308240755,False
+Decarbonised no nuclear,200,19.98995251518661,False
+Decarbonised no nuclear,201,19.98954910087817,False
+Decarbonised no nuclear,202,9.640722530112772,False
+Decarbonised no nuclear,203,9.640722530112768,False
+Decarbonised no nuclear,204,8.744914330796542,False
+Decarbonised no nuclear,205,8.495355051016729,False
+Decarbonised no nuclear,206,8.42273379848742,False
+Decarbonised no nuclear,207,6.535332130430669,False
+Decarbonised no nuclear,208,6.347018472368818,False
+Decarbonised no nuclear,209,3.8370765938521987,False
+Decarbonised no nuclear,210,3.8370765928656696,False
+Decarbonised no nuclear,211,3.696071709492472,False
+Decarbonised no nuclear,212,3.692313851162629,False
+Decarbonised no nuclear,213,0.03794967261336858,False
+Decarbonised no nuclear,214,0.02940279074179373,False
+Decarbonised no nuclear,215,0.029402790741793722,False
+Decarbonised no nuclear,216,0.02940279074179372,False
+Decarbonised no nuclear,217,0.02940279074179371,False
+Decarbonised no nuclear,218,0.026776355615092767,False
+Decarbonised no nuclear,219,0.025732637237826504,False
+Decarbonised no nuclear,220,0.025713385949466032,False
+Decarbonised no nuclear,221,0.025713385949466015,False
+Decarbonised no nuclear,222,0.025438582499253702,False
+Decarbonised no nuclear,223,0.0254385824992537,False
+Decarbonised +4.5 GW SMR,0,10000.000000000005,True
+Decarbonised +4.5 GW SMR,1,10000.000000000004,True
+Decarbonised +4.5 GW SMR,2,10000.000000000004,True
+Decarbonised +4.5 GW SMR,3,10000.000000000004,True
+Decarbonised +4.5 GW SMR,4,10000.000000000004,True
+Decarbonised +4.5 GW SMR,5,10000.000000000004,True
+Decarbonised +4.5 GW SMR,6,10000.000000000004,True
+Decarbonised +4.5 GW SMR,7,10000.000000000002,True
+Decarbonised +4.5 GW SMR,8,10000.000000000002,True
+Decarbonised +4.5 GW SMR,9,10000.000000000002,True
+Decarbonised +4.5 GW SMR,10,10000.000000000002,True
+Decarbonised +4.5 GW SMR,11,10000.000000000002,True
+Decarbonised +4.5 GW SMR,12,10000.000000000002,True
+Decarbonised +4.5 GW SMR,13,10000.000000000002,True
+Decarbonised +4.5 GW SMR,14,10000.000000000002,True
+Decarbonised +4.5 GW SMR,15,10000.000000000002,True
+Decarbonised +4.5 GW SMR,16,10000.000000000002,True
+Decarbonised +4.5 GW SMR,17,10000.0,True
+Decarbonised +4.5 GW SMR,18,10000.0,True
+Decarbonised +4.5 GW SMR,19,10000.0,True
+Decarbonised +4.5 GW SMR,20,10000.0,True
+Decarbonised +4.5 GW SMR,21,10000.0,True
+Decarbonised +4.5 GW SMR,22,10000.0,True
+Decarbonised +4.5 GW SMR,23,10000.0,True
+Decarbonised +4.5 GW SMR,24,10000.0,True
+Decarbonised +4.5 GW SMR,25,10000.0,True
+Decarbonised +4.5 GW SMR,26,10000.0,True
+Decarbonised +4.5 GW SMR,27,10000.0,True
+Decarbonised +4.5 GW SMR,28,10000.0,True
+Decarbonised +4.5 GW SMR,29,10000.0,True
+Decarbonised +4.5 GW SMR,30,10000.0,True
+Decarbonised +4.5 GW SMR,31,9999.999999999998,True
+Decarbonised +4.5 GW SMR,32,9999.999999999998,True
+Decarbonised +4.5 GW SMR,33,9999.999999999998,True
+Decarbonised +4.5 GW SMR,34,9999.999999999998,True
+Decarbonised +4.5 GW SMR,35,9999.999999999998,True
+Decarbonised +4.5 GW SMR,36,9999.999999999998,True
+Decarbonised +4.5 GW SMR,37,9999.999999999998,True
+Decarbonised +4.5 GW SMR,38,9999.999999999998,True
+Decarbonised +4.5 GW SMR,39,9999.999999999998,True
+Decarbonised +4.5 GW SMR,40,9999.999999999998,True
+Decarbonised +4.5 GW SMR,41,9999.999999999998,True
+Decarbonised +4.5 GW SMR,42,9999.999999999996,True
+Decarbonised +4.5 GW SMR,43,9999.999999999996,True
+Decarbonised +4.5 GW SMR,44,9999.999999999996,True
+Decarbonised +4.5 GW SMR,45,9999.999999999996,True
+Decarbonised +4.5 GW SMR,46,9999.999999999996,True
+Decarbonised +4.5 GW SMR,47,9999.999999999996,True
+Decarbonised +4.5 GW SMR,48,9999.999999999995,True
+Decarbonised +4.5 GW SMR,49,9999.999999999993,True
+Decarbonised +4.5 GW SMR,50,9999.999999999993,True
+Decarbonised +4.5 GW SMR,51,9999.999999999993,True
+Decarbonised +4.5 GW SMR,52,124.77743453131912,False
+Decarbonised +4.5 GW SMR,53,124.77743453131903,False
+Decarbonised +4.5 GW SMR,54,124.77737510192321,False
+Decarbonised +4.5 GW SMR,55,124.7773751019232,False
+Decarbonised +4.5 GW SMR,56,124.77733329237444,False
+Decarbonised +4.5 GW SMR,57,124.77733329237444,False
+Decarbonised +4.5 GW SMR,58,124.77733329237442,False
+Decarbonised +4.5 GW SMR,59,124.77722308915205,False
+Decarbonised +4.5 GW SMR,60,124.77722308915203,False
+Decarbonised +4.5 GW SMR,61,124.171027056071,False
+Decarbonised +4.5 GW SMR,62,124.171027056071,False
+Decarbonised +4.5 GW SMR,63,124.17102705607097,False
+Decarbonised +4.5 GW SMR,64,124.17102705607095,False
+Decarbonised +4.5 GW SMR,65,124.12654154850787,False
+Decarbonised +4.5 GW SMR,66,124.12654154850787,False
+Decarbonised +4.5 GW SMR,67,124.12654154850787,False
+Decarbonised +4.5 GW SMR,68,124.12654154850786,False
+Decarbonised +4.5 GW SMR,69,124.08567959648562,False
+Decarbonised +4.5 GW SMR,70,124.08567959648559,False
+Decarbonised +4.5 GW SMR,71,122.74256655771866,False
+Decarbonised +4.5 GW SMR,72,122.74256655771866,False
+Decarbonised +4.5 GW SMR,73,121.61355425784303,False
+Decarbonised +4.5 GW SMR,74,121.61355425784302,False
+Decarbonised +4.5 GW SMR,75,80.10208974448018,False
+Decarbonised +4.5 GW SMR,76,70.27145765158936,False
+Decarbonised +4.5 GW SMR,77,70.27145765158934,False
+Decarbonised +4.5 GW SMR,78,65.64303119544775,False
+Decarbonised +4.5 GW SMR,79,65.64303119544772,False
+Decarbonised +4.5 GW SMR,80,63.547788749257876,False
+Decarbonised +4.5 GW SMR,81,58.94714041681201,False
+Decarbonised +4.5 GW SMR,82,58.94704054331273,False
+Decarbonised +4.5 GW SMR,83,58.94693158264434,False
+Decarbonised +4.5 GW SMR,84,58.94691596123561,False
+Decarbonised +4.5 GW SMR,85,58.94691596123561,False
+Decarbonised +4.5 GW SMR,86,58.94674647126026,False
+Decarbonised +4.5 GW SMR,87,58.94674647126025,False
+Decarbonised +4.5 GW SMR,88,58.94669923817745,False
+Decarbonised +4.5 GW SMR,89,58.94654287717881,False
+Decarbonised +4.5 GW SMR,90,58.94645380262615,False
+Decarbonised +4.5 GW SMR,91,58.94642977750266,False
+Decarbonised +4.5 GW SMR,92,58.94636849761857,False
+Decarbonised +4.5 GW SMR,93,58.94634197445622,False
+Decarbonised +4.5 GW SMR,94,58.9463419744562,False
+Decarbonised +4.5 GW SMR,95,58.9463250455692,False
+Decarbonised +4.5 GW SMR,96,58.9463250455692,False
+Decarbonised +4.5 GW SMR,97,58.9463250455692,False
+Decarbonised +4.5 GW SMR,98,58.946325045569196,False
+Decarbonised +4.5 GW SMR,99,58.946325045569196,False
+Decarbonised +4.5 GW SMR,100,58.94632504556919,False
+Decarbonised +4.5 GW SMR,101,58.94625961077333,False
+Decarbonised +4.5 GW SMR,102,58.94610347167364,False
+Decarbonised +4.5 GW SMR,103,58.94594233538173,False
+Decarbonised +4.5 GW SMR,104,58.94586472231866,False
+Decarbonised +4.5 GW SMR,105,58.94574452199968,False
+Decarbonised +4.5 GW SMR,106,58.94565840775502,False
+Decarbonised +4.5 GW SMR,107,58.945489449353886,False
+Decarbonised +4.5 GW SMR,108,58.94545449351609,False
+Decarbonised +4.5 GW SMR,109,58.9452701960259,False
+Decarbonised +4.5 GW SMR,110,58.945249049650705,False
+Decarbonised +4.5 GW SMR,111,53.825955487175236,False
+Decarbonised +4.5 GW SMR,112,53.825955487175236,False
+Decarbonised +4.5 GW SMR,113,53.825955487175236,False
+Decarbonised +4.5 GW SMR,114,53.825955487175236,False
+Decarbonised +4.5 GW SMR,115,53.825955487175236,False
+Decarbonised +4.5 GW SMR,116,53.82595548717523,False
+Decarbonised +4.5 GW SMR,117,53.82595548717523,False
+Decarbonised +4.5 GW SMR,118,53.82595548717523,False
+Decarbonised +4.5 GW SMR,119,53.82595548717523,False
+Decarbonised +4.5 GW SMR,120,53.82595548717523,False
+Decarbonised +4.5 GW SMR,121,53.82595548717522,False
+Decarbonised +4.5 GW SMR,122,53.82595548717522,False
+Decarbonised +4.5 GW SMR,123,53.825955487175214,False
+Decarbonised +4.5 GW SMR,124,52.11348526127565,False
+Decarbonised +4.5 GW SMR,125,52.113485261275635,False
+Decarbonised +4.5 GW SMR,126,52.113485261275635,False
+Decarbonised +4.5 GW SMR,127,52.11348526127563,False
+Decarbonised +4.5 GW SMR,128,52.11348526127562,False
+Decarbonised +4.5 GW SMR,129,51.0959874016083,False
+Decarbonised +4.5 GW SMR,130,51.0959874016083,False
+Decarbonised +4.5 GW SMR,131,51.09598740160829,False
+Decarbonised +4.5 GW SMR,132,51.09598740160829,False
+Decarbonised +4.5 GW SMR,133,51.09598740160829,False
+Decarbonised +4.5 GW SMR,134,51.09598740160829,False
+Decarbonised +4.5 GW SMR,135,51.095987401608284,False
+Decarbonised +4.5 GW SMR,136,51.095987401608284,False
+Decarbonised +4.5 GW SMR,137,51.095987401608284,False
+Decarbonised +4.5 GW SMR,138,51.095987401608284,False
+Decarbonised +4.5 GW SMR,139,51.095987401608284,False
+Decarbonised +4.5 GW SMR,140,51.095987401608284,False
+Decarbonised +4.5 GW SMR,141,51.095987401608284,False
+Decarbonised +4.5 GW SMR,142,51.095987401608284,False
+Decarbonised +4.5 GW SMR,143,51.09598740160828,False
+Decarbonised +4.5 GW SMR,144,51.09598740160827,False
+Decarbonised +4.5 GW SMR,145,50.34200106368446,False
+Decarbonised +4.5 GW SMR,146,50.34200106368445,False
+Decarbonised +4.5 GW SMR,147,49.98311187567068,False
+Decarbonised +4.5 GW SMR,148,49.98311187567068,False
+Decarbonised +4.5 GW SMR,149,49.98203852934792,False
+Decarbonised +4.5 GW SMR,150,49.134033085249015,False
+Decarbonised +4.5 GW SMR,151,49.134033085249015,False
+Decarbonised +4.5 GW SMR,152,49.134033085249015,False
+Decarbonised +4.5 GW SMR,153,49.13403308524901,False
+Decarbonised +4.5 GW SMR,154,49.13403308524901,False
+Decarbonised +4.5 GW SMR,155,49.13403308524901,False
+Decarbonised +4.5 GW SMR,156,49.13403308524901,False
+Decarbonised +4.5 GW SMR,157,49.13403308524901,False
+Decarbonised +4.5 GW SMR,158,49.134033085249,False
+Decarbonised +4.5 GW SMR,159,49.134033085249,False
+Decarbonised +4.5 GW SMR,160,49.134033085249,False
+Decarbonised +4.5 GW SMR,161,49.134033085249,False
+Decarbonised +4.5 GW SMR,162,49.13403308524899,False
+Decarbonised +4.5 GW SMR,163,48.45769963474137,False
+Decarbonised +4.5 GW SMR,164,48.45769963474136,False
+Decarbonised +4.5 GW SMR,165,48.45769963474136,False
+Decarbonised +4.5 GW SMR,166,48.45769963474136,False
+Decarbonised +4.5 GW SMR,167,47.76350535744163,False
+Decarbonised +4.5 GW SMR,168,47.76350535744163,False
+Decarbonised +4.5 GW SMR,169,47.687890342508446,False
+Decarbonised +4.5 GW SMR,170,47.687890342508425,False
+Decarbonised +4.5 GW SMR,171,47.68789034250842,False
+Decarbonised +4.5 GW SMR,172,47.68789034250842,False
+Decarbonised +4.5 GW SMR,173,47.470823208183084,False
+Decarbonised +4.5 GW SMR,174,47.47082320818305,False
+Decarbonised +4.5 GW SMR,175,47.432188872326215,False
+Decarbonised +4.5 GW SMR,176,47.03810952954811,False
+Decarbonised +4.5 GW SMR,177,47.0381095295481,False
+Decarbonised +4.5 GW SMR,178,46.811863801926265,False
+Decarbonised +4.5 GW SMR,179,46.81186380192626,False
+Decarbonised +4.5 GW SMR,180,46.81186380192626,False
+Decarbonised +4.5 GW SMR,181,46.81186380192625,False
+Decarbonised +4.5 GW SMR,182,46.81186380192624,False
+Decarbonised +4.5 GW SMR,183,46.762668703369116,False
+Decarbonised +4.5 GW SMR,184,45.69762916197275,False
+Decarbonised +4.5 GW SMR,185,45.69762916197272,False
+Decarbonised +4.5 GW SMR,186,34.12372578905151,False
+Decarbonised +4.5 GW SMR,187,21.21276364767475,False
+Decarbonised +4.5 GW SMR,188,20.88081094744354,False
+Decarbonised +4.5 GW SMR,189,20.1405915227097,False
+Decarbonised +4.5 GW SMR,190,20.140591522709695,False
+Decarbonised +4.5 GW SMR,191,19.990701308240762,False
+Decarbonised +4.5 GW SMR,192,19.99070130824076,False
+Decarbonised +4.5 GW SMR,193,19.990613393502695,False
+Decarbonised +4.5 GW SMR,194,19.990449401256658,False
+Decarbonised +4.5 GW SMR,195,19.989549100878172,False
+Decarbonised +4.5 GW SMR,196,19.61349889782683,False
+Decarbonised +4.5 GW SMR,197,12.089999999999998,False
+Decarbonised +4.5 GW SMR,198,12.089999999999996,False
+Decarbonised +4.5 GW SMR,199,12.089999999999996,False
+Decarbonised +4.5 GW SMR,200,12.089999999999995,False
+Decarbonised +4.5 GW SMR,201,12.089999999999993,False
+Decarbonised +4.5 GW SMR,202,7.20387878986344,False
+Decarbonised +4.5 GW SMR,203,4.228100329066648,False
+Decarbonised +4.5 GW SMR,204,3.8370765916754537,False
+Decarbonised +4.5 GW SMR,205,3.7273816526291585,False
+Decarbonised +4.5 GW SMR,206,3.696071709492472,False
+Decarbonised +4.5 GW SMR,207,2.3287362658185016,False
+Decarbonised +4.5 GW SMR,208,2.328736265222361,False
+Decarbonised +4.5 GW SMR,209,2.328736264503137,False
+Decarbonised +4.5 GW SMR,210,2.260302844703941,False
+Decarbonised +4.5 GW SMR,211,2.2434126321725314,False
+Decarbonised +4.5 GW SMR,212,2.239654773842688,False
+Decarbonised +4.5 GW SMR,213,0.03794967261336858,False
+Decarbonised +4.5 GW SMR,214,0.02940279074179373,False
+Decarbonised +4.5 GW SMR,215,0.029402790741793722,False
+Decarbonised +4.5 GW SMR,216,0.02940279074179372,False
+Decarbonised +4.5 GW SMR,217,0.02940279074179371,False
+Decarbonised +4.5 GW SMR,218,0.026776355615092767,False
+Decarbonised +4.5 GW SMR,219,0.025732637237826504,False
+Decarbonised +4.5 GW SMR,220,0.025713385949466032,False
+Decarbonised +4.5 GW SMR,221,0.02571338594946602,False
+Decarbonised +4.5 GW SMR,222,0.025438582499253702,False
+Decarbonised +4.5 GW SMR,223,0.0254385824992537,False

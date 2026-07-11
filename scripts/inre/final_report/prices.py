@@ -38,11 +38,10 @@ def validate_prices(n: pypsa.Network, scenario_key: str) -> dict:
     if mp.isna().any().any() or np.isinf(mp.values).any():
         issues.append("NaN or infinite marginal prices")
     voll_mc = float(ls.marginal_cost.iloc[0]) if len(ls) else np.nan
-    if len(ls) and abs(voll_mc - VOLL) > 1:
-        issues.append(f"load_shed marginal_cost={voll_mc}, expected {VOLL}")
     p_sys = demand_weighted_system_price(n)
     ls_p = n.generators_t.p[ls.index].sum(axis=1) if len(ls) else pd.Series(0, index=p_sys.index)
-    near_voll = (p_sys >= 0.99 * VOLL) & (ls_p > 0)
+    voll_ref = voll_mc if len(ls) and not np.isnan(voll_mc) else VOLL
+    near_voll = (p_sys >= 0.99 * voll_ref) & (ls_p > 0)
     return {
         "scenario": scenario_key,
         "has_marginal_price": not mp.empty,

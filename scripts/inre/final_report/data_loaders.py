@@ -64,6 +64,7 @@ class PackageContext:
     table_manifest: list[dict] = field(default_factory=list)
     captions: dict[str, str] = field(default_factory=dict)
     warnings: list[str] = field(default_factory=list)
+    audit_entries: list[dict] = field(default_factory=list)
 
 
 def load_metadata() -> dict:

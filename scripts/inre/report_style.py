@@ -16,20 +16,20 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 # Colour-blind-friendly carrier palette (fixed across all report figures).
 CARRIER_GROUPS: dict[str, str] = {
     "onshore wind": "#235ebc",
-    "offshore wind": "#6895d1",
-    "solar": "#f9d002",
-    "biomass": "#baa741",
+    "offshore wind": "#1a4480",
+    "solar": "#f0a202",
+    "biomass": "#2ca02c",
     "coal": "#545454",
     "lignite": "#826837",
-    "CCGT": "#a85522",
-    "OCGT / oil / peaker": "#c44e52",
-    "nuclear": "#ff8c00",
-    "load shedding": "#8b0000",
+    "CCGT": "#d94801",
+    "OCGT / oil / peaker": "#8b0000",
+    "nuclear": "#7b3294",
+    "load shedding": "#cc0077",
     "demand": "#000000",
     "other firm": "#6b7280",
-    "waste": "#9ca3af",
-    "geothermal": "#059669",
-    "curtailment": "#d1d5db",
+    "waste": "#228b22",
+    "geothermal": "#006400",
+    "curtailment": "#9ca3af",
 }
 
 # PyPSA carrier name → report group
@@ -85,6 +85,7 @@ PHASE_COLORS = {
 DPI = 300
 FONT_SIZE = 10
 TITLE_SIZE = 11
+LINE_WIDTH = 1.4
 
 
 def apply_style() -> None:
@@ -138,25 +139,36 @@ def save_figure(fig: plt.Figure, figure_id: str, output_dir: Path, suffix: str =
     return paths
 
 
-def add_phase_shading(ax, meta: dict, snaps: pd.DatetimeIndex, alpha: float = 0.25) -> None:
-    """Shade pre-buffer, core, post-buffer from metadata."""
+def add_phase_shading(ax, meta: dict, snaps: pd.DatetimeIndex, alpha: float = 0.22, label: bool = False) -> None:
+    """Shade pre-buffer, 14-day core, and post-buffer from metadata."""
     core_start = pd.Timestamp(meta["core_start"])
     core_end = pd.Timestamp(meta["core_end"])
     sim_start = pd.Timestamp(meta["simulation_start"])
     sim_end = pd.Timestamp(meta["simulation_end"])
-    dt = pd.Timedelta(hours=float(meta.get("snapshot_hours", 3.0)))
-    pre_end = core_start - dt
-    post_start = core_end + dt
-    trans_h = float(meta.get("transition_hours", 48.0))
-    trans = pd.Timedelta(hours=trans_h)
-    trans_in_end = core_start + trans
-    trans_out_start = core_end - trans
 
-    ax.axvspan(sim_start, pre_end, color=PHASE_COLORS["pre-buffer"], alpha=alpha, lw=0)
-    ax.axvspan(core_start, trans_in_end, color=PHASE_COLORS["transition-in"], alpha=alpha, lw=0)
-    ax.axvspan(trans_in_end, trans_out_start, color=PHASE_COLORS["plateau"], alpha=alpha, lw=0)
-    ax.axvspan(trans_out_start, core_end, color=PHASE_COLORS["transition-out"], alpha=alpha, lw=0)
-    ax.axvspan(post_start, sim_end, color=PHASE_COLORS["post-buffer"], alpha=alpha, lw=0)
+    ax.axvspan(sim_start, core_start, color=PHASE_COLORS["pre-buffer"], alpha=alpha, lw=0)
+    ax.axvspan(core_start, core_end, color=PHASE_COLORS["plateau"], alpha=alpha, lw=0)
+    ax.axvspan(core_end, sim_end, color=PHASE_COLORS["post-buffer"], alpha=alpha, lw=0)
+
+    if label:
+        y_top = ax.get_ylim()[1]
+        y_text = y_top * 0.97 if y_top else 0
+        for x0, x1, text in [
+            (sim_start, core_start, "7-day pre-event buffer"),
+            (core_start, core_end, "14-day Dunkelflaute core"),
+            (core_end, sim_end, "7-day post-event buffer"),
+        ]:
+            xm = x0 + (x1 - x0) / 2
+            ax.text(
+                xm,
+                y_text,
+                text,
+                ha="center",
+                va="top",
+                fontsize=8,
+                rotation=0,
+                clip_on=True,
+            )
 
 
 def add_core_shading(ax, meta: dict, alpha: float = 0.15) -> None:

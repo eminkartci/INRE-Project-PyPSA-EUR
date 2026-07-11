@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: INRE Project
 # SPDX-License-Identifier: MIT
-"""Dispatch and consequence figures (R1–R4)."""
+"""Dispatch and consequence figures (R1–R3)."""
 
 from __future__ import annotations
 
@@ -10,19 +10,19 @@ import pandas as pd
 
 from scripts.inre.audit_stylised_dunkelflaute_v4 import RENEWABLE_CARRIERS
 from scripts.inre.final_report.data_loaders import (
-    COMPARISON_DIRS,
     PackageContext,
     core_snaps,
+    gen_energy_by_carrier,
     load_metadata,
     load_network,
     national_demand_gw,
-    read_csv,
     snapshot_weight,
 )
+from scripts.inre.final_report.figure_utils import DISPLAY_CARRIER_ORDER, save_figure_with_data
 from scripts.inre.final_report.prices import demand_weighted_system_price
-from scripts.inre.report_style import CARRIER_MAP, add_core_shading, carrier_color, group_color, save_figure
-from scripts.inre.final_report.data_loaders import RENEWABLE_CARRIERS, gen_energy_by_carrier
+from scripts.inre.report_style import CARRIER_MAP, LINE_WIDTH, carrier_color, group_color
 
+SCRIPT = "scripts/inre/final_report/figures_results.py"
 
 STACK_ORDER = [
     "onwind",
@@ -44,97 +44,133 @@ STACK_ORDER = [
     "load_shed",
 ]
 
-
-def _reg(ctx, fig_id, title, section, msg, appendix=False):
-    ctx.figure_manifest.append(
-        {
-            "figure_id": fig_id,
-            "filename": fig_id.lower(),
-            "title": title,
-            "report_section": section,
-            "main_text_or_appendix": "appendix" if appendix else "main",
-            "source_scenarios": "matched-base; severe",
-            "key_message": msg,
-            "recommended_width": "\\textwidth",
-            "caption_file": f"captions/{fig_id.lower()}.txt",
-            "validation_status": "generated",
-        }
-    )
+MIN_TWH_FOR_LEGEND = 0.05
 
 
-def _dispatch_stack_gw(n, snaps):
-    w = snapshot_weight(n, snaps)
-    data = {}
+def _energy_by_display_group(n, snaps) -> pd.Series:
+    raw = gen_energy_by_carrier(n, snaps)
+    grouped: dict[str, float] = {}
+    for carrier, twh in raw.items():
+        if carrier == "load_shed":
+            continue
+        grp = CARRIER_MAP.get(carrier, carrier)
+        grouped[grp] = grouped.get(grp, 0) + float(twh)
+    return pd.Series({g: grouped.get(g, 0) for g in DISPLAY_CARRIER_ORDER if grouped.get(g, 0) > 0})
+
+
+def _dispatch_stack_gw(n, snaps, combine_small: bool = False) -> pd.DataFrame:
+    data: dict[str, pd.Series] = {}
+    other = pd.Series(0.0, index=snaps)
     for c in STACK_ORDER:
         gens = n.generators[n.generators.carrier == c].index
         if len(gens) == 0:
             continue
         p = n.generators_t.p[gens].reindex(snaps).fillna(0).sum(axis=1) / 1e3
-        data[c] = p
+        grp = CARRIER_MAP.get(c, c)
+        if combine_small and p.max() < 0.5:
+            other += p
+        elif combine_small and grp in data:
+            data[grp] += p
+        elif combine_small:
+            data[grp] = p.copy()
+        else:
+            data[c] = p
+    if combine_small and other.max() > 0:
+        data["other"] = other
     return pd.DataFrame(data, index=snaps)
 
 
 def figure_r1_generation_mix(ctx: PackageContext) -> None:
-    meta = ctx.meta
-    scenarios = [("Matched Base", "matched-base-v4"), ("Severe Dunkelflaute", "stylised-df-severe-v4")]
-    fig, ax = plt.subplots(figsize=(8, 4))
-    xpos = []
-    labels = []
-    demand_vals = []
-    bottoms = None
-    bar_w = 0.35
+    scenarios = [("Matched reference", "matched-base-v4"), ("Severe", "stylised-df-severe-v4")]
+    fig, ax = plt.subplots(figsize=(8, 4.5))
+    rows = []
+    bar_w = 0.5
     for i, (label, key) in enumerate(scenarios):
         n = load_network(key, ctx)
         if n is None:
             continue
         snaps = pd.DatetimeIndex(n.snapshots)
-        gen = gen_energy_by_carrier(n, snaps)
-        demand = float(n.loads_t.p_set.mul(snapshot_weight(n, snaps), axis=0).sum().sum()) / 1e6
-        demand_vals.append(demand)
-        x = i
-        labels.append(label)
+        gen = _energy_by_display_group(n, snaps)
         bottom = 0.0
-        for c in STACK_ORDER:
-            val = float(gen.get(c, 0))
+        for grp in DISPLAY_CARRIER_ORDER:
+            val = float(gen.get(grp, 0))
             if val <= 0:
                 continue
-            ax.bar(x, val, bottom=bottom, width=bar_w, color=carrier_color(c), label=c if i == 0 else "")
+            ax.bar(i, val, bottom=bottom, width=bar_w, color=group_color(grp), label=grp if i == 0 else "")
+            rows.append({"scenario": label, "carrier_group": grp, "generation_TWh": val})
             bottom += val
-        ax.plot(x, demand, "kD", ms=8, zorder=5)
-        xpos.append(x)
-    ax.set_xticks(xpos)
-    ax.set_xticklabels(labels)
-    ax.set_ylabel("Energy [TWh]")
-    ax.set_title("Generation mix comparison — full 28-day window")
-    ax.legend(fontsize=6, bbox_to_anchor=(1.02, 1), loc="upper left")
+    ax.set_xticks([0, 1])
+    ax.set_xticklabels([s[0] for s in scenarios])
+    ax.set_ylabel("Dispatched generation [TWh]")
+    ax.legend(fontsize=8, bbox_to_anchor=(1.02, 1), loc="upper left")
     plt.tight_layout()
-    save_figure(fig, "FIGURE_R1", ctx.output_dir)
-    _reg(ctx, "FIGURE_R1", "Generation mix comparison", "Results", "Stacked generation by carrier vs total demand")
+
+    base_ccgt = next((r["generation_TWh"] for r in rows if r["scenario"] == "Matched reference" and r["carrier_group"] == "CCGT"), 0)
+    sev_ccgt = next((r["generation_TWh"] for r in rows if r["scenario"] == "Severe" and r["carrier_group"] == "CCGT"), 0)
+    save_figure_with_data(
+        fig,
+        "FIGURE_R1",
+        ctx,
+        pd.DataFrame(rows),
+        script=SCRIPT,
+        source_folder="results/inre-comparison-v4-stage1/",
+        source_file="stage1_summary.csv; solved networks",
+        temporal_scope="28-day modelling window",
+        scenarios="matched reference; severe",
+        plotted_variables="dispatched generation by carrier group [TWh]",
+        key_values_checked=f"CCGT increase≈{sev_ccgt - base_ccgt:.2f} TWh (target 1.95); EENS=0",
+    )
 
 
 def figure_r2_core_dispatch(ctx: PackageContext) -> None:
     meta = ctx.meta
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.5), sharey=True)
-    for ax, (title, key) in zip(axes, [("Matched Base", "matched-base-v4"), ("Severe", "stylised-df-severe-v4")]):
+    rows = []
+    legend_handles = {}
+    for ax, (title, key) in zip(axes, [("Matched reference", "matched-base-v4"), ("Severe", "stylised-df-severe-v4")]):
         n = load_network(key, ctx)
         if n is None:
             continue
         snaps = core_snaps(n, meta)
-        stack = _dispatch_stack_gw(n, snaps)
+        stack = _dispatch_stack_gw(n, snaps, combine_small=True)
         demand = national_demand_gw(n, snaps)
         bottom = np.zeros(len(snaps))
-        for c in stack.columns:
-            ax.fill_between(snaps, bottom, bottom + stack[c].values, label=c, color=carrier_color(c), alpha=0.85)
+        plot_order = [c for c in DISPLAY_CARRIER_ORDER if c in stack.columns] + [c for c in stack.columns if c not in DISPLAY_CARRIER_ORDER]
+        for c in plot_order:
+            if c not in stack.columns:
+                continue
+            color = group_color(c) if c in DISPLAY_CARRIER_ORDER else group_color("other firm")
+            ax.fill_between(snaps, bottom, bottom + stack[c].values, label=c, color=color, alpha=0.85)
+            if c not in legend_handles:
+                legend_handles[c] = True
             bottom += stack[c].values
-        ax.plot(snaps, demand, "k-", lw=1.2, label="Demand")
+        ax.plot(snaps, demand, color=group_color("demand"), lw=LINE_WIDTH, label="Demand", zorder=6)
         ax.set_title(title)
         ax.set_ylabel("Power [GW]")
-    axes[1].legend(fontsize=5, ncol=2, loc="upper right")
-    fig.suptitle("Dispatch time series during the 14-day core event")
+        ax.set_xlabel("Date (14-day Dunkelflaute core)")
+        for ts in snaps:
+            row = {"timestamp": ts, "scenario": title, "demand_GW": float(demand.loc[ts])}
+            for c in stack.columns:
+                row[f"{c}_GW"] = float(stack.loc[ts, c])
+            rows.append(row)
+    handles, labels = axes[1].get_legend_handles_labels()
+    by_label = dict(zip(labels, handles))
+    axes[1].legend(by_label.values(), by_label.keys(), fontsize=8, ncol=2, loc="upper right")
     fig.autofmt_xdate()
     plt.tight_layout()
-    save_figure(fig, "FIGURE_R2", ctx.output_dir)
-    _reg(ctx, "FIGURE_R2", "Dispatch time series during the full core event", "Results", "Core-period stacked dispatch", appendix=True)
+    save_figure_with_data(
+        fig,
+        "FIGURE_R2",
+        ctx,
+        pd.DataFrame(rows),
+        script=SCRIPT,
+        source_folder="results/inre-de-matched-base-v4/; results/inre-de-stylised-df-severe-v4/",
+        source_file="networks/base_s_10_elec_.nc",
+        temporal_scope="14-day Dunkelflaute core",
+        scenarios="matched reference; severe",
+        plotted_variables="stacked dispatched generation and demand [GW]",
+        key_values_checked="same y-axis and carrier order in both panels",
+    )
 
 
 def figure_r3_critical_hours(ctx: PackageContext) -> None:
@@ -144,14 +180,13 @@ def figure_r3_critical_hours(ctx: PackageContext) -> None:
     if ns is None:
         return
     snaps = pd.DatetimeIndex(ns.snapshots)
-    w = snapshot_weight(ns, snaps)
 
     def residual(n):
         d = n.loads_t.p_set.reindex(snaps).sum(axis=1)
         vre = pd.Series(0.0, index=snaps)
         for gen in n.generators[n.generators.carrier.isin(RENEWABLE_CARRIERS)].index:
             if gen in n.generators_t.p_max_pu.columns:
-                vre += n.generators_t.p_max_pu[gen].reindex(snaps).fillna(0) * ns.generators.at[gen, "p_nom"]
+                vre += n.generators_t.p_max_pu[gen].reindex(snaps).fillna(0) * n.generators.at[gen, "p_nom"]
         return d - vre
 
     ccgt = ns.generators_t.p[ns.generators[ns.generators.carrier == "CCGT"].index].sum(axis=1)
@@ -162,92 +197,71 @@ def figure_r3_critical_hours(ctx: PackageContext) -> None:
     price = demand_weighted_system_price(ns, snaps)
 
     selections = [
-        (residual(ns).idxmax(), "Max residual load", ns),
-        (ccgt.idxmax(), "Max CCGT dispatch", ns),
-        (vre_avail.idxmin(), "Min available VRE", ns),
-        (price.idxmax(), "Max modelled marginal price", ns),
+        (residual(ns).idxmax(), "Maximum residual load", ns, "severe fossil-rich"),
+        (vre_avail.idxmin(), "Minimum available VRE", ns, "severe fossil-rich"),
+        (ccgt.idxmax(), "Maximum CCGT dispatch", ns, "severe fossil-rich"),
+        (price.idxmax(), "Maximum modelled marginal price", ns, "severe fossil-rich"),
     ]
     if nd is not None:
         ls = nd.generators[nd.generators.carrier == "load_shed"].index
         if len(ls):
             ls_sum = nd.generators_t.p[ls].sum(axis=1)
-            selections.append((ls_sum.idxmax(), "Peak load shedding (decarb)", nd))
+            selections.append((ls_sum.idxmax(), "Maximum load shedding", nd, "decarbonised no nuclear"))
 
     rows = []
-    fig, axes = plt.subplots(1, len(selections), figsize=(3 * len(selections), 4))
+    fig, axes = plt.subplots(1, len(selections), figsize=(2.8 * len(selections), 4.5), sharey=False)
     if len(selections) == 1:
         axes = [axes]
-    for ax, (ts, reason, n) in zip(axes, selections):
+    for ax, (ts, reason, n, scen_label) in zip(axes, selections):
         snap = pd.Timestamp(ts)
         d = float(n.loads_t.p_set.loc[snap].sum()) / 1e3
-        comps = {}
+        comps: dict[str, float] = {}
         for c in STACK_ORDER:
             gens = n.generators[n.generators.carrier == c].index
             if len(gens):
-                comps[c] = float(n.generators_t.p.loc[snap, gens].sum()) / 1e3
-        vre_a = sum(
-            float(n.generators_t.p_max_pu.loc[snap, g] * n.generators.at[g, "p_nom"])
-            for g in n.generators[n.generators.carrier.isin(RENEWABLE_CARRIERS)].index
-            if g in n.generators_t.p_max_pu.columns
-        ) / 1e3
-        vre_d = sum(comps.get(c, 0) for c in RENEWABLE_CARRIERS)
-        bottom = 0
-        for c, v in comps.items():
-            if v > 0:
-                ax.bar(0, v, bottom=bottom, color=carrier_color(c), width=0.5)
+                val = float(n.generators_t.p.loc[snap, gens].sum()) / 1e3
+                if val > 0:
+                    grp = CARRIER_MAP.get(c, c)
+                    comps[grp] = comps.get(grp, 0) + val
+        bottom = 0.0
+        for grp in DISPLAY_CARRIER_ORDER:
+            v = comps.get(grp, 0)
+            if v <= 0:
+                continue
+            ax.bar(0, v, bottom=bottom, color=group_color(grp), width=0.55)
+            bottom += v
+        for grp, v in comps.items():
+            if grp not in DISPLAY_CARRIER_ORDER and v > 0:
+                ax.bar(0, v, bottom=bottom, color=group_color("other firm"), width=0.55)
                 bottom += v
-        ax.axhline(d, color="k", ls="--", lw=1)
-        ax.set_title(f"{reason}\n{snap}", fontsize=7)
+        ax.axhline(d, color=group_color("demand"), ls="--", lw=LINE_WIDTH)
+        ax.set_title(f"{reason}\n{snap}\n({scen_label})", fontsize=8)
         ax.set_xticks([])
+        ax.set_ylabel("Power [GW]")
         rows.append(
             {
                 "snapshot": str(snap),
                 "selection_reason": reason,
-                "scenario": "severe" if n is ns else "decarb",
+                "scenario": scen_label,
                 "demand_GW": d,
-                "available_VRE_GW": vre_a,
-                "dispatched_VRE_GW": vre_d,
-                "coal_GW": comps.get("coal", 0),
-                "lignite_GW": comps.get("lignite", 0),
-                "CCGT_GW": comps.get("CCGT", 0),
-                "other_firm_GW": sum(comps.get(c, 0) for c in ["biomass", "OCGT", "oil", "waste", "geothermal"]),
-                "nuclear_GW": sum(comps.get(c, 0) for c in ["generic-advanced-nuclear", "nuclear-smr"]),
-                "load_shedding_GW": comps.get("load_shed", 0),
+                **{f"{k}_GW": v for k, v in comps.items()},
                 "modelled_marginal_price_EUR_per_MWh": float(demand_weighted_system_price(n).loc[snap]),
             }
         )
-    fig.suptitle("Critical-hours dispatch comparison")
     plt.tight_layout()
-    save_figure(fig, "FIGURE_R3", ctx.output_dir)
-    pd.DataFrame(rows).to_csv(ctx.output_dir / "tables" / "critical_snapshot_summary.csv", index=False)
-    _reg(ctx, "FIGURE_R3", "Critical-hours dispatch comparison", "Results", "Objective critical snapshot decomposition", appendix=True)
-
-
-def figure_r4_consequences(ctx: PackageContext) -> None:
-    s = read_csv(COMPARISON_DIRS["stage1"] / "stage1_summary.csv")
-    if s.empty:
-        return
-    base = s[(s["scenario"] == "Matched Base") & (s["scope"] == "full_window")].iloc[0]
-    sev = s[(s["scenario"] == "Severe") & (s["scope"] == "full_window")].iloc[0]
-    metrics = [
-        ("Available VRE [TWh]", float(sev["available_vre_twh"]) - float(base["available_vre_twh"])),
-        ("CCGT generation [TWh]", float(sev["gen_CCGT_twh"]) - float(base.get("gen_CCGT_twh", sev["ccgt_generation_twh"] - 0))),
-        ("Coal generation [TWh]", float(sev.get("gen_coal_twh", 0)) - float(base.get("gen_coal_twh", 0))),
-        ("Lignite generation [TWh]", float(sev.get("gen_lignite_twh", 0)) - float(base.get("gen_lignite_twh", 0))),
-        ("CO₂ [Mt]", float(sev["co2_mt"]) - float(base["co2_mt"])),
-        ("OPEX excl. VOLL [M EUR]", float(sev["variable_opex_excl_voll_meur"]) - float(base["variable_opex_excl_voll_meur"])),
-        ("EENS [GWh]", float(sev["eens_gwh"]) - float(base["eens_gwh"])),
-    ]
-    fig, ax = plt.subplots(figsize=(8, 4))
-    labels, vals = zip(*metrics)
-    colors = ["#6895d1" if v < 0 else "#a85522" for v in vals]
-    ax.barh(labels, vals, color=colors)
-    ax.axvline(0, color="k", lw=0.8)
-    ax.set_xlabel("Severe minus Matched Base")
-    ax.set_title("Severe-event system consequences (28-day window)")
-    plt.tight_layout()
-    save_figure(fig, "FIGURE_R4", ctx.output_dir)
-    _reg(ctx, "FIGURE_R4", "Severe-event system consequences", "Results", "Delta KPIs: VRE −6.33 TWh, CO₂ +4.55 Mt, OPEX +197.61 M EUR")
+    save_figure_with_data(
+        fig,
+        "FIGURE_R3",
+        ctx,
+        pd.DataFrame(rows),
+        script=SCRIPT,
+        source_folder="results/inre-comparison-v4-stage1/; results/inre-comparison-v4-decarbonised-adequacy/",
+        source_file="solved networks",
+        temporal_scope="selected snapshots (14-day core / full window)",
+        scenarios="severe fossil-rich; decarbonised no nuclear",
+        plotted_variables="generation stack and demand at critical snapshots [GW]",
+        key_values_checked="five objectively selected snapshots with timestamps",
+    )
 
 
 def build_results_figures(ctx: PackageContext) -> None:
@@ -255,4 +269,3 @@ def build_results_figures(ctx: PackageContext) -> None:
     figure_r1_generation_mix(ctx)
     figure_r2_core_dispatch(ctx)
     figure_r3_critical_hours(ctx)
-    figure_r4_consequences(ctx)

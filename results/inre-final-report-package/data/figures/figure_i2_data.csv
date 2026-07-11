@@ -1,0 +1,21 @@
+scenario,carrier_group,installed_capacity_GW
+Existing fossil-rich fleet,onshore wind,73.3320659
+Existing fossil-rich fleet,offshore wind,11.163743
+Existing fossil-rich fleet,solar,48.77125402000001
+Existing fossil-rich fleet,biomass,8.020001832999998
+Existing fossil-rich fleet,waste,3.127659
+Existing fossil-rich fleet,geothermal,0.026900000000000004
+Existing fossil-rich fleet,coal,20.351945
+Existing fossil-rich fleet,lignite,19.457035
+Existing fossil-rich fleet,CCGT,30.783128330000004
+Existing fossil-rich fleet,OCGT / oil / peaker,11.7970897089996
+Coal- and lignite-free sensitivity,onshore wind,73.3320659
+Coal- and lignite-free sensitivity,offshore wind,11.163743
+Coal- and lignite-free sensitivity,solar,48.77125402000001
+Coal- and lignite-free sensitivity,biomass,8.020001832999998
+Coal- and lignite-free sensitivity,waste,3.127659
+Coal- and lignite-free sensitivity,geothermal,0.026900000000000004
+Coal- and lignite-free sensitivity,coal,0.0
+Coal- and lignite-free sensitivity,lignite,0.0
+Coal- and lignite-free sensitivity,CCGT,30.783128330000004
+Coal- and lignite-free sensitivity,OCGT / oil / peaker,11.7970897089996

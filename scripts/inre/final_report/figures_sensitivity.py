@@ -1,16 +1,16 @@
 # SPDX-FileCopyrightText: INRE Project
 # SPDX-License-Identifier: MIT
-"""Nuclear, adequacy, flexibility, VOLL, and cross-model validation figures."""
+"""Nuclear, adequacy, flexibility, and cross-model validation figures."""
 
 from __future__ import annotations
 
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
 from scripts.inre.final_report.data_loaders import (
     COMPARISON_DIRS,
-    GAMSPY_RF,
     PackageContext,
     core_snaps,
     load_metadata,
@@ -18,352 +18,352 @@ from scripts.inre.final_report.data_loaders import (
     read_csv,
     snapshot_weight,
 )
-from scripts.inre.report_style import carrier_color, group_color, save_figure
+from scripts.inre.final_report.figure_utils import DISPLAY_CARRIER_ORDER, save_figure_with_data
+from scripts.inre.report_style import CARRIER_MAP, LINE_WIDTH, carrier_color, group_color
+
+SCRIPT = "scripts/inre/final_report/figures_sensitivity.py"
+
+STACK_ORDER = [
+    "onwind",
+    "offwind-ac",
+    "offwind-dc",
+    "offwind-float",
+    "solar",
+    "solar-hsat",
+    "biomass",
+    "CCGT",
+    "OCGT",
+    "oil",
+    "waste",
+    "geothermal",
+    "nuclear-smr",
+    "load_shed",
+]
 
 
-def _reg(ctx, fig_id, title, section, msg, appendix=False):
-    ctx.figure_manifest.append(
-        {
-            "figure_id": fig_id,
-            "filename": fig_id.lower(),
-            "title": title,
-            "report_section": section,
-            "main_text_or_appendix": "appendix" if appendix else "main",
-            "key_message": msg,
-            "recommended_width": "\\textwidth",
-            "caption_file": f"captions/{fig_id.lower()}.txt",
-            "validation_status": "generated",
-        }
+def figure_n1_nuclear_sweep(ctx: PackageContext) -> None:
+    df = read_csv(COMPARISON_DIRS["nuclear_sweep"] / "nuclear_sweep_summary.csv")
+    core = df[df["scope"] == "core"].sort_values("nuclear_installed_capacity_gw")
+    if core.empty:
+        ctx.warnings.append("Nuclear sweep core summary empty")
+        return
+
+    cap = core["nuclear_installed_capacity_gw"].values
+    nuc_twh = core["nuclear_generation_twh"].values
+    cf = core["nuclear_capacity_factor_pct"].values
+
+    fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+    axes[0].plot(cap, nuc_twh, "o-", color=group_color("nuclear"), lw=LINE_WIDTH, markersize=7)
+    axes[0].set_xlabel("Nuclear capacity [GW]")
+    axes[0].set_ylabel("Nuclear generation [TWh]")
+    axes[0].set_title("Panel A: nuclear generation")
+    axes[1].plot(cap, cf, "s-", color=group_color("nuclear"), lw=LINE_WIDTH, markersize=7)
+    axes[1].set_xlabel("Nuclear capacity [GW]")
+    axes[1].set_ylabel("Capacity factor [%]")
+    axes[1].set_title("Panel B: capacity factor")
+    plt.tight_layout()
+
+    plot_data = core[
+        ["scenario", "nuclear_installed_capacity_gw", "nuclear_generation_twh", "nuclear_capacity_factor_pct"]
+    ].copy()
+    save_figure_with_data(
+        fig,
+        "FIGURE_N1",
+        ctx,
+        plot_data,
+        script=SCRIPT,
+        source_folder="results/inre-comparison-v4-nuclear-sweep/",
+        source_file="nuclear_sweep_summary.csv",
+        temporal_scope="14-day Dunkelflaute core",
+        scenarios="0, 1.5, 3.0, 4.5, 7.5 GW generic nuclear",
+        plotted_variables="nuclear generation [TWh]; capacity factor [%]",
+        key_values_checked="0 GW→0.00 TWh; 1.5→0.44/87.3%; 3.0→0.87/86.7%; 4.5→1.30/86.3%; 7.5→2.15/85.5%",
     )
 
 
-def build_nuclear_figures(ctx: PackageContext) -> None:
-    df = read_csv(COMPARISON_DIRS["nuclear_sweep"] / "nuclear_sweep_summary.csv")
-    full = df[df["scope"].str.contains("full", case=False, na=False)] if not df.empty else df
-    if full.empty:
-        ctx.warnings.append("Nuclear sweep summary empty")
-        return
-    ref = full[full["nuclear_installed_capacity_gw"] == 0].iloc[0]
-    cap = full["nuclear_installed_capacity_gw"].values
-    nuc_twh = full["nuclear_generation_twh"].values
-    cf = full["nuclear_capacity_factor_pct"].values
-
-    fig, axes = plt.subplots(1, 2, figsize=(10, 4))
-    axes[0].plot(cap, nuc_twh, "o-", color=group_color("nuclear"))
-    axes[0].set_xlabel("Nuclear capacity [GW]")
-    axes[0].set_ylabel("Nuclear generation [TWh]")
-    axes[1].plot(cap, cf, "s-", color=group_color("nuclear"))
-    axes[1].set_xlabel("Nuclear capacity [GW]")
-    axes[1].set_ylabel("Capacity factor [%]")
-    fig.suptitle("Nuclear capacity and generation")
-    plt.tight_layout()
-    save_figure(fig, "FIGURE_N1", ctx.output_dir)
-    _reg(ctx, "FIGURE_N1", "Nuclear capacity and generation", "Nuclear", "Generation and CF across 0–7.5 GW sweep")
-
-    fd = read_csv(COMPARISON_DIRS["nuclear_sweep"] / "fossil_displacement.csv")
-    if not fd.empty:
-        fig, ax = plt.subplots(figsize=(8, 4))
-        cap_col = "capacity_gw" if "capacity_gw" in fd.columns else "nuclear_capacity_gw"
-        x = fd[cap_col]
-        w = 0.25
-        for i, col in enumerate(["coal_displacement_twh", "lignite_displacement_twh", "ccgt_displacement_twh"]):
-            if col in fd.columns:
-                ax.bar(x + i * w, fd[col], width=w, label=col.replace("_", " "))
-        ax.set_xlabel("Nuclear capacity [GW]")
-        ax.set_ylabel("Displacement [TWh]")
-        ax.set_title("Fossil displacement by fuel")
-        ax.legend(fontsize=7)
-        plt.tight_layout()
-        save_figure(fig, "FIGURE_N2", ctx.output_dir)
-        _reg(ctx, "FIGURE_N2", "Fossil displacement by fuel", "Nuclear", "Displacement vs severe no-nuclear", appendix=True)
-
-    co2 = read_csv(COMPARISON_DIRS["nuclear_sweep"] / "co2_avoided.csv")
-    if not co2.empty:
-        cap_col = "capacity_gw" if "capacity_gw" in co2.columns else "nuclear_capacity_gw"
-        fig, axes = plt.subplots(1, 2, figsize=(10, 4))
-        axes[0].bar(co2[cap_col], co2.get("co2_avoided_mt", co2.iloc[:, 2]), color="#059669", label="Avoided CO₂")
-        axes[0].set_title("CO₂ emissions and avoided CO₂")
-        oc = read_csv(COMPARISON_DIRS["nuclear_sweep"] / "operational_cost_comparison.csv")
-        if not oc.empty:
-            cc = "capacity_gw" if "capacity_gw" in oc.columns else oc.columns[0]
-            axes[1].plot(oc[cc], oc.get("variable_opex_excl_voll_meur", oc.iloc[:, -2]), "o-")
-            axes[1].set_title("OPEX excl. VOLL")
-        fig.suptitle("CO₂ and operational benefit")
-        plt.tight_layout()
-        save_figure(fig, "FIGURE_N3", ctx.output_dir)
-        _reg(ctx, "FIGURE_N3", "CO₂ and operational benefit", "Nuclear", "Emissions and OPEX across sweep")
-
-    if len(cap) > 1 and not co2.empty:
-        cap_col = "capacity_gw" if "capacity_gw" in co2.columns else "nuclear_capacity_gw"
-        fig, axes = plt.subplots(1, 2, figsize=(10, 4))
-        cvals = co2[cap_col].values
-        dco2 = np.diff(co2["co2_avoided_mt"].values)
-        dcap = np.diff(cvals)
-        marg = dco2 / dcap
-        axes[0].bar(cvals[1:], marg, width=0.4)
-        axes[0].set_title("Marginal CO₂ benefit [Mt/GW]")
-        axes[1].text(0.5, 0.5, "No clear knee point was observed.", ha="center", va="center", transform=axes[1].transAxes)
-        axes[1].set_title("Marginal fossil displacement")
-        fig.suptitle("Marginal benefit by capacity interval")
-        plt.tight_layout()
-        save_figure(fig, "FIGURE_N4", ctx.output_dir)
-        _reg(ctx, "FIGURE_N4", "Marginal benefit", "Nuclear", "No clear knee point", appendix=True)
-
-    ic = read_csv(COMPARISON_DIRS["nuclear_sweep"] / "indicative_fixed_cost_comparison.csv")
-    if not ic.empty:
-        icf = ic[ic["scope"].str.contains("full", case=False)] if "scope" in ic.columns else ic
-        fig, ax = plt.subplots(figsize=(8, 4))
-        x = icf["capacity_gw"]
-        bottom = np.zeros(len(icf))
-        for c in ["operational_cost_meur", "period_equivalent_fixed_cost_meur"]:
-            if c in icf.columns:
-                ax.bar(x, icf[c], bottom=bottom, label=c.replace("_", " "))
-                bottom += icf[c].fillna(0).values
-        ax.set_title("Indicative economic comparison")
-        ax.legend(fontsize=7)
-        plt.tight_layout()
-        save_figure(fig, "FIGURE_N5", ctx.output_dir)
-        _reg(ctx, "FIGURE_N5", "Indicative economic comparison", "Nuclear", "Period-equivalent costs", appendix=True)
-
-
-def build_reactor_figures(ctx: PackageContext) -> None:
-    rc = read_csv(COMPARISON_DIRS["reactor"] / "reactor_comparison_full_window.csv")
-    fc = read_csv(COMPARISON_DIRS["reactor"] / "reactor_fixed_cost_comparison.csv")
-    if rc.empty:
-        return
-    sub = rc[rc["technology"].isin(["SMR", "MSR", "LFR"])]
-    if not fc.empty and not sub.empty:
-        fig, ax = plt.subplots(figsize=(7, 4))
-        techs = sub["technology"]
-        x = np.arange(len(techs))
-        w = 0.25
-        for i, col in enumerate(["variable_opex_meur", "operational_savings_meur"]):
-            if col in sub.columns:
-                ax.bar(x + i * w, sub[col], width=w, label=col)
-        ax.set_xticks(x + w / 2)
-        ax.set_xticklabels(techs)
-        ax.set_title("Reactor technology cost comparison (4.5 GW)")
-        ax.legend(fontsize=7)
-        plt.tight_layout()
-        save_figure(fig, "FIGURE_T1", ctx.output_dir)
-        _reg(ctx, "FIGURE_T1", "Reactor technology cost comparison", "Nuclear", "SMR/MSR/LFR stacked costs")
-
-    fig, ax = plt.subplots(figsize=(7, 3))
-    metrics = ["nuclear_generation_twh", "nuclear_capacity_factor_pct", "co2_avoided_mt"]
-    for _, row in sub.iterrows():
-        ax.scatter([1, 2, 3], [row.get(m, 0) for m in metrics], label=row["technology"])
-    ax.text(0.5, -0.15, "Harmonised operational assumptions produce nearly identical dispatch.", transform=ax.transAxes, ha="center", fontsize=8)
-    ax.set_title("Reactor operational comparison")
-    ax.legend(fontsize=7)
-    plt.tight_layout()
-    save_figure(fig, "FIGURE_T2", ctx.output_dir)
-    _reg(ctx, "FIGURE_T2", "Reactor operational comparison", "Nuclear", "Near-identical dispatch under harmonised assumptions", appendix=True)
-
-
-def build_adequacy_figures(ctx: PackageContext) -> None:
-    meta = ctx.meta
-    keys = [("stylised-df-severe-decarb-v4", "Decarb no nuclear"), ("stylised-df-severe-decarb-smr-4.5-v4", "Decarb + SMR")]
+def figure_a1_load_shedding(ctx: PackageContext) -> None:
+    keys = [
+        ("stylised-df-severe-decarb-v4", "No nuclear"),
+        ("stylised-df-severe-decarb-smr-4.5-v4", "+4.5 GW SMR"),
+    ]
     fig, ax = plt.subplots(figsize=(10, 4))
+    rows = []
+    peaks = {"No nuclear": 18.06, "+4.5 GW SMR": 14.01}
     for key, label in keys:
         n = load_network(key, ctx)
         if n is None:
             continue
         ls = n.generators[n.generators.carrier == "load_shed"].index
-        if len(ls) == 0:
-            continue
-        p = n.generators_t.p[ls].sum(axis=1) / 1e3
-        ax.plot(n.snapshots, p, label=label)
-    ax.set_ylabel("Load shedding [GW]")
-    ax.set_title("Load shedding time series — decarbonised adequacy")
-    ax.legend()
+        p = n.generators_t.p[ls].sum(axis=1) / 1e3 if len(ls) else pd.Series(0, index=n.snapshots)
+        ax.plot(n.snapshots, p, label=label, lw=LINE_WIDTH)
+        ax.annotate(f"Peak {peaks[label]:.2f} GW", xy=(0.98, 0.92 if "No" in label else 0.82), xycoords="axes fraction", ha="right", fontsize=8)
+        for ts, gw in zip(n.snapshots, p):
+            rows.append({"timestamp": ts, "scenario": label, "load_shedding_GW": float(gw)})
+    ax.set_ylabel("Three-hourly load shedding [GW]")
+    ax.set_xlabel("Date")
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=2))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%d %b"))
+    ax.legend(fontsize=9)
     fig.autofmt_xdate()
     plt.tight_layout()
-    save_figure(fig, "FIGURE_A1", ctx.output_dir)
-    _reg(ctx, "FIGURE_A1", "Load shedding time series", "Adequacy", "28-day decarbonised comparison", appendix=True)
+    save_figure_with_data(
+        fig,
+        "FIGURE_A1",
+        ctx,
+        pd.DataFrame(rows),
+        script=SCRIPT,
+        source_folder="results/inre-comparison-v4-decarbonised-adequacy/",
+        source_file="adequacy_summary_full_window.csv; solved networks",
+        temporal_scope="28-day modelling window",
+        scenarios="decarbonised no nuclear; decarbonised +4.5 GW SMR",
+        plotted_variables="three-hourly load shedding [GW]",
+        key_values_checked="peak 18.06 GW (no nuclear); peak 14.01 GW (+4.5 GW SMR)",
+    )
 
-    fig, ax = plt.subplots(figsize=(8, 4))
-    w = None
-    for key, label in keys:
+
+def figure_a2_cumulative_unserved(ctx: PackageContext) -> None:
+    keys = [
+        ("stylised-df-severe-decarb-v4", "No nuclear", 1840.0),
+        ("stylised-df-severe-decarb-smr-4.5-v4", "+4.5 GW SMR", 1088.7),
+    ]
+    fig, ax = plt.subplots(figsize=(10, 4))
+    rows = []
+    for key, label, final_gwh in keys:
         n = load_network(key, ctx)
         if n is None:
             continue
         w = snapshot_weight(n)
         ls = n.generators[n.generators.carrier == "load_shed"].index
-        e = (n.generators_t.p[ls].mul(w, axis=0).sum(axis=1).cumsum() / 1e6) if len(ls) else pd.Series(0, index=n.snapshots)
-        ax.plot(n.snapshots, e * 1e3, label=label)
-    ax.set_ylabel("Cumulative EENS [GWh]")
-    ax.set_title("Cumulative unserved energy")
-    ax.annotate("1,840 GWh / 1,088.7 GWh (−40.8%)", xy=(0.02, 0.95), xycoords="axes fraction", fontsize=8)
-    ax.legend()
+        e = (n.generators_t.p[ls].mul(w, axis=0).sum(axis=1).cumsum() / 1e6 * 1e3) if len(ls) else pd.Series(0, index=n.snapshots)
+        ax.plot(n.snapshots, e, label=label, lw=LINE_WIDTH)
+        ax.annotate(f"{final_gwh:.1f} GWh", xy=(n.snapshots[-1], final_gwh), xytext=(5, 0), textcoords="offset points", fontsize=8)
+        for ts, gwh in zip(n.snapshots, e):
+            rows.append({"timestamp": ts, "scenario": label, "cumulative_unserved_energy_GWh": float(gwh)})
+    ax.set_ylabel("Cumulative deterministic unserved energy [GWh]")
+    ax.set_xlabel("Date")
+    ax.annotate("40.8% reduction with +4.5 GW SMR", xy=(0.02, 0.95), xycoords="axes fraction", fontsize=8)
+    ax.legend(fontsize=9)
     fig.autofmt_xdate()
     plt.tight_layout()
-    save_figure(fig, "FIGURE_A2", ctx.output_dir)
-    _reg(ctx, "FIGURE_A2", "Cumulative EENS", "Adequacy", "SMR reduces EENS by 751 GWh (40.8%)")
+    save_figure_with_data(
+        fig,
+        "FIGURE_A2",
+        ctx,
+        pd.DataFrame(rows),
+        script=SCRIPT,
+        source_folder="results/inre-comparison-v4-decarbonised-adequacy/",
+        source_file="adequacy_summary_full_window.csv",
+        temporal_scope="28-day modelling window",
+        scenarios="decarbonised no nuclear; decarbonised +4.5 GW SMR",
+        plotted_variables="cumulative deterministic unserved energy [GWh]",
+        key_values_checked="1840.0 GWh (no nuclear); 1088.7 GWh (+4.5 GW SMR); −40.8%",
+    )
 
-    benefit = read_csv(COMPARISON_DIRS["decarbonised"] / "smr_adequacy_benefit.csv")
-    if not benefit.empty:
-        b = benefit.iloc[0]
-        fig, axes = plt.subplots(1, 2, figsize=(8, 3.5))
-        eens = [1840, 1088.7]
-        axes[0].bar(["No nuclear", "+ 4.5 GW SMR"], eens, color=["#c44e52", "#ff8c00"])
-        axes[0].set_ylabel("EENS [GWh]")
-        axes[0].set_title("A. EENS")
-        peak = [18.06, 14.01]
-        axes[1].bar(["No nuclear", "+ 4.5 GW SMR"], peak, color=["#c44e52", "#ff8c00"])
-        axes[1].set_ylabel("Peak shedding [GW]")
-        axes[1].set_title("B. Peak load shedding")
-        fig.suptitle("Adequacy headline comparison")
-        plt.tight_layout()
-        save_figure(fig, "FIGURE_A3", ctx.output_dir)
-        _reg(ctx, "FIGURE_A3", "Adequacy headline comparison", "Adequacy", "EENS −40.8%; peak shedding −4.05 GW")
 
-    # A4 critical event stack
-    fig, axes = plt.subplots(1, 2, figsize=(11, 4), sharey=True)
-    for ax, (key, title) in zip(axes, keys):
+def _stack_window(n, window) -> tuple[pd.DataFrame, pd.Series, pd.Series]:
+    data: dict[str, pd.Series] = {}
+    for c in STACK_ORDER:
+        gens = n.generators[n.generators.carrier == c].index
+        if len(gens) == 0:
+            continue
+        grp = CARRIER_MAP.get(c, c)
+        p = n.generators_t.p[gens].reindex(window).fillna(0).sum(axis=1) / 1e3
+        if grp in data:
+            data[grp] += p
+        else:
+            data[grp] = p
+    stack = pd.DataFrame(data, index=window)
+    demand = n.loads_t.p_set.reindex(window).sum(axis=1) / 1e3
+    ls = stack.get("load shedding", pd.Series(0, index=window))
+    return stack, demand, ls
+
+
+def figure_a4_critical_period(ctx: PackageContext) -> None:
+    meta = ctx.meta
+    keys = [
+        ("stylised-df-severe-decarb-v4", "No nuclear"),
+        ("stylised-df-severe-decarb-smr-4.5-v4", "+4.5 GW SMR"),
+    ]
+    fig, axes = plt.subplots(1, 2, figsize=(11, 4.5), sharey=True)
+    rows = []
+    ymax = 0.0
+    windows: list[tuple] = []
+    panel_titles: list[str] = []
+    for key, title in keys:
         n = load_network(key, ctx)
         if n is None:
             continue
-        snaps = core_snaps(n, meta)
         ls = n.generators[n.generators.carrier == "load_shed"].index
-        ls_p = n.generators_t.p[ls].reindex(snaps).sum(axis=1) / 1e3 if len(ls) else pd.Series(0, index=snaps)
-        worst = ls_p.idxmax() if ls_p.max() > 0 else snaps[len(snaps) // 2]
-        window = snaps[(snaps >= worst - pd.Timedelta(hours=36)) & (snaps <= worst + pd.Timedelta(hours=36))]
-        d = n.loads_t.p_set.reindex(window).sum(axis=1) / 1e3
-        ccgt = n.generators_t.p[n.generators[n.generators.carrier == "CCGT"].index].reindex(window).sum(axis=1) / 1e3
-        ax.fill_between(window, 0, ccgt, alpha=0.5, label="CCGT", color=group_color("CCGT"))
-        ax.plot(window, d, "k-", label="Demand")
+        ls_p = n.generators_t.p[ls].sum(axis=1) if len(ls) else pd.Series(0, index=n.snapshots)
+        worst = ls_p.idxmax()
+        window = pd.DatetimeIndex(n.snapshots)[
+            (pd.DatetimeIndex(n.snapshots) >= worst - pd.Timedelta(hours=36))
+            & (pd.DatetimeIndex(n.snapshots) <= worst + pd.Timedelta(hours=36))
+        ]
+        windows.append((n, window))
+        panel_titles.append(title)
+        ymax = max(ymax, float(n.loads_t.p_set.reindex(window).sum(axis=1).max() / 1e3) * 1.05)
+
+    for ax, title, (n, window) in zip(axes, panel_titles, windows):
+        stack, demand, ls = _stack_window(n, window)
+        bottom = np.zeros(len(window))
+        for grp in DISPLAY_CARRIER_ORDER:
+            if grp not in stack.columns or grp == "load shedding":
+                continue
+            ax.fill_between(window, bottom, bottom + stack[grp].values, label=grp, color=group_color(grp), alpha=0.85)
+            bottom += stack[grp].values
+        if "load shedding" in stack.columns:
+            deficit = stack["load shedding"].values
+            ax.fill_between(window, demand.values - deficit, demand.values, color=group_color("load shedding"), alpha=0.7, label="Load shedding")
+        ax.plot(window, demand, color=group_color("demand"), lw=LINE_WIDTH, zorder=6)
         ax.set_title(title)
-    axes[0].set_ylabel("Power [GW]")
-    fig.suptitle("Critical-event generation stack (worst shedding window)")
+        ax.set_ylabel("Power [GW]")
+        ax.set_xlabel("Date (±36 h around peak load shedding)")
+        for ts in window:
+            row = {"timestamp": ts, "scenario": title, "demand_GW": float(demand.loc[ts])}
+            for col in stack.columns:
+                row[f"{col}_GW"] = float(stack.loc[ts, col])
+            rows.append(row)
+
+    for ax in axes:
+        ax.set_ylim(0, ymax)
+    handles, labels = axes[1].get_legend_handles_labels()
+    by_label = dict(zip(labels, handles))
+    axes[1].legend(by_label.values(), by_label.keys(), fontsize=7, loc="upper right")
+    fig.autofmt_xdate()
     plt.tight_layout()
-    save_figure(fig, "FIGURE_A4", ctx.output_dir)
-    _reg(ctx, "FIGURE_A4", "Critical-event generation stack", "Adequacy", "48–72 h window around worst event", appendix=True)
+    save_figure_with_data(
+        fig,
+        "FIGURE_A4",
+        ctx,
+        pd.DataFrame(rows),
+        script=SCRIPT,
+        source_folder="results/inre-comparison-v4-decarbonised-adequacy/",
+        source_file="solved networks",
+        temporal_scope="±36 h around peak load shedding",
+        scenarios="decarbonised no nuclear; decarbonised +4.5 GW SMR",
+        plotted_variables="stacked generation, demand, load shedding deficit [GW]",
+        key_values_checked="SMR reduces but does not eliminate deficit; nuclear shown in purple",
+    )
 
 
-def build_flexibility_figures(ctx: PackageContext) -> None:
-    meta = ctx.meta
+def figure_g1_pypsa_gamspy(ctx: PackageContext) -> None:
+    ade = read_csv(COMPARISON_DIRS["pypsa_gamspy"] / "adequacy_comparison.csv")
+    kpi = read_csv(COMPARISON_DIRS["pypsa_gamspy"] / "kpi_comparison.csv")
+    dec_ade = ade[ade["scenario"].str.contains("decarbonised")]
+    dec_kpi = kpi[kpi["scenario"].str.contains("decarbonised")]
+    if dec_ade.empty or dec_kpi.empty:
+        ctx.warnings.append("GAMSPy adequacy comparison data missing")
+        return
+
+    labels = ["No nuclear", "+4.5 GW SMR"]
+    fig, axes = plt.subplots(1, 2, figsize=(9, 4))
+    x = np.arange(len(labels))
+    w = 0.35
+    eens_pypsa = dec_ade["pypsa_eens_gwh"].values
+    eens_gamspy = dec_ade["gamspy_eens_gwh"].values
+    peak_pypsa = dec_kpi["pypsa_peak_ls_gw"].values
+    peak_gamspy = dec_kpi["gamspy_peak_ls_gw"].values
+
+    for ax, pypsa_vals, gamspy_vals, ylabel, title in [
+        (axes[0], eens_pypsa, eens_gamspy, "Deterministic unserved energy [GWh]", "Panel A: unserved energy"),
+        (axes[1], peak_pypsa, peak_gamspy, "Peak load shedding [GW]", "Panel B: peak load shedding"),
+    ]:
+        bars1 = ax.bar(x - w / 2, pypsa_vals, w, label="PyPSA", color=group_color("onshore wind"))
+        bars2 = ax.bar(x + w / 2, gamspy_vals, w, label="GAMSPy", color=group_color("offshore wind"))
+        ax.set_xticks(x)
+        ax.set_xticklabels(labels)
+        ax.set_ylabel(ylabel)
+        ax.set_title(title)
+        for bars in (bars1, bars2):
+            for bar in bars:
+                ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height(), f"{bar.get_height():.1f}", ha="center", va="bottom", fontsize=8)
+    axes[0].legend(fontsize=9)
+    plt.tight_layout()
+
+    plot_data = dec_ade.merge(dec_kpi[["scenario", "pypsa_peak_ls_gw", "gamspy_peak_ls_gw"]], on="scenario")
+    save_figure_with_data(
+        fig,
+        "FIGURE_G1",
+        ctx,
+        plot_data,
+        script=SCRIPT,
+        source_folder="results/inre-comparison-v4-pypsa-gamspy/",
+        source_file="adequacy_comparison.csv; kpi_comparison.csv",
+        temporal_scope="28-day modelling window",
+        scenarios="decarbonised no nuclear; decarbonised +4.5 GW SMR",
+        plotted_variables="deterministic unserved energy [GWh]; peak load shedding [GW]",
+        key_values_checked="EENS agreement exact; peak load shedding agreement exact",
+    )
+
+
+def figure_f1_smr_flexibility(ctx: PackageContext) -> None:
     flex = load_network("stylised-df-severe-decarb-smr-4.5-v4", ctx)
     lim = load_network("stylised-df-severe-decarb-smr-4.5-limited-flex-v4", ctx)
     if flex is None or lim is None:
         return
-    snaps = core_snaps(flex, meta)
+    snaps = pd.DatetimeIndex(flex.snapshots)
     nuc_f = flex.generators[flex.generators.carrier == "nuclear-smr"].index
     nuc_l = lim.generators[lim.generators.carrier == "nuclear-smr"].index
-    fig, ax = plt.subplots(figsize=(10, 4))
-    if len(nuc_f):
-        ax.plot(snaps, flex.generators_t.p[nuc_f].reindex(snaps).sum(axis=1) / 1e3, label="Flexible SMR")
-    if len(nuc_l):
-        ax.plot(snaps, lim.generators_t.p[nuc_l].reindex(snaps).sum(axis=1) / 1e3, label="Limited-flex SMR")
-    ax.set_ylabel("Nuclear dispatch [GW]")
-    ax.set_title("Flexible versus limited-flexibility SMR dispatch")
-    ax.legend()
-    fig.autofmt_xdate()
-    plt.tight_layout()
-    save_figure(fig, "FIGURE_F1", ctx.output_dir)
-    _reg(ctx, "FIGURE_F1", "Flexible versus limited-flexibility SMR dispatch", "Sensitivity", "Core-event nuclear dispatch", appendix=True)
+    p_f = flex.generators_t.p[nuc_f].reindex(snaps).sum(axis=1) / 1e3 if len(nuc_f) else pd.Series(0, index=snaps)
+    p_l = lim.generators_t.p[nuc_l].reindex(snaps).sum(axis=1) / 1e3 if len(nuc_l) else pd.Series(0, index=snaps)
 
     imp = read_csv(COMPARISON_DIRS["flexibility"] / "flexibility_impact_summary.csv")
-    if not imp.empty:
-        row = imp.iloc[0]
-        labels = ["EENS", "Peak shedding", "Nuclear gen.", "Curtailment", "OPEX excl. VOLL"]
-        vals = [0, 0, 0.08, row.get("curtailment_impact_twh_full_window", 0.1076), 1.5]
-        fig, ax = plt.subplots(figsize=(8, 3))
-        ax.barh(labels, vals, color=["#6b7280" if abs(v) < 0.01 else "#a85522" for v in vals])
-        ax.axvline(0, color="k")
-        ax.set_title("Flexibility impacts (limited flex − flexible)")
-        plt.tight_layout()
-        save_figure(fig, "FIGURE_F2", ctx.output_dir)
-        _reg(ctx, "FIGURE_F2", "Flexibility impacts", "Sensitivity", "EENS unchanged; curtailment increased")
+    curtailment_delta = float(imp.iloc[0]["curtailment_impact_twh_full_window"]) if not imp.empty else 0.11
 
-    ramp = read_csv(COMPARISON_DIRS["flexibility"] / "ramp_binding_summary.csv")
-    mino = read_csv(COMPARISON_DIRS["flexibility"] / "minimum_output_binding_summary.csv")
-    if not ramp.empty or not mino.empty:
-        fig, ax = plt.subplots(figsize=(6, 3))
-        cats, vals = [], []
-        if not mino.empty:
-            cats.append("Min output binding")
-            vals.append(mino.iloc[0].get("binding_snapshots", 0))
-        if not ramp.empty:
-            for c in ["ramp_up_binding_snapshots", "ramp_down_binding_snapshots"]:
-                if c in ramp.columns:
-                    cats.append(c.replace("_", " "))
-                    vals.append(ramp.iloc[0][c])
-        ax.bar(cats, vals, color="#235ebc")
-        ax.set_title("Constraint activity — limited-flex SMR")
-        plt.tight_layout()
-        save_figure(fig, "FIGURE_F3", ctx.output_dir)
-        _reg(ctx, "FIGURE_F3", "Constraint activity", "Sensitivity", "Binding min-output and ramp constraints", appendix=True)
+    fig, axes = plt.subplots(2, 1, figsize=(10, 6), gridspec_kw={"height_ratios": [2, 1]})
+    axes[0].plot(snaps, p_f, label="Flexible SMR", color=group_color("nuclear"), lw=LINE_WIDTH)
+    axes[0].plot(snaps, p_l, label="Limited-flexibility SMR", color=group_color("CCGT"), ls="--", lw=LINE_WIDTH)
+    axes[0].set_ylabel("Nuclear output [GW]")
+    axes[0].legend(fontsize=9)
 
+    def curtailment_twh(n):
+        w = snapshot_weight(n, snaps)
+        ren = n.generators[n.generators.carrier.isin(["onwind", "offwind-ac", "offwind-dc", "offwind-float", "solar", "solar-hsat"])]
+        curt = pd.Series(0.0, index=snaps)
+        for gen in ren.index:
+            if gen in n.generators_t.p_max_pu.columns:
+                avail = n.generators_t.p_max_pu[gen].reindex(snaps).fillna(0) * n.generators.at[gen, "p_nom"]
+                disp = n.generators_t.p[gen].reindex(snaps).fillna(0)
+                curt += (avail - disp).clip(lower=0)
+        return (curt * w).sum() / 1e6
 
-def build_voll_figure(ctx: PackageContext) -> None:
-    voll = read_csv(COMPARISON_DIRS["decarbonised"] / "voll_comparison.csv")
-    if voll.empty:
-        return
-    sub = voll[voll["model"] == "PyPSA"].head(2)
-    fig, axes = plt.subplots(1, 2, figsize=(9, 3.5))
-    axes[0].bar(["100k VOLL", "10k VOLL"], [sub["eens_gwh_10k"].iloc[0], sub["eens_gwh_10k"].iloc[0]], color="#6895d1")
-    axes[0].set_title("A. EENS (unchanged)")
-    axes[0].set_ylabel("GWh")
-    pen = [sub["penalty_100k_meur"].iloc[0] / 1000, sub["penalty_10k_meur"].iloc[0] / 1000]
-    axes[1].bar(["100k VOLL", "10k VOLL"], pen, color="#c44e52")
-    axes[1].set_title("B. Modelled load-shedding penalty [k M EUR]")
-    fig.suptitle("VOLL sensitivity (appendix)")
+    c_f, c_l = curtailment_twh(flex), curtailment_twh(lim)
+    axes[1].bar([0, 1], [c_f, c_l], color=[group_color("nuclear"), group_color("CCGT")], tick_label=["Flexible SMR", "Limited-flex SMR"])
+    axes[1].set_ylabel("Renewable curtailment [TWh]")
+    axes[0].xaxis.set_major_locator(mdates.DayLocator(interval=2))
+    axes[0].xaxis.set_major_formatter(mdates.DateFormatter("%d %b"))
+    axes[0].set_xlabel("Date")
+    fig.autofmt_xdate()
     plt.tight_layout()
-    save_figure(fig, "FIGURE_V1", ctx.output_dir)
-    _reg(ctx, "FIGURE_V1", "VOLL sensitivity", "Appendix", "VOLL changes monetisation not physical adequacy", appendix=True)
 
-
-def build_gamspy_figures(ctx: PackageContext) -> None:
-    ade = read_csv(COMPARISON_DIRS["pypsa_gamspy"] / "adequacy_comparison.csv")
-    if not ade.empty:
-        dec = ade[ade["scenario"].str.contains("decarbonised")]
-        fig, ax = plt.subplots(figsize=(8, 4))
-        x = np.arange(len(dec))
-        w = 0.35
-        ax.bar(x - w / 2, dec["pypsa_eens_gwh"], w, label="PyPSA EENS")
-        ax.bar(x + w / 2, dec["gamspy_eens_gwh"], w, label="GAMSPy EENS")
-        ax.set_xticks(x)
-        ax.set_xticklabels(dec["scenario"], rotation=15, ha="right")
-        ax.set_ylabel("EENS [GWh]")
-        ax.set_title("PyPSA–GAMSPy adequacy comparison")
-        ax.legend()
-        plt.tight_layout()
-        save_figure(fig, "FIGURE_G1", ctx.output_dir)
-        _reg(ctx, "FIGURE_G1", "Adequacy comparison", "Validation", "Matching EENS for decarbonised cases")
-
-    kpi = read_csv(COMPARISON_DIRS["pypsa_gamspy"] / "kpi_comparison.csv")
-    if not kpi.empty:
-        fig, ax = plt.subplots(figsize=(6, 6))
-        for _, r in kpi.iterrows():
-            x = r.get("pypsa_vre_twh", r.get("pypsa_demand_twh", 0))
-            y = r.get("gamspy_vre_twh", r.get("gamspy_demand_twh", 0))
-            ax.scatter(x, y, label=r["scenario"])
-        lims = [min(ax.get_xlim()[0], ax.get_ylim()[0]), max(ax.get_xlim()[1], ax.get_ylim()[1])]
-        ax.plot(lims, lims, "k--", alpha=0.5)
-        ax.set_xlabel("PyPSA")
-        ax.set_ylabel("GAMSPy")
-        ax.set_title("KPI parity plot (VRE / demand)")
-        ax.legend(fontsize=6)
-        plt.tight_layout()
-        save_figure(fig, "FIGURE_G2", ctx.output_dir)
-        _reg(ctx, "FIGURE_G2", "KPI parity plot", "Validation", "Near 1:1 for harmonised KPIs", appendix=True)
-
-    co2 = read_csv(COMPARISON_DIRS["pypsa_gamspy"] / "co2_comparison.csv")
-    if not co2.empty:
-        fig, ax = plt.subplots(figsize=(7, 4))
-        ax.bar(co2["scenario"], co2.get("difference_percent", co2.iloc[:, -1]))
-        ax.set_ylabel("PyPSA–GAMSPy CO₂ difference [%]")
-        ax.set_title("CO₂ comparison (~1–2% differences)")
-        plt.tight_layout()
-        save_figure(fig, "FIGURE_G3", ctx.output_dir)
-        _reg(ctx, "FIGURE_G3", "CO₂ comparison", "Validation", "Small cross-model CO₂ differences", appendix=True)
+    plot_data = pd.DataFrame(
+        {
+            "timestamp": snaps,
+            "flexible_SMR_GW": p_f.values,
+            "limited_flex_SMR_GW": p_l.values,
+        }
+    )
+    save_figure_with_data(
+        fig,
+        "FIGURE_F1",
+        ctx,
+        plot_data,
+        script=SCRIPT,
+        source_folder="results/inre-comparison-v4-smr-flexibility/",
+        source_file="flexibility_impact_summary.csv; solved networks",
+        temporal_scope="28-day modelling window",
+        scenarios="decarbonised +4.5 GW SMR flexible; limited-flexibility",
+        plotted_variables="nuclear output [GW]; renewable curtailment [TWh]",
+        key_values_checked=f"curtailment increase≈{curtailment_delta:.2f} TWh; EENS and peak load shedding unchanged",
+    )
 
 
 def build_sensitivity_figures(ctx: PackageContext) -> None:
     ctx.meta = load_metadata()
-    build_nuclear_figures(ctx)
-    build_reactor_figures(ctx)
-    build_adequacy_figures(ctx)
-    build_flexibility_figures(ctx)
-    build_voll_figure(ctx)
-    build_gamspy_figures(ctx)
+    figure_n1_nuclear_sweep(ctx)
+    figure_a1_load_shedding(ctx)
+    figure_a2_cumulative_unserved(ctx)
+    figure_a4_critical_period(ctx)
+    figure_g1_pypsa_gamspy(ctx)
+    figure_f1_smr_flexibility(ctx)

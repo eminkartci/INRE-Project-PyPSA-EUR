@@ -26,7 +26,7 @@ from scripts.inre.final_report.captions import build_old_figure_audit, write_cap
 from scripts.inre.final_report.data_loaders import PackageContext, ensure_dirs
 from scripts.inre.final_report.figures_dunkelflaute import build_dunkelflaute_figures
 from scripts.inre.final_report.figures_input import build_input_figures
-from scripts.inre.final_report.figures_prices import build_price_tables_and_figures
+from scripts.inre.final_report.figures_prices import build_price_figures
 from scripts.inre.final_report.figures_results import build_results_figures
 from scripts.inre.final_report.figures_sensitivity import build_sensitivity_figures
 from scripts.inre.final_report.tables import build_all_tables
@@ -58,7 +58,7 @@ def build_package(output_dir: Path) -> PackageContext:
     build_results_figures(ctx)
 
     logger.info("Building price figures...")
-    build_price_tables_and_figures(ctx)
+    build_price_figures(ctx)
 
     logger.info("Building sensitivity & validation figures...")
     build_sensitivity_figures(ctx)

@@ -1,0 +1,19 @@
+scenario,carrier_group,generation_TWh
+Matched reference,onshore wind,14.875782525791116
+Matched reference,offshore wind,4.613482143967637
+Matched reference,solar,1.6393492063747934
+Matched reference,biomass,4.443688043973585
+Matched reference,waste,0.35364340554213775
+Matched reference,geothermal,0.018076799999999997
+Matched reference,coal,10.527137237262487
+Matched reference,lignite,5.763777593201412
+Matched reference,CCGT,0.506959920057795
+Severe,onshore wind,10.655704502371563
+Severe,offshore wind,3.335087956992825
+Severe,solar,1.1107670535594085
+Severe,biomass,4.601959197727511
+Severe,waste,0.8644780366594436
+Severe,geothermal,0.018076799999999997
+Severe,coal,11.302316069787837
+Severe,lignite,8.391036472200415
+Severe,CCGT,2.462470786871956

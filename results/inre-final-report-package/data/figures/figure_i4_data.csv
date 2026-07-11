@@ -1,0 +1,11 @@
+step,label,category
+1,Prepared PyPSA-Eur network,input
+2,Matched reference profile,input
+3,Stylised severe Dunkelflaute,scenario
+4,Fixed nuclear scenarios,scenario
+5,Fossil-rich dispatch runs,optim
+6,Coal/lignite-free adequacy,optim
+7,Limited-flexibility sensitivity,optim
+8,VOLL robustness,optim
+9,GAMSPy RF validation,validation
+10,Post-processing & report outputs,report
