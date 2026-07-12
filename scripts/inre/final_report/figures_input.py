@@ -71,6 +71,7 @@ def figure_i1_demand(ctx: PackageContext) -> None:
     y_pad = demand.max() * 0.08
     ax.set_ylim(demand.min() - y_pad, demand.max() + y_pad * 3)
     add_phase_shading(ax, meta, snaps, label=True)
+    ax.set_title("German demand and Dunkelflaute event window")
 
     plot_data = pd.DataFrame({"timestamp": snaps, "demand_GW": demand.values})
     save_figure_with_data(

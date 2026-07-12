@@ -33,6 +33,7 @@ def figure_p1_price_timeseries(ctx: PackageContext) -> None:
     fig, ax = plt.subplots(figsize=(10, 4.5))
     rows = []
     ymax = 0.0
+    add_core_shading(ax, meta, alpha=0.12, label="14-day Dunkelflaute core")
     for key, label in P1_SCENARIOS:
         n = load_network(key, ctx)
         if n is None:
@@ -44,7 +45,6 @@ def figure_p1_price_timeseries(ctx: PackageContext) -> None:
         p = demand_weighted_system_price(n, snaps)
         non_scarcity = p[p < 0.99 * VOLL]
         ymax = max(ymax, float(non_scarcity.max()) * 1.1 if len(non_scarcity) else 50)
-        add_core_shading(ax, meta, alpha=0.12)
         color = group_color("onshore wind") if "Matched" in label else group_color("CCGT")
         ax.plot(snaps, p, label=label, lw=LINE_WIDTH, color=color)
         for ts, price in zip(snaps, p):
@@ -54,7 +54,13 @@ def figure_p1_price_timeseries(ctx: PackageContext) -> None:
     ax.set_xlabel("Date")
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=2))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%d %b"))
-    ax.legend(fontsize=9)
+    handles, labels = ax.get_legend_handles_labels()
+    legend_order = ["Matched reference", "Severe", "14-day Dunkelflaute core"]
+    ax.legend(
+        [handles[labels.index(name)] for name in legend_order],
+        legend_order,
+        fontsize=9,
+    )
     fig.autofmt_xdate()
     plt.tight_layout()
     save_figure_with_data(

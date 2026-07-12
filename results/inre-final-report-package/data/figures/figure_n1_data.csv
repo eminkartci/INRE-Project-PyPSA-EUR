@@ -1,5 +1,5 @@
 scenario,nuclear_installed_capacity_gw,nuclear_generation_twh,nuclear_capacity_factor_pct
-stylised-df-severe-v4,0.0,0.0,0.0
+stylised-df-severe-v4,0.0,0.0,
 stylised-df-severe-nuc-1.5-v4,1.5,0.44,87.3
 stylised-df-severe-nuc-3.0-v4,3.0,0.8737,86.68
 stylised-df-severe-nuc-4.5-v4,4.5,1.3043,86.26

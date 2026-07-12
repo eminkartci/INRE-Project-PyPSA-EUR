@@ -7,6 +7,8 @@ from __future__ import annotations
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.lines import Line2D
+from matplotlib.patches import Patch
 
 from scripts.inre.audit_stylised_dunkelflaute_v4 import RENEWABLE_CARRIERS
 from scripts.inre.final_report.data_loaders import (
@@ -209,7 +211,8 @@ def figure_r3_critical_hours(ctx: PackageContext) -> None:
             selections.append((ls_sum.idxmax(), "Maximum load shedding", nd, "decarbonised no nuclear"))
 
     rows = []
-    fig, axes = plt.subplots(1, len(selections), figsize=(2.8 * len(selections), 4.5), sharey=False)
+    present_carriers: set[str] = set()
+    fig, axes = plt.subplots(1, len(selections), figsize=(2.8 * len(selections), 5.0), sharey=False)
     if len(selections) == 1:
         axes = [axes]
     for ax, (ts, reason, n, scen_label) in zip(axes, selections):
@@ -228,10 +231,12 @@ def figure_r3_critical_hours(ctx: PackageContext) -> None:
             v = comps.get(grp, 0)
             if v <= 0:
                 continue
+            present_carriers.add(grp)
             ax.bar(0, v, bottom=bottom, color=group_color(grp), width=0.55)
             bottom += v
         for grp, v in comps.items():
             if grp not in DISPLAY_CARRIER_ORDER and v > 0:
+                present_carriers.add("other firm")
                 ax.bar(0, v, bottom=bottom, color=group_color("other firm"), width=0.55)
                 bottom += v
         ax.axhline(d, color=group_color("demand"), ls="--", lw=LINE_WIDTH)
@@ -248,7 +253,24 @@ def figure_r3_critical_hours(ctx: PackageContext) -> None:
                 "modelled_marginal_price_EUR_per_MWh": float(demand_weighted_system_price(n).loc[snap]),
             }
         )
-    plt.tight_layout()
+
+    legend_groups = [g for g in DISPLAY_CARRIER_ORDER if g in present_carriers]
+    legend_handles = [
+        Patch(facecolor=group_color(g), edgecolor="white", linewidth=0.3, label=g) for g in legend_groups
+    ]
+    legend_handles.append(
+        Line2D([0], [0], color=group_color("demand"), ls="--", lw=LINE_WIDTH, label="Demand")
+    )
+    ncol = 4 if len(legend_handles) > 9 else 3
+    fig.legend(
+        handles=legend_handles,
+        loc="lower center",
+        ncol=ncol,
+        fontsize=9,
+        frameon=False,
+        bbox_to_anchor=(0.5, 0.01),
+    )
+    fig.tight_layout(rect=(0, 0.12, 1, 1))
     save_figure_with_data(
         fig,
         "FIGURE_R3",

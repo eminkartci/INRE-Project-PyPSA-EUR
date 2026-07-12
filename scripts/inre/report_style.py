@@ -171,14 +171,14 @@ def add_phase_shading(ax, meta: dict, snaps: pd.DatetimeIndex, alpha: float = 0.
             )
 
 
-def add_core_shading(ax, meta: dict, alpha: float = 0.15) -> None:
+def add_core_shading(ax, meta: dict, alpha: float = 0.15, label: str = "Core event") -> None:
     ax.axvspan(
         pd.Timestamp(meta["core_start"]),
         pd.Timestamp(meta["core_end"]),
         color=PHASE_COLORS["core"],
         alpha=alpha,
         lw=0,
-        label="Core event",
+        label=label,
     )
 
 

@@ -50,14 +50,16 @@ def figure_n1_nuclear_sweep(ctx: PackageContext) -> None:
 
     cap = core["nuclear_installed_capacity_gw"].values
     nuc_twh = core["nuclear_generation_twh"].values
-    cf = core["nuclear_capacity_factor_pct"].values
+    core_cf = core[core["nuclear_installed_capacity_gw"] > 0]
+    cap_cf = core_cf["nuclear_installed_capacity_gw"].values
+    cf = core_cf["nuclear_capacity_factor_pct"].values
 
     fig, axes = plt.subplots(1, 2, figsize=(10, 4))
     axes[0].plot(cap, nuc_twh, "o-", color=group_color("nuclear"), lw=LINE_WIDTH, markersize=7)
     axes[0].set_xlabel("Nuclear capacity [GW]")
     axes[0].set_ylabel("Nuclear generation [TWh]")
     axes[0].set_title("Panel A: nuclear generation")
-    axes[1].plot(cap, cf, "s-", color=group_color("nuclear"), lw=LINE_WIDTH, markersize=7)
+    axes[1].plot(cap_cf, cf, "s-", color=group_color("nuclear"), lw=LINE_WIDTH, markersize=7)
     axes[1].set_xlabel("Nuclear capacity [GW]")
     axes[1].set_ylabel("Capacity factor [%]")
     axes[1].set_title("Panel B: capacity factor")
@@ -66,6 +68,7 @@ def figure_n1_nuclear_sweep(ctx: PackageContext) -> None:
     plot_data = core[
         ["scenario", "nuclear_installed_capacity_gw", "nuclear_generation_twh", "nuclear_capacity_factor_pct"]
     ].copy()
+    plot_data.loc[plot_data["nuclear_installed_capacity_gw"] == 0, "nuclear_capacity_factor_pct"] = np.nan
     save_figure_with_data(
         fig,
         "FIGURE_N1",
@@ -78,6 +81,7 @@ def figure_n1_nuclear_sweep(ctx: PackageContext) -> None:
         scenarios="0, 1.5, 3.0, 4.5, 7.5 GW generic nuclear",
         plotted_variables="nuclear generation [TWh]; capacity factor [%]",
         key_values_checked="0 GW→0.00 TWh; 1.5→0.44/87.3%; 3.0→0.87/86.7%; 4.5→1.30/86.3%; 7.5→2.15/85.5%",
+        notes="Capacity factor is undefined for the 0 GW reference case and is therefore omitted from Panel B.",
     )
 
 
